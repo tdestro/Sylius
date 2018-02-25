@@ -4,6 +4,7 @@ parameters:
     database_port: "%env(SYLIUS_DATABASE_PORT)%"
     database_name: "%env(SYLIUS_DATABASE_NAME)%"
     database_user: "%env(SYLIUS_DATABASE_USER)%"
+    database_socket: '%env(SYLIUS_DATABASE_SOCKET)%'
     database_password: "%env(SYLIUS_DATABASE_PASSWORD)%"
     # You should uncomment this if you want use pdo_sqlite.
     # database_path: "%kernel.root_dir%/data.db3"
@@ -17,11 +18,12 @@ parameters:
 
     # Fallback values (used if environmental variables are not set)
     env(SYLIUS_DATABASE_DRIVER): pdo_mysql
-    env(SYLIUS_DATABASE_HOST): 127.0.0.1
-    env(SYLIUS_DATABASE_PORT): ~
-    env(SYLIUS_DATABASE_NAME): sylius
-    env(SYLIUS_DATABASE_USER): root
-    env(SYLIUS_DATABASE_PASSWORD): ~
+    env(SYLIUS_DATABASE_HOST): null
+    env(SYLIUS_DATABASE_PORT): null
+    env(SYLIUS_DATABASE_SOCKET): "/cloudsql/destromachinesstore:us-central1:destro-machines-store-db"
+    env(SYLIUS_DATABASE_NAME): DestroMachinesStore
+    env(SYLIUS_DATABASE_USER): proxyuser
+    env(SYLIUS_DATABASE_PASSWORD): 075B5VMz^G4c
 
     env(SYLIUS_MAILER_TRANSPORT): smtp
     env(SYLIUS_MAILER_HOST): 127.0.0.1

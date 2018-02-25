@@ -1,0 +1,29 @@
+runtime: custom
+env: flex
+
+runtime_config:
+  document_root: web
+  front_controller_file: app_dev.php
+
+env_variables:
+  ## Set these environment variables according to your CloudSQL configuration.
+  DB_DATABASE: DestroMachinesStore_dev
+  DB_USERNAME: root
+  DB_PASSWORD: JJCJ1wxz4L6n2ltf
+  DB_SOCKET: /cloudsql/destromachinesstore:us-central1:destro-machines-store-db
+
+beta_settings:
+  # for Cloud SQL, set this value to the Cloud SQL connection name,
+  # e.g. "project:region:cloudsql-instance"
+  cloud_sql_instances: destromachinesstore:us-central1:destro-machines-store-db
+
+# This sample incurs costs to run on the App Engine flexible environment.
+# The settings below are to reduce costs during testing and are not appropriate
+# for production use. For more information, see:
+# https://cloud.google.com/appengine/docs/flexible/python/configuring-your-app-with-app-yaml
+automatic_scaling:
+  max_num_instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10

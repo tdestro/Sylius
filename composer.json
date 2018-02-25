@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^7.1",
-
+        "ext-intl": "*",
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-gd": "*",

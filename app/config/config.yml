@@ -37,7 +37,7 @@ doctrine:
         password: "%database_password%"
         server_version: "5.5"
         charset: UTF8
-
+        unix_socket: "%database_socket%"
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/migrations"
     namespace: Sylius\Migrations
