@@ -15,6 +15,7 @@ namespace Sylius\Component\Shipping\Calculator;
 
 final class DefaultCalculators
 {
+    public const UPS = 'ups';
     /**
      * Flat rate per shipment calculator.
      */

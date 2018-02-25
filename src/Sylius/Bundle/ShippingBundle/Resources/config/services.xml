@@ -54,6 +54,12 @@
             <argument type="service" id="sylius.registry.shipping_calculator" />
         </service>
 
+        <service id="sylius.shipping_calculator.ups" class="Sylius\Component\Shipping\Calculator\UPSCalculator">
+            <tag name="sylius.shipping_calculator" calculator="ups"
+                 form-type="Sylius\Bundle\ShippingBundle\Form\Type\Calculator\UPSConfigurationType"
+                 label="sylius.form.shipping_calculator.flat_rate_configuration.label" />
+        </service>
+
         <service id="sylius.shipping_calculator.flat_rate" class="Sylius\Component\Shipping\Calculator\FlatRateCalculator">
             <tag name="sylius.shipping_calculator" calculator="flat_rate"
                  form-type="Sylius\Bundle\ShippingBundle\Form\Type\Calculator\FlatRateConfigurationType"

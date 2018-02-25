@@ -19,6 +19,9 @@ sylius:
                 cancelled:  Cancelled
             tracking_code: Tracking Code
         shipping_calculator:
+            ups_configuration:
+                label: UPS
+                amount: Amount
             flat_rate_configuration:
                 label: Flat rate per shipment
                 amount: Amount
