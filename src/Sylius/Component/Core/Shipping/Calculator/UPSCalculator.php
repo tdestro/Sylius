@@ -40,7 +40,74 @@ final class UPSCalculator implements CalculatorInterface
             ));
         }
 
-        return (int) $configuration[$channelCode]['amount'];
+        dump($subject);
+
+        $rate = new \Ups\Rate(
+            $_ENV['UPSAccessLicenseNumber'],
+            $_ENV['UPSUserId'],
+            $_ENV['UPSPassword']
+        );
+
+        $service = \Ups\Entity\Service::S_GROUND;
+
+        $shippingAddress = $subject->getOrder()->getShippingAddress();
+        //$firstName = $shippingAddress->getFirstName();
+        //$lastName = $shippingAddress->getLastName();
+        //$phoneNumber = $shippingAddress->getPhoneNumber();
+        //$company = $shippingAddress->getCompany();
+        $countryCode = $shippingAddress->getCountryCode();
+        //$provinceCode = $shippingAddress->getProvinceCode();
+        //$provinceName = $shippingAddress->getProvinceName();
+        $street = $shippingAddress->getStreet();
+        //$city = $shippingAddress->getCity();
+        $postcode = $shippingAddress->getPostcode();
+
+        $shipment = new \Ups\Entity\Shipment();
+        $shipment->getService()->setCode($service);
+
+        $shipperAddress = $shipment->getShipper()->getAddress();
+        $shipperAddress->setPostalCode('47909');
+
+        $address = new \Ups\Entity\Address();
+        $address->setPostalCode('47909');
+        $address->setAddressLine1('1905 Mulligan Way Apt D');
+
+        $shipFrom = new \Ups\Entity\ShipFrom();
+        $shipFrom->setAddress($address);
+        $shipment->setShipFrom($shipFrom);
+
+        $shipTo = $shipment->getShipTo();
+        $shipToAddress = $shipTo->getAddress();
+        $shipToAddress->setPostalCode($postcode);
+        $shipToAddress->setAddressLine1($street);
+        $shipToAddress->setCountryCode($countryCode);
+
+        $units = $subject->getUnits();
+
+        foreach ($units as $unit) {
+            $depth = $unit->getShippable()->getShippingDepth();
+            $height = $unit->getShippable()->getShippingHeight();
+            $width = $unit->getShippable()->getShippingWidth();
+            $weight = $unit->getShippable()->getShippingWeight();
+
+            $package = new \Ups\Entity\Package();
+            $package->getPackageWeight()->setWeight($weight);
+
+            $dimensions = new \Ups\Entity\Dimensions();
+            $dimensions->setHeight($height);
+            $dimensions->setWidth($width);
+            $dimensions->setLength($depth);
+            $unitOfMeasurement = new \Ups\Entity\UnitOfMeasurement;
+            $unitOfMeasurement->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
+            $dimensions->setUnitOfMeasurement($unitOfMeasurement);
+            $package->setDimensions($dimensions);
+            $shipment->addPackage($package);
+        }
+        dump($shipment);
+        dump($rate->getRate($shipment));
+
+
+        return (int) 900;
     }
 
     /**

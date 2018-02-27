@@ -12,6 +12,9 @@
 declare(strict_types=1);
 
 use Sylius\Bundle\CoreBundle\Application\Kernel;
+use Symfony\Component\Dotenv\Dotenv;
+
+(new Dotenv())->load(__DIR__.'/../.env');
 
 class AppKernel extends Kernel
 {

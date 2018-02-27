@@ -1,4 +1,5 @@
-
+.idea
+.env
 DestroMachinesStore*
 .DS_Store
 /.php_cs.cache

@@ -68,7 +68,10 @@
         "willdurand/hateoas-bundle": "^1.2",
         "winzou/state-machine-bundle": "^0.3",
         "zendframework/zend-hydrator": "^2.2",
-        "zendframework/zend-stdlib": "^3.1"
+        "zendframework/zend-stdlib": "^3.1",
+        "gabrielbull/ups-api": "^0.8.0",
+        "symfony/dotenv": "^4.0",
+        "symfony/var-dumper": "^4.0"
     },
     "require-dev": {
         "akeneo/phpspec-skip-example-extension": "^3.0",
