@@ -18,10 +18,7 @@ use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Shipping\Calculator\CalculatorInterface;
 use Sylius\Component\Shipping\Model\ShipmentInterface as BaseShipmentInterface;
 use Webmozart\Assert\Assert;
-use Sylius\Component\Currency\Converter;
 
-
-// https://github.com/florianv/swap
 final class UPSCalculator implements CalculatorInterface
 {
     /**
@@ -192,10 +189,6 @@ Valid values:
         if ($currencyCode != "USD"){
             throw new Exception('Failure (0): UPS Responded with currency that wasn\'t USD.', 0);
         }
-
-
-        dump($shipment);
-        dump($rate->getRate($shipment)->RatedShipment);
         return (int)$monetaryValueAsInt;
     }
 
