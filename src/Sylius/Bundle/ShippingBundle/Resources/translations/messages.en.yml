@@ -22,6 +22,7 @@ sylius:
             ups_configuration:
                 label: UPS
                 service: Service
+                ratetype: Rate Type
             flat_rate_configuration:
                 label: Flat rate per shipment
                 amount: Amount

@@ -56,7 +56,16 @@ final class UPSConfigurationType extends AbstractType
             ),
         ));
 
-
+        $builder->add('ratetype', ChoiceType::class, array(
+            'label' => 'sylius.form.shipping_calculator.ups_configuration.ratetype',
+            'choices' => array(
+                'Daily Pickup' => '01',
+                'Customer Counter' => '03',
+                'One Time Pickup' => '06',
+                'Letter Center' => '19',
+                'Air Service Center' => '20',
+            ),
+        ));
     }
 
     /**

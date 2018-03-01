@@ -18,6 +18,7 @@ use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Shipping\Calculator\CalculatorInterface;
 use Sylius\Component\Shipping\Model\ShipmentInterface as BaseShipmentInterface;
 use Webmozart\Assert\Assert;
+use Sylius\Component\Currency\Converter;
 
 
 // https://github.com/florianv/swap
@@ -73,11 +74,13 @@ final class UPSCalculator implements CalculatorInterface
 	• 86 = UPS Today Express Saver,
 	• 70 =UPS Access Point Economy
 	*/
-        
+
         $service = $configuration[$channelCode]['service'];
 
 
         $shippingAddress = $subject->getOrder()->getShippingAddress();
+        $orderCurrencyCode = $subject->getOrder()->getCurrencyCode();
+
         //$firstName = $shippingAddress->getFirstName();
         //$lastName = $shippingAddress->getLastName();
         //$phoneNumber = $shippingAddress->getPhoneNumber();
@@ -91,20 +94,6 @@ final class UPSCalculator implements CalculatorInterface
 
         $shipment = new \Ups\Entity\Shipment();
         $shipment->getService()->setCode($service);
-
-
-        /*
-Rate Type indicates how UPS retrieves your packages. If you take your shipments to your local UPS store,
-have a scheduled daily pickup or schedule a one time pick up, it will affect the rate you are quoted.
-Valid values:
-• 01- Daily Pickup
-• 03 - Customer Counter
-• 06 - One Time Pickup
-• 19 - Letter Center
-• 20 - Air Service Center
-*/
-
-        $shipment->setPickupType("03");
 
         $shipperAddress = $shipment->getShipper()->getAddress();
         $shipperAddress->setPostalCode('47909');
@@ -148,8 +137,9 @@ Valid values:
 	2b = Medium Express Box
 	2c = Large Express Box
 	*/
-
-            $package->setPackagingType("02");
+            $packagingType = new \Ups\Entity\PackagingType();
+            $packagingType->setCode('02');
+            $package->setPackagingType($packagingType);
             $package->getPackageWeight()->setWeight($weight);
 
             $dimensions = new \Ups\Entity\Dimensions();
@@ -162,8 +152,23 @@ Valid values:
             $package->setDimensions($dimensions);
             $shipment->addPackage($package);
         }
+        /*
+Rate Type indicates how UPS retrieves your packages. If you take your shipments to your local UPS store,
+have a scheduled daily pickup or schedule a one time pick up, it will affect the rate you are quoted.
+Valid values:
+• 01- Daily Pickup
+• 03 - Customer Counter
+• 06 - One Time Pickup
+• 19 - Letter Center
+• 20 - Air Service Center
+*/
+        $packagingType = new \Ups\Entity\PickupType();
+        $packagingType->setCode($configuration[$channelCode]['ratetype']);
 
-        $ratedShipment = $rate->getRate($shipment)->RatedShipment;
+        $rateRequest = new \Ups\Entity\RateRequest();
+        $rateRequest->setPickupType($packagingType);
+        $rateRequest->setShipment($shipment);
+        $ratedShipment = $rate->getRate($rateRequest)->RatedShipment;
         $firstRatedShipment = reset($ratedShipment);
 
         if ($firstRatedShipment === false) {
@@ -171,6 +176,7 @@ Valid values:
         }
 
         $monetaryValueAsFloat = floatval($firstRatedShipment->TotalCharges->MonetaryValue);
+        $currencyCode = $firstRatedShipment->TotalCharges->CurrencyCode;
 
         if ($monetaryValueAsFloat < 0.0) {
             throw new Exception('Failure (0): Unknown error', 0);
@@ -178,10 +184,18 @@ Valid values:
 
         $monetaryValueAsInt = intval($monetaryValueAsFloat * 100.00);
 
+        //
+        // The ups rates api gives us the shipping cost in the currency of the
+        // shipping country and must be converted.
+        //
+
+        if ($currencyCode != "USD"){
+            throw new Exception('Failure (0): UPS Responded with currency that wasn\'t USD.', 0);
+        }
+
+
         dump($shipment);
         dump($rate->getRate($shipment)->RatedShipment);
-
-
         return (int)$monetaryValueAsInt;
     }
 
