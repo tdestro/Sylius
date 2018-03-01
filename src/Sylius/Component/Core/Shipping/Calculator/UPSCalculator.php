@@ -19,12 +19,14 @@ use Sylius\Component\Shipping\Calculator\CalculatorInterface;
 use Sylius\Component\Shipping\Model\ShipmentInterface as BaseShipmentInterface;
 use Webmozart\Assert\Assert;
 
+
+// https://github.com/florianv/swap
 final class UPSCalculator implements CalculatorInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @throws MissingChannelConfigurationException
+     * @throws MissingChannelConfigurationException, Exception
      */
     public function calculate(BaseShipmentInterface $subject, array $configuration): int
     {
@@ -40,15 +42,40 @@ final class UPSCalculator implements CalculatorInterface
             ));
         }
 
-        dump($subject);
-
         $rate = new \Ups\Rate(
             $_ENV['UPSAccessLicenseNumber'],
             $_ENV['UPSUserId'],
             $_ENV['UPSPassword']
         );
 
-        $service = \Ups\Entity\Service::S_GROUND;
+
+        /*Valid domestic values:
+	• 14 = UPS Next Day Air Early
+	• 01 = Next Day Air
+	• 13 = Next Day Air Saver
+	• 59 = 2nd Day Air A.M.
+	• 02 = 2nd Day Air
+	• 12 = 3 Day Select
+	• 03 = Ground
+	Valid international values:
+	• 11= Standard
+	• 07 = Worldwide Express
+	• 54 = Worldwide Express Plus
+	• 08 = Worldwide Expedited
+	• 65 = Saver
+	• 96 = UPS Worldwide Express Freight
+	Required for Rating and Ignored for Shopping.
+	Valid Poland to Poland Same Day values:
+	• 82 = UPS Today Standard
+	• 83 = UPS Today Dedicated Courier
+	• 84 = UPS Today Intercity
+	• 85 = UPS Today Express
+	• 86 = UPS Today Express Saver,
+	• 70 =UPS Access Point Economy
+	*/
+        
+        $service = $configuration[$channelCode]['service'];
+
 
         $shippingAddress = $subject->getOrder()->getShippingAddress();
         //$firstName = $shippingAddress->getFirstName();
@@ -64,6 +91,20 @@ final class UPSCalculator implements CalculatorInterface
 
         $shipment = new \Ups\Entity\Shipment();
         $shipment->getService()->setCode($service);
+
+
+        /*
+Rate Type indicates how UPS retrieves your packages. If you take your shipments to your local UPS store,
+have a scheduled daily pickup or schedule a one time pick up, it will affect the rate you are quoted.
+Valid values:
+• 01- Daily Pickup
+• 03 - Customer Counter
+• 06 - One Time Pickup
+• 19 - Letter Center
+• 20 - Air Service Center
+*/
+
+        $shipment->setPickupType("03");
 
         $shipperAddress = $shipment->getShipper()->getAddress();
         $shipperAddress->setPostalCode('47909');
@@ -91,6 +132,24 @@ final class UPSCalculator implements CalculatorInterface
             $weight = $unit->getShippable()->getShippingWeight();
 
             $package = new \Ups\Entity\Package();
+
+            /*
+	packagingtype Valid values:
+	00 = UNKNOWN
+	01 = UPS Letter
+	02 = Package
+	03 = Tube
+	04 = Pak
+	21 = Express Box
+	24 = 25KG Box
+	25 = 10KG Box
+	30 = Pallet
+	2a = Small Express Box
+	2b = Medium Express Box
+	2c = Large Express Box
+	*/
+
+            $package->setPackagingType("02");
             $package->getPackageWeight()->setWeight($weight);
 
             $dimensions = new \Ups\Entity\Dimensions();
@@ -103,11 +162,27 @@ final class UPSCalculator implements CalculatorInterface
             $package->setDimensions($dimensions);
             $shipment->addPackage($package);
         }
+
+        $ratedShipment = $rate->getRate($shipment)->RatedShipment;
+        $firstRatedShipment = reset($ratedShipment);
+
+        if ($firstRatedShipment === false) {
+            throw new Exception('Failure (0): Unknown error', 0);
+        }
+
+        $monetaryValueAsFloat = floatval($firstRatedShipment->TotalCharges->MonetaryValue);
+
+        if ($monetaryValueAsFloat < 0.0) {
+            throw new Exception('Failure (0): Unknown error', 0);
+        }
+
+        $monetaryValueAsInt = intval($monetaryValueAsFloat * 100.00);
+
         dump($shipment);
-        dump($rate->getRate($shipment));
+        dump($rate->getRate($shipment)->RatedShipment);
 
 
-        return (int) 900;
+        return (int)$monetaryValueAsInt;
     }
 
     /**

@@ -21,7 +21,7 @@ sylius:
         shipping_calculator:
             ups_configuration:
                 label: UPS
-                amount: Amount
+                service: Service
             flat_rate_configuration:
                 label: Flat rate per shipment
                 amount: Amount

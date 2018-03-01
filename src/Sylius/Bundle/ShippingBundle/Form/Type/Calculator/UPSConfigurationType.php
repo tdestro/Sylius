@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class UPSConfigurationType extends AbstractType
 {
@@ -27,16 +28,35 @@ final class UPSConfigurationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('amount', MoneyType::class, [
-                'label' => 'sylius.form.shipping_calculator.ups_configuration.amount',
-                'constraints' => [
-                    new NotBlank(['groups' => ['sylius']]),
-                    new Type(['type' => 'integer', 'groups' => ['sylius']]),
-                ],
-                'currency' => $options['currency'],
-            ])
-        ;
+        $builder->add('service', ChoiceType::class, array(
+            'label' => 'sylius.form.shipping_calculator.ups_configuration.service',
+            'choices' => array(
+                'UPS Next Day Air Early' => '14',
+                'UPS Next Day Air' => '01',
+                'UPS Next Day Air Saver' => '13',
+                'UPS 2nd Day Air A.M.' => '59',
+                'UPS 2nd Day Air' => '02',
+                'UPS 3 Day Select' => '12',
+                'UPS Ground' => '03',
+                // Valid international values:
+                'UPS Standard' => '11',
+                'UPS Worldwide Express' => '07',
+                'UPS Worldwide Express Plus' => '54',
+                'UPS Worldwide Expedited' => '08',
+                'UPS Saver' => '65',
+                'UPS Worldwide Express Freight' => '96',
+                // Required for Rating and Ignored for Shopping.
+                // Valid Poland to Poland Same Day
+                'UPS Today Standard' => '82',
+                'UPS Today Dedicated Courier' => '83',
+                'UPS Today Intercity' => '84',
+                'UPS Today Express' => '85',
+                'UPS Today Express Saver' => '86',
+                'UPS Access Point Economy' => '70',
+            ),
+        ));
+
+
     }
 
     /**
@@ -49,8 +69,7 @@ final class UPSConfigurationType extends AbstractType
                 'data_class' => null,
             ])
             ->setRequired('currency')
-            ->setAllowedTypes('currency', 'string')
-        ;
+            ->setAllowedTypes('currency', 'string');
     }
 
     /**
