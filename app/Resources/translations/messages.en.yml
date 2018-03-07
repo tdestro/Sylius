@@ -1,0 +1,11 @@
+sylius:
+  ui:
+    your_store: Destro Machines
+
+destro:
+  about: About
+  faq: FAQ
+  privacypolicy: Privacy Policy
+  returnpolicy: Return Policy
+  shippingpolicy: Shipping Policy
+  termsandconditions: Terms and Conditions

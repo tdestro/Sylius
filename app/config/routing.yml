@@ -24,5 +24,42 @@ sylius_shop_default_locale:
     defaults:
         _controller: sylius.controller.shop.locale_switch:switchAction
 
+destro_about:
+    path: /{_locale}/about
+    methods: [GET]
+    defaults: { _controller: DestroBundle:Page:about}
+
+destro_contact:
+    path: /{_locale}/contact
+    methods: [GET|POST]
+    defaults: { _controller: DestroBundle:Page:contact}
+
+destro_terms:
+    path: /{_locale}/terms
+    methods: [GET]
+    defaults: { _controller: DestroBundle:Page:terms}
+
+destro_privacy:
+    path: /{_locale}/privacy
+    methods: [GET]
+    defaults: { _controller: DestroBundle:Page:privacy}
+
+destro_faq:
+  path: /{_locale}/faq
+  methods: [GET]
+  defaults: { _controller: DestroBundle:Page:faq}
+
+destro_delivery_and_shipping:
+  path: /{_locale}/shipping
+  methods: [GET]
+  defaults: { _controller: DestroBundle:Page:shipping}
+
+destro_returns_policy:
+  path: /{_locale}/returns
+  methods: [GET]
+  defaults: { _controller: DestroBundle:Page:returns}
+
+
+
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"

@@ -9,6 +9,8 @@ ENV FRONT_CONTROLLER_FILE=app_dev.php
 
 RUN cp app/config/parameters.yml.dist app/config/parameters.yml
 
+RUN echo "deb http://ftp.debian.org/debian jessie-backports main" | tee -a /etc/apt/sources.list
+RUN apt-get install certbot -t jessie-backports
 
 RUN curl -sSLO https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 && \
 mv cloud_sql_proxy.linux.amd64 cloud_sql_proxy && chmod +x cloud_sql_proxy
