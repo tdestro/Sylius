@@ -1,3 +1,4 @@
+/letsencrypt/*
 .idea
 .env
 DestroMachinesStore*
