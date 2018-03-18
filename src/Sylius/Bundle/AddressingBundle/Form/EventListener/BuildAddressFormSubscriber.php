@@ -65,6 +65,7 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
      */
     public function preSetData(FormEvent $event): void
     {
+        dump("fuck0");
         /** @var AddressInterface $address */
         $address = $event->getData();
         if (null === $address) {
@@ -87,6 +88,10 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
         if ($country->hasProvinces()) {
             $form->add($this->createProvinceCodeChoiceForm($country, $address->getProvinceCode()));
 
+            if($this->taxExemptionUpload($country, $address->getName())){
+                dump($address);
+            }
+            dump("fuck1");
             return;
         }
 
@@ -98,6 +103,8 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
      */
     public function preSubmit(FormEvent $event): void
     {
+        dump("fuck2");
+        dump( $this->countryRepository);
         $data = $event->getData();
         if (!is_array($data) || !array_key_exists('countryCode', $data)) {
             return;
@@ -153,4 +160,27 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
             'label' => 'sylius.form.address.province',
         ]);
     }
+
+    /**
+     * @param CountryInterface $country
+     * @param string|null $provinceCode
+     *
+     * @return bool
+     */
+    private function taxExemptionUpload(CountryInterface $country, ?string $provinceName): bool
+    {
+        if (empty($provinceName)) return false;
+
+        $provinces = $country->getProvinces()->filter(function($p) use ($provinceName) {
+            return $p->getName() === $provinceName;
+        });
+
+        if (empty($provinces)) return false;
+
+        if  ($provinces->first()->getTaxexemptionupload()) return true;
+        else return false;
+
+    }
+
+
 }

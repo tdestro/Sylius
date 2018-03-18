@@ -41,6 +41,17 @@ class Province implements ProvinceInterface
     protected $country;
 
     /**
+     * @var bool
+     */
+    protected $taxexemptionupload;
+
+    /**
+     * @var string|null
+     */
+    protected $taxexemptionlink;
+
+
+    /**
      * @return string
      */
     public function __toString(): string
@@ -118,5 +129,37 @@ class Province implements ProvinceInterface
     public function setCountry(?CountryInterface $country): void
     {
         $this->country = $country;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxexemptionupload(): bool
+    {
+        return $this->taxexemptionupload;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTaxexemptionupload(bool $taxexemptionupload): void
+    {
+        $this->taxexemptionupload = $taxexemptionupload;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxexemptionlink(): ?string
+    {
+        return $this->taxexemptionlink;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTaxexemptionlink(?string $taxexemptionlink): void
+    {
+        $this->taxexemptionlink = $taxexemptionlink;
     }
 }

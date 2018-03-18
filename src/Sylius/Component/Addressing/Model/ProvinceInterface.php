@@ -47,4 +47,26 @@ interface ProvinceInterface extends ResourceInterface, CodeAwareInterface
      * @param CountryInterface|null $country
      */
     public function setCountry(?CountryInterface $country): void;
+
+    /**
+     * @return bool
+     */
+    public function getTaxexemptionupload(): bool;
+
+    /**
+     * @param bool $taxexemptionupload
+     */
+    public function setTaxexemptionupload(bool $taxexemptionupload): void;
+
+    /**
+     * @return string|null
+     */
+    public function getTaxexemptionlink(): ?string;
+
+    /**
+     * @param string|null $taxexemptionlink
+     */
+    public function setTaxexemptionlink(?string $taxexemptionlink): void;
+
+
 }

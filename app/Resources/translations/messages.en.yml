@@ -1,6 +1,9 @@
 sylius:
   ui:
     your_store: Destro Machines
+  form:
+    address:
+        province: State/Province
 
 destro:
   about: About

@@ -25,7 +25,12 @@
         <field name="code" column="code" type="string" unique="true" />
         <field name="name" column="name" type="string" />
         <field name="abbreviation" column="abbreviation" type="string" nullable="true" />
-
+        <field name="taxexemptionupload" column="taxexemptionupload" type="boolean" nullable="false">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+        <field name="taxexemptionlink" column="taxexemptionlink" type="string" nullable="true" />
         <many-to-one field="country" target-entity="Sylius\Component\Addressing\Model\CountryInterface" inversed-by="provinces">
             <join-column name="country_id" referenced-column-name="id" nullable="false" />
         </many-to-one>
