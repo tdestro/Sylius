@@ -16,3 +16,11 @@ sylius_shop_ajax_render_province_form:
         _controller: sylius.controller.province:choiceOrTextFieldFormAction
         _sylius:
             template: "@SyliusShop/Common/Form/_province.html.twig"
+
+sylius_shop_ajax_render_taxexempt_form:
+    path: /render-taxexempt-form
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.province:uploadFieldFormAction
+        _sylius:
+            template: "@SyliusShop/Common/Form/_taxexempt.html.twig"

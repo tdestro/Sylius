@@ -80,6 +80,54 @@ class ProvinceController extends ResourceController
     }
 
     /**
+     * @param Request $request
+     *
+     * @return Response
+     *
+     * @throws AccessDeniedException
+     * @throws NotFoundHttpException
+     */
+    public function uploadFieldFormAction(Request $request): Response
+    {
+        $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
+
+        if (!$configuration->isHtmlRequest() || null === $provinceCode = $request->query->get('provinceCode')) {
+            throw new AccessDeniedException();
+        }
+
+        /** @var ProvinceInterface $province */
+        if (!$province = $this->get('sylius.repository.province')->findOneBy(['code' => $provinceCode])) {
+            throw new NotFoundHttpException('Requested province code does not exist.');
+        }
+
+        if (!$province->getTaxexemptionupload()){
+            return new Response();
+        }
+
+        $form = $this->createProvinceTaxExemptionUpload();
+
+        $view = View::create()
+            ->setData([
+                'metadata' => $this->metadata,
+                'form' => $form->createView(),
+                'taxexemptionlink' => $province->getTaxexemptionlink(),
+            ])
+            ->setTemplate($configuration->getTemplate('_taxexempt.html.twig'))
+        ;
+        return new JsonResponse([
+            'content' => $this->viewHandler->handle($configuration, $view)->getContent(),
+        ]);
+    }
+    /**
+     * @return FormInterface
+     */
+    protected function createProvinceTaxExemptionUpload(): FormInterface
+    {
+        return $this->get('form.factory')->createNamed('sylius_address_taxexemption', 'file', null, ['required' => false, 'label' => 'Upload a tax exempt document (for tax exempt organizations).']);
+    }
+
+
+    /**
      * @param CountryInterface $country
      *
      * @return FormInterface

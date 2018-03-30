@@ -46,6 +46,11 @@ final class AddressType extends AbstractResourceType
                 'required' => false,
                 'label' => 'sylius.form.checkout.addressing.different_billing_address',
             ])
+            ->add('taxExemption', 'file', [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'Upload a tax exempt document (for tax exempt organizations).',
+            ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options): void {
                 $form = $event->getForm();
                 $resource = $event->getData();
@@ -69,6 +74,13 @@ final class AddressType extends AbstractResourceType
                     $orderData['billingAddress'] = $orderData['shippingAddress'];
 
                     $event->setData($orderData);
+
+                    if(isset($orderData['taxExemption'])){
+
+                        $file = $orderData['taxExemption'];
+                        dump($file->getPath());
+
+                    }
                 }
             })
         ;

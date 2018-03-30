@@ -65,9 +65,11 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
      */
     public function preSetData(FormEvent $event): void
     {
-        dump("fuck0");
+
+        dump("presetdata");
         /** @var AddressInterface $address */
         $address = $event->getData();
+
         if (null === $address) {
             return;
         }
@@ -87,11 +89,6 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
 
         if ($country->hasProvinces()) {
             $form->add($this->createProvinceCodeChoiceForm($country, $address->getProvinceCode()));
-
-            if($this->taxExemptionUpload($country, $address->getName())){
-                dump($address);
-            }
-            dump("fuck1");
             return;
         }
 
@@ -103,9 +100,9 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
      */
     public function preSubmit(FormEvent $event): void
     {
-        dump("fuck2");
-        dump( $this->countryRepository);
+        dump("presubmit");
         $data = $event->getData();
+        dump($data);
         if (!is_array($data) || !array_key_exists('countryCode', $data)) {
             return;
         }
