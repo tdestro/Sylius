@@ -75,6 +75,7 @@
 
         <field type="string" name="tokenValue" column="token_value" nullable="true" />
         <field type="string" name="customerIp" column="customer_ip" nullable="true" />
+        <field type="string" name="taxExemption" column="tax_exemption" nullable="true" />
     </mapped-superclass>
 
 </doctrine-mapping>

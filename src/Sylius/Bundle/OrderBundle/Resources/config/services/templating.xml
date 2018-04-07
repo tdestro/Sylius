@@ -17,5 +17,8 @@
             <argument type="service" id="sylius.adjustments_aggregator" />
             <tag name="templating.helper" alias="sylius_adjustments" />
         </service>
+        <service id="sylius.templating.helper.tax_exemption_link" class="Sylius\Bundle\OrderBundle\Templating\Helper\TaxExemptionLinkHelper">
+            <tag name="templating.helper" alias="sylius_tax_exemption_link" />
+        </service>
     </services>
 </container>

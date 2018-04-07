@@ -7,11 +7,40 @@
  * file that was distributed with this source code.
  */
 
+function loadUploadField(select){
+
+    var taxexemptionContainer = select.parent().parent().children('div.taxexemption-container');
+
+    var taxExemptionSelectFieldName = select.attr('name').replace('provinceCode', 'taxExemption');
+
+    if(!$(select).val()){
+        taxexemptionContainer.html('');
+        return;
+    }
+
+    taxexemptionContainer.attr('data-loading', true);
+    $.get(taxexemptionContainer.attr('data-url'), {provinceCode: $(select).val()}, function (response) {
+        if (!response.content) {
+            taxexemptionContainer.html('');
+
+            taxexemptionContainer.removeAttr('data-loading');
+        } else {
+            taxexemptionContainer.html(response.content.replace(
+                'name="sylius_address_taxexemption"',
+                'name="' + taxExemptionSelectFieldName.split('[')[0]  + '[taxExemption]"'
+            ));
+            taxexemptionContainer.removeAttr('data-loading');
+        }
+
+    });
+}
+
 (function ( $ ) {
     'use strict';
 
     $.fn.extend({
         provinceField: function () {
+
             var countrySelect = $('select[name$="[countryCode]"]');
 
             countrySelect.on('change', function(event) {
@@ -59,34 +88,16 @@
                             ));
 
                             provinceContainer.removeAttr('data-loading');
-
-                            var provinceSelect = $('select[name$="[shippingAddress][provinceCode]"]');
-                            provinceSelect.on('change', function(event) {
-                                var select = $(event.currentTarget);
-                                var taxexemptionContainer = select.parents('.field').next('div.taxexemption-container');
-
-                                var taxExemptionSelectFieldName = select.attr('name').replace('provinceCode', 'taxExemption')
-
-                                taxexemptionContainer.attr('data-loading', true);
-                                $.get(taxexemptionContainer.attr('data-url'), {provinceCode: $(this).val()}, function (response) {
-                                    if (!response.content) {
-                                        taxexemptionContainer.html('');
-
-                                        taxexemptionContainer.removeAttr('data-loading');
-                                    } else {
-                                        taxexemptionContainer.html(response.content.replace(
-                                            'name="sylius_address_taxexemption"',
-                                            'name="' + taxExemptionSelectFieldName.split('[')[0]  + '[taxExemption]"'
-                                        ));
-                                        taxexemptionContainer.removeAttr('data-loading');
-                                    }
-
-                                });
-                            });
-
-
-
                             provinceContainer.fadeIn();
+
+                            if(provinceSelectFieldName == "sylius_checkout_address[shippingAddress][provinceCode]") {
+                                var provinceSelect = $('select[name$="[shippingAddress][provinceCode]"]');
+                                loadUploadField($(provinceSelect));
+                                provinceSelect.on('change', function (event) {
+                                    loadUploadField($(event.currentTarget))
+                                });
+                            }
+
                         });
                     } else {
                         provinceContainer.fadeOut('slow', function () {

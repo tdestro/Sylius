@@ -22,17 +22,31 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\Validator\Constraints;
 use Webmozart\Assert\Assert;
+use Sylius\Component\Order\Context\CompositeCartContext;
+use Google\Cloud\Core\ServiceBuilder;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 final class AddressType extends AbstractResourceType
 {
+    private $cart;
+
+    public function __construct(string $dataClass, array $validationGroups = [], CompositeCartContext $cart)
+    {
+        parent::__construct($dataClass, $validationGroups);
+        $this->cart = $cart->getCart();
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('shippingAddress', SyliusAddressType::class, [
                 'shippable' => true,
@@ -46,10 +60,21 @@ final class AddressType extends AbstractResourceType
                 'required' => false,
                 'label' => 'sylius.form.checkout.addressing.different_billing_address',
             ])
-            ->add('taxExemption', 'file', [
+            ->add('taxExemption', FileType::class, [
                 'mapped' => false,
-                'required' => false,
                 'label' => 'Upload a tax exempt document (for tax exempt organizations).',
+                'required' => false,
+                'constraints' => [
+                    new Constraints\File([
+                        'groups' => array('sylius'),
+                        'maxSize' => '20m',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf'
+                        ],
+                        'mimeTypesMessage' => 'Upload a pdf.'
+                    ])
+                ]
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options): void {
                 $form = $event->getForm();
@@ -74,16 +99,65 @@ final class AddressType extends AbstractResourceType
                     $orderData['billingAddress'] = $orderData['shippingAddress'];
 
                     $event->setData($orderData);
-
-                    if(isset($orderData['taxExemption'])){
-
-                        $file = $orderData['taxExemption'];
-                        dump($file->getPath());
-
-                    }
                 }
-            })
-        ;
+
+                if (isset($orderData['taxExemption'])) {
+                    /** @var UploadedFile $file */
+                    $uploadedFile = $orderData['taxExemption'];
+                    $objectName = $this->cart->getId() . "_" . md5(uniqid()) . '.' . $uploadedFile->guessExtension();
+                    copy($uploadedFile->getPathname(),"/tmp/".$objectName);
+
+                    if (!empty($this->cart->getTaxExemption())) $objectName = $objectName ."|". $this->cart->getTaxExemption();
+
+                    $this->cart->setTaxExemption($objectName);
+                }
+            })->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                $orderData = $event->getData();
+
+                if (!empty($orderData->getTaxExemption())) {
+
+                    $TaxExPipeDel = $orderData->getTaxExemption();
+                    $TaxEx = explode('|', $TaxExPipeDel);
+                    $source = "/tmp/".$TaxEx[0];
+
+                    if ($event->getForm()->isValid()) {
+                        $objectName = $TaxEx[0];
+                        $this->cart->setTaxExemption($objectName);
+
+                        $gcloud = new ServiceBuilder([
+                            'keyFilePath' => $_ENV['GoogleCloudStorageKeyFilePath'],
+                            'projectId' => $_ENV['GoogleCloudProjectID']
+                        ]);
+
+                        $storage = $gcloud->storage();
+                        $bucket = $storage->bucket('taxexemptionpdfs');
+
+                        $object = $bucket->object($objectName);
+                        if (!$object->exists()) {
+                            $file = fopen($source, 'r');
+                            $bucket->upload($file, [
+                                'name' => $objectName
+                            ]);
+
+                            if (!empty($TaxEx[1])) {
+                                $objectNameDel = $TaxEx[1];
+                                $objectDel = $bucket->object($objectNameDel);
+                                if ($objectDel->exists()) $objectDel->delete();
+                            }
+                        }
+                    } else if (!empty($TaxEx[1])) {
+                        $objectName = $TaxEx[1];
+                        $this->cart->setTaxExemption($objectName);
+                    }
+
+                    if (file_exists ($source)) {
+                        unlink($source);
+                    }
+
+                }
+
+
+            });
     }
 
     /**
@@ -96,8 +170,7 @@ final class AddressType extends AbstractResourceType
         $resolver
             ->setDefaults([
                 'customer' => null,
-            ])
-        ;
+            ]);
     }
 
     /**

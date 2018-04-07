@@ -1,5 +1,10 @@
-{{ form_label(form) }}   {{ form_widget(form) }}
-    <p> The necessary documentation for this state can be found <a href="{{ taxexemptionlink }}" target="_blank">here</a>.
+{{ form_label(form) }}
+
+<p>Upload a tax exempt document. The necessary documentation for this state can be found <a href="{{ taxexemptionlink }}" target="_blank">here</a>.
+</p>
+{% if signedurl %}
+    <p> You've already uploaded a document (<a href="{{ signedurl }}" target="_blank">view</a>).
+        You can upload a replacement below.
     </p>
 
-
+{% endif %}  {{ form_widget(form) }}

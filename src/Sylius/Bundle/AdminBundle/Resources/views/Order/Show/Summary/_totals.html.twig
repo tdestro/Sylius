@@ -72,7 +72,11 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p>{{ 'sylius.ui.no_taxes'|trans }}.</p>
+            <p>{{ 'sylius.ui.no_taxes'|trans }}.
+
+            </p><p>{% if order.taxExemption %}
+            <a href="{{ tax_exemption_link(order.taxExemption) }}" target="_blank">Tax Exemption Document</a>
+        {% endif %}</p>
         {% endif %}
     </td>
     <td colspan="4" id="tax-total" class="right aligned">

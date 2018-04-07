@@ -198,4 +198,14 @@ interface OrderInterface extends
      * @param string|null $customerIp
      */
     public function setCustomerIp(?string $customerIp): void;
+
+    /**
+     * @return string|null
+     */
+    public function getTaxExemption(): ?string;
+
+    /**
+     * @param string|null $taxExemption
+     */
+    public function setTaxExemption(?string $taxExemption): void;
 }

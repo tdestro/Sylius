@@ -29,6 +29,8 @@ final class UPSCalculator implements CalculatorInterface
      */
     public function calculate(BaseShipmentInterface $subject, array $configuration): int
     {
+
+
         Assert::isInstanceOf($subject, ShipmentInterface::class);
 
         $channelCode = $subject->getOrder()->getChannel()->getCode();
@@ -158,19 +160,19 @@ final class UPSCalculator implements CalculatorInterface
 
                 $package = new \Ups\Entity\Package();
 
-                $packageSeviceOptions = new \Ups\Entity\PackageServiceOptions();
+                $packageServiceOptions = new \Ups\Entity\PackageServiceOptions();
                 $insuredValue = new \Ups\Entity\InsuredValue();
                 $insuredValue->setCurrencyCode($subject->getOrder()->getCurrencyCode());
                 $insuredValue->setMonetaryValue($itemUnitTotalAsInt);
-                $packageSeviceOptions->setInsuredValue($insuredValue);
+                $packageServiceOptions->setInsuredValue($insuredValue);
 
                 // This is for domestic shipments only and will probably blow up on international.
                 if ($countryCode == 'US') {
                     $deliveryConfirmation = new \Ups\Entity\DeliveryConfirmation();
                     $deliveryConfirmation->setDcisType(\Ups\Entity\DeliveryConfirmation::DELIVERY_CONFIRMATION_SIGNATURE_REQUIRED);
-                    $packageSeviceOptions->setDeliveryConfirmation($deliveryConfirmation);
+                    $packageServiceOptions->setDeliveryConfirmation($deliveryConfirmation);
                 }
-                $package->setPackageServiceOptions($packageSeviceOptions);
+                $package->setPackageServiceOptions($packageServiceOptions);
 
                 /*
         packagingtype Valid values:

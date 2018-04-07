@@ -104,6 +104,11 @@ class Order extends BaseOrder implements OrderInterface
      */
     protected $customerIp;
 
+    /**
+     * @var string
+     */
+    protected $taxExemption;
+
     public function __construct()
     {
         parent::__construct();
@@ -574,5 +579,21 @@ class Order extends BaseOrder implements OrderInterface
     public function setCustomerIp(?string $customerIp): void
     {
         $this->customerIp = $customerIp;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxExemption(): ?string
+    {
+        return $this->taxExemption;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTaxExemption(?string $taxExemption): void
+    {
+        $this->taxExemption = $taxExemption;
     }
 }

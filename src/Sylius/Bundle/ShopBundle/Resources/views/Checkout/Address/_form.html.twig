@@ -5,11 +5,7 @@
         {% include '@SyliusShop/Common/Form/_login.html.twig' with {'form': form.customer} %}
     {% endif %}
 
-    {% if form.taxExemption is defined %}
-        {% include '@SyliusShop/Common/Form/_address.html.twig' with {'form': form.shippingAddress, 'order': order, 'taxExemption': form.taxExemption} %}
-    {% else %}
     {% include '@SyliusShop/Common/Form/_address.html.twig' with {'form': form.shippingAddress, 'order': order} %}
-    {% endif %}
     {{ form_row(form.differentBillingAddress, {'attr': {'data-toggles': 'sylius-billing-address'}}) }}
 
     {{ sonata_block_render_event('sylius.shop.checkout.address.shipping_address_form', {'order': order}) }}

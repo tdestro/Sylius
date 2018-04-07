@@ -15,19 +15,13 @@
     {% endif %}
 </div>
 
-{% if form.taxexemptionupload == true %}adadsaddad
-    <div class="taxexemption-container field" data-url="{{ path('sylius_shop_ajax_render_taxexempt_form') }}">
-        adadadadadadada
-        {% include '@SyliusShop/Common/Form/_taxexempt.html.twig' %}
-    </div>
-{% else %}
-<div class="taxexemption-container field" data-url="{{ path('sylius_shop_ajax_render_taxexempt_form') }}">
-</div>
-{% endif %}
-
 {% if form.provinceCode is defined %}
     {{ form_errors(form) }}
 {% endif %}
+
+<div class="taxexemption-container field" data-url="{{ path('sylius_shop_ajax_render_taxexempt_form') }}"></div>{{ form_errors(form.parent.children.taxExemption) }}
+
+
 
 <div class="two fields">
     {{ form_row(form.city) }}

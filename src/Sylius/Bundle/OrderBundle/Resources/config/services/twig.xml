@@ -17,5 +17,9 @@
             <argument type="service" id="sylius.templating.helper.adjustment" />
             <tag name="twig.extension" />
         </service>
+        <service id="sylius.twig.extension.tax_exemption_link_extension" class="Sylius\Bundle\OrderBundle\Twig\TaxExemptionLinkExtension" public="false">
+            <argument type="service" id="sylius.templating.helper.tax_exemption_link" />
+            <tag name="twig.extension" />
+        </service>
     </services>
 </container>
