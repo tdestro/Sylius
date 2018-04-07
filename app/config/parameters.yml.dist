@@ -29,7 +29,7 @@ parameters:
     env(SYLIUS_MAILER_TRANSPORT): smtp
     env(SYLIUS_MAILER_HOST): smtp.mailgun.org
     env(SYLIUS_MAILER_USER): postmaster@mg.destromachines.com
-    env(SYLIUS_MAILER_PASSWORD): ca6678df3bdde4e08ab20e1376c46df9-21e977f8-a628e1b7
+    env(SYLIUS_MAILER_PASSWORD):
     env(SYLIUS_MAILER_PORT): 465
     env(SYLIUS_MAILER_CRYPTO): ssl
     env(SYLIUS_MAILER_SENDER): support@destromachines.com

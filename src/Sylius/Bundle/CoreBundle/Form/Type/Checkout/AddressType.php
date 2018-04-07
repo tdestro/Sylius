@@ -22,11 +22,11 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
-use Symfony\Component\Validator\Constraints;
 use Webmozart\Assert\Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints;
 use Sylius\Component\Order\Context\CompositeCartContext;
 use Google\Cloud\Core\ServiceBuilder;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -46,7 +46,6 @@ final class AddressType extends AbstractResourceType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
             ->add('shippingAddress', SyliusAddressType::class, [
                 'shippable' => true,
@@ -170,7 +169,8 @@ final class AddressType extends AbstractResourceType
         $resolver
             ->setDefaults([
                 'customer' => null,
-            ]);
+            ])
+        ;
     }
 
     /**

@@ -40,7 +40,6 @@ function loadUploadField(select){
 
     $.fn.extend({
         provinceField: function () {
-
             var countrySelect = $('select[name$="[countryCode]"]');
 
             countrySelect.on('change', function(event) {

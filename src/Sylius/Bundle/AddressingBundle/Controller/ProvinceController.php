@@ -111,7 +111,6 @@ class ProvinceController extends ResourceController
             return new Response();
         }
 
-
         $form = $this->createProvinceTaxExemptionUpload();
         $objectName = $this->get('sylius.context.cart')->getCart()->getTaxExemption();
 

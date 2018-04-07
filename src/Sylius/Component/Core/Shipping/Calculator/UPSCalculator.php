@@ -29,8 +29,6 @@ final class UPSCalculator implements CalculatorInterface
      */
     public function calculate(BaseShipmentInterface $subject, array $configuration): int
     {
-
-
         Assert::isInstanceOf($subject, ShipmentInterface::class);
 
         $channelCode = $subject->getOrder()->getChannel()->getCode();

@@ -86,13 +86,11 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
 
         if ($country->hasProvinces()) {
-            $provinceCode = $address->getProvinceCode();
-            $form->add($this->createProvinceCodeChoiceForm($country, $provinceCode));
+            $form->add($this->createProvinceCodeChoiceForm($country, $address->getProvinceCode()));
             return;
         }
 
         $form->add($this->createProvinceNameTextForm($address->getProvinceName()));
-
     }
 
     /**
@@ -101,7 +99,6 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
     public function preSubmit(FormEvent $event): void
     {
         $data = $event->getData();
-
         if (!is_array($data) || !array_key_exists('countryCode', $data)) {
             return;
         }

@@ -38,8 +38,6 @@
                 <service class="Sylius\Bundle\AddressingBundle\Form\EventListener\BuildAddressFormSubscriber">
                     <argument type="service" id="sylius.repository.country" />
                     <argument type="service" id="form.factory" />
-                    <argument type="service" id="sylius.repository.province" />
-                    <argument type="service" id="sylius.context.cart"/>
                 </service>
             </argument>
             <tag name="form.type" />

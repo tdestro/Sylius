@@ -27,9 +27,7 @@
         {{ sonata_block_render_event('sylius.admin.order.show.before_summary', {'resource': resource}) }}
 
         <div class="ui segment">
-
             {% include '@SyliusAdmin/Order/Show/_summary.html.twig' %}
-
         </div>
 
         {{ sonata_block_render_event('sylius.admin.order.show.after_summary', {'resource': resource}) }}
