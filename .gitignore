@@ -1,3 +1,4 @@
+sasl_passwd
 /letsencrypt/*
 .idea
 .env

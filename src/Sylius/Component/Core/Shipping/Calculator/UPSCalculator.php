@@ -221,9 +221,7 @@ Valid values:
         $rateRequest = new \Ups\Entity\RateRequest();
         $rateRequest->setPickupType($packagingType);
         $rateRequest->setShipment($shipment);
-        dump($rateRequest);
         $ratedShipment = $rate->getRate($rateRequest)->RatedShipment;
-        dump($ratedShipment);
         $firstRatedShipment = reset($ratedShipment);
 
         if ($firstRatedShipment === false) {
