@@ -1,7 +1,38 @@
 {% extends '@SyliusShop/Checkout/layout.html.twig' %}
 
 {% form_theme form 'SyliusUiBundle:Form:theme.html.twig' %}
+ {% block stylesheets %}
+     {{ parent() }}
 
+     <style type="text/css">
+         /**
+         * The CSS shown here will not be introduced in the Quickstart guide, but shows
+         * how you can use CSS to style your Element's container.
+         */
+         .StripeElement {
+             background-color: white;
+             height: 40px;
+             padding: 10px 12px;
+             border-radius: 4px;
+             border: 1px solid transparent;
+             box-shadow: 0 1px 3px 0 #e6ebf1;
+             -webkit-transition: box-shadow 150ms ease;
+             transition: box-shadow 150ms ease;
+         }
+
+         .StripeElement--focus {
+             box-shadow: 0 1px 3px 0 #cfd7df;
+         }
+
+         .StripeElement--invalid {
+             border-color: #fa755a;
+         }
+
+         .StripeElement--webkit-autofill {
+             background-color: #fefde5 !important;
+         }
+     </style>
+ {% endblock %}
 {% block content %}
     {% include '@SyliusShop/Checkout/_steps.html.twig' with {'active': 'select_payment', 'orderTotal': order.total} %}
 
@@ -13,15 +44,15 @@
                 {{ sonata_block_render_event('sylius.shop.checkout.select_payment.before_form', {'order': order}) }}
 
                 {{ form_start(form, {'action': path('sylius_shop_checkout_select_payment'), 'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
-                    {{ form_errors(form) }}
-                    <input type="hidden" name="_method" value="PUT" />
-                    {% include '@SyliusShop/Checkout/SelectPayment/_form.html.twig' %}
-                    <div class="ui hidden divider"></div>
+                {{ form_errors(form) }}
+                <input type="hidden" name="_method" value="PUT"/>
+                {% include '@SyliusShop/Checkout/SelectPayment/_form.html.twig' %}
+                <div class="ui hidden divider"></div>
 
-                    {{ sonata_block_render_event('sylius.shop.checkout.select_payment.before_navigation', {'order': order}) }}
-                    {% include '@SyliusShop/Checkout/SelectPayment/_navigation.html.twig' %}
+                {{ sonata_block_render_event('sylius.shop.checkout.select_payment.before_navigation', {'order': order}) }}
+                {% include '@SyliusShop/Checkout/SelectPayment/_navigation.html.twig' %}
 
-                    {{ form_row(form._token) }}
+                {{ form_row(form._token) }}
                 {{ form_end(form, {'render_rest': false}) }}
             </div>
         </div>
@@ -37,4 +68,99 @@
             {{ sonata_block_render_event('sylius.shop.checkout.select_payment.after_support', {'order': order}) }}
         </div>
     </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            function stripeTokenHandler(token) {
+                // Insert the token ID into the form so it gets submitted to the server
+                var form = document.getElementsByName("sylius_checkout_select_payment")[0];
+                var hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'sylius_checkout_select_payment[payments][0][stripeToken]');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
+
+                // Submit the form
+                form.submit();
+            }
+
+            var stripe = Stripe('pk_test_ZzjkFFPKEFoqGQbQ9Pbe8sHu');
+            var elements = stripe.elements({
+                fonts: [
+                    {
+                        cssSrc: 'https://fonts.googleapis.com/css?family=Lato'
+                    }
+                ]
+            });
+
+
+            // Custom styling can be passed to options when creating an Element.
+            // (Note that this demo uses a wider set of styles than the guide below.)
+            var style = {
+                base: {
+                    color: '#32325d',
+                    lineHeight: '18px',
+                    fontFamily: 'Lato,"Helvetica Neue",Arial,Helvetica,sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                        color: '#aab7c4'
+                    }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
+            };
+
+            // Create an instance of the card Element.
+            var card = elements.create('card', {style: style, value: {postalCode: "{{ order.billingAddress.postcode }}"}, hidePostalCode: true });
+
+            // Add an instance of the card Element into the `card-element` <div>.
+            card.mount('#card-element');
+
+            // Handle real-time validation errors from the card Element.
+            card.addEventListener('change', function (event) {
+                var displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+
+            // Handle form submission.
+            var form = document.getElementsByName("sylius_checkout_select_payment")[0];
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+
+                var cardData = {
+                    name: "{{ order.customer.firstName }} {{ order.customer.lastName }}",
+                    address_line1: "{{ order.billingAddress.street }}",
+                    address_city: "{{ order.billingAddress.city }}",
+                    address_state: "{{ order.billingAddress.provinceCode }}",
+                    address_zip: "{{ order.billingAddress.postcode }}",
+                    address_country: "{{ order.billingAddress.countryCode }}"
+                };
+
+                stripe.createToken(card,cardData).then(function (result) {
+                    if (result.error) {
+                        $(event.target).removeClass('loading');
+                        // Inform the user if there was an error.
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+
+
+                    } else {
+                        // Send the token to your server.
+                        stripeTokenHandler(result.token);
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

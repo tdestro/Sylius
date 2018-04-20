@@ -68,7 +68,17 @@ final class CapturePaymentAction extends GatewayAwareAction
                 $payumPayment->setClientEmail($order->getCustomer()->getEmail());
                 $payumPayment->setClientId($order->getCustomer()->getId());
                 $payumPayment->setDescription($this->paymentDescriptionProvider->getPaymentDescription($payment));
-                $payumPayment->setDetails($payment->getDetails());
+
+                // This allows for us to put the stripe elements form in basically anywhere we want and
+                // bypass the ugly form in the payum integration.
+                $details = $payment->getDetails();
+
+                if (isset($details['setcard'])) {
+                    $details['card'] = $details['setcard'];
+                    unset($details['setcard']);
+                }
+
+                $payumPayment->setDetails($details);
 
                 $this->gateway->execute($convert = new Convert($payumPayment, 'array', $request->getToken()));
                 $payment->setDetails($convert->getResult());

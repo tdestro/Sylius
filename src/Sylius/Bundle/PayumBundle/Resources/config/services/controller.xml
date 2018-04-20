@@ -13,6 +13,7 @@
             <argument type="service" id="router" />
             <argument type="service" id="sylius.factory.payum_get_status_action" />
             <argument type="service" id="sylius.factory.payum_resolve_next_route" />
+            <argument type="service" id="http_kernel" />
         </service>
     </services>
 </container>

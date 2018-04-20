@@ -3,7 +3,7 @@ env: flex
 
 runtime_config:
   document_root: web
-  front_controller_file: app.php
+  front_controller_file: app_dev.php
 
 env_variables:
   ## Set these environment variables according to your CloudSQL configuration.

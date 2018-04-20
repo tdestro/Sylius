@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 final class PaymentType extends AbstractType
 {
@@ -40,6 +41,7 @@ final class PaymentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
             $form = $event->getForm();
             $payment = $event->getData();
@@ -48,7 +50,25 @@ final class PaymentType extends AbstractType
                 'label' => 'sylius.form.checkout.payment_method',
                 'subject' => $payment,
                 'expanded' => true,
+            ])->add('stripeToken', HiddenType::class, [
+                'mapped' => false,
+                'required' => false
             ]);
+
+        })->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
+            $form = $event->getForm();
+            $payment = $event->getData();
+
+            if (!isset($payment['stripeToken'])) return;
+            if (!isset($payment['details'])) $payment['details'] = array();
+
+            $payment['details']['setcard'] = $payment['stripeToken'];
+
+            $form->add('details', HiddenType::class,[
+                'mapped' => true,
+            ]);
+
+            $event->setData($payment);
         });
     }
 
