@@ -68,12 +68,12 @@
             {{ sonata_block_render_event('sylius.shop.checkout.select_payment.after_support', {'order': order}) }}
         </div>
     </div>
-
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script>
         $(document).ready(function () {
+
             function stripeTokenHandler(token) {
                 // Insert the token ID into the form so it gets submitted to the server
                 var form = document.getElementsByName("sylius_checkout_select_payment")[0];
@@ -87,7 +87,8 @@
                 form.submit();
             }
 
-            var stripe = Stripe('pk_test_ZzjkFFPKEFoqGQbQ9Pbe8sHu');
+            var stripe = Stripe("{{ order.getPayments().last().getMethod().getGatewayConfig().config["publishable_key"] }}");
+
             var elements = stripe.elements({
                 fonts: [
                     {

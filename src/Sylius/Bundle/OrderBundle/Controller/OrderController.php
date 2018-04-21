@@ -35,7 +35,8 @@ class OrderController extends ResourceController
      * @return Response
      */
     public function summaryAction(Request $request): Response
-    {$configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
+    {
+        $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
         $cart = $this->getCurrentCart();
         if (null !== $cart->getId()) {

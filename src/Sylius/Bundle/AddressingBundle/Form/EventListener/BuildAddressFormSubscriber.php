@@ -67,7 +67,6 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
     {
         /** @var AddressInterface $address */
         $address = $event->getData();
-
         if (null === $address) {
             return;
         }
@@ -87,6 +86,7 @@ final class BuildAddressFormSubscriber implements EventSubscriberInterface
 
         if ($country->hasProvinces()) {
             $form->add($this->createProvinceCodeChoiceForm($country, $address->getProvinceCode()));
+
             return;
         }
 

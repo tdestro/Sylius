@@ -30,6 +30,7 @@ final class DefaultCalculator implements CalculatorInterface
      */
     public function calculate(float $base, TaxRateInterface $rate): float
     {
+        // nullify taxes if theyve got a tax exemption document.
         if (!empty($this->cart->getTaxExemption())){
             return 0.0;
         }
