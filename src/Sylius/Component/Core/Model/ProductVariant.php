@@ -82,6 +82,11 @@ class ProductVariant extends BaseVariant implements ProductVariantInterface
     protected $shippingRequired = true;
 
     /**
+     * @var Collection|ProductVariantExtraDimensionInterface[]
+     */
+    protected $productVariantExtraDimensions;
+
+    /**
      * @var Collection|ProductImageInterface[]
      */
     protected $images;
@@ -92,6 +97,7 @@ class ProductVariant extends BaseVariant implements ProductVariantInterface
 
         $this->channelPricings = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->productVariantExtraDimensions = new ArrayCollection();
     }
 
     /**
@@ -99,7 +105,7 @@ class ProductVariant extends BaseVariant implements ProductVariantInterface
      */
     public function __toString(): string
     {
-        $string = (string) $this->getProduct()->getName();
+        $string = (string)$this->getProduct()->getName();
 
         if (!$this->getOptionValues()->isEmpty()) {
             $string .= '(';
@@ -459,5 +465,49 @@ class ProductVariant extends BaseVariant implements ProductVariantInterface
         if ($this->hasImage($image)) {
             $this->images->removeElement($image);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProductVariantExtraDimensions(): Collection
+    {
+        return $this->productVariantExtraDimensions;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeProductVariantExtraDimension(ProductVariantExtraDimensionInterface $extraDimension): void
+    {
+        if ($this->hasProductVariantExtraDimension($extraDimension)) {
+            $this->productVariantExtraDimensions->removeElement($extraDimension);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasProductVariantExtraDimensions(): bool
+    {
+        return !$this->productVariantExtraDimensions->isEmpty();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasProductVariantExtraDimension(ProductVariantExtraDimensionInterface $extraDimension): bool
+    {
+        return $this->productVariantExtraDimensions->contains($extraDimension);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addProductVariantExtraDimension(ProductVariantExtraDimensionInterface $extraDimension): void
+    {
+        $extraDimension->setProductVariant($this);
+        $this->productVariantExtraDimensions->add($extraDimension);
     }
 }

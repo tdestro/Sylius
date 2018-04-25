@@ -125,4 +125,31 @@ interface ProductVariantInterface extends
      * @param bool $shippingRequired
      */
     public function setShippingRequired(bool $shippingRequired): void;
+
+    /**
+     * @return Collection|ProductVariantExtraDimensionInterface[]
+     */
+    public function getProductVariantExtraDimensions() : Collection;
+
+    /**
+     * @param ProductVariantExtraDimensionInterface $extraDimension
+     */
+    public function addProductVariantExtraDimension(ProductVariantExtraDimensionInterface $extraDimension): void;
+
+    /**
+     * @param ProductVariantExtraDimensionInterface $extraDimension
+     */
+    public function removeProductVariantExtraDimension(ProductVariantExtraDimensionInterface $extraDimension): void;
+
+    /**
+     * @return bool
+     */
+    public function hasProductVariantExtraDimensions(): bool;
+
+    /**
+     * @param ProductVariantExtraDimensionInterface $extraDimension
+     *
+     * @return bool
+     */
+    public function hasProductVariantExtraDimension(ProductVariantExtraDimensionInterface $extraDimension): bool;
 }

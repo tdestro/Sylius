@@ -43,6 +43,18 @@
                 <cascade-all/>
             </cascade>
         </one-to-many>
+
+        <one-to-many
+                field="productVariantExtraDimensions"
+                target-entity="Sylius\Component\Core\Model\ProductVariantExtraDimensionInterface"
+                mapped-by="productVariant"
+                orphan-removal="true"
+        >
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-many>
+
         <many-to-many
             field="images"
             target-entity="Sylius\Component\Core\Model\ProductImageInterface"

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+ This file is part of the Sylius package.
+
+ (c) Paweł Jędrzejewski
+
+ For the full copyright and license information, please view the LICENSE
+ file that was distributed with this source code.
+
+-->
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Sylius\Component\Core\Model\ProductVariantExtraDimension" table="sylius_product_variant_extra_dimension">
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <many-to-one field="productVariant" target-entity="Sylius\Component\Product\Model\ProductVariantInterface" inversed-by="productVariantExtraDimensions">
+            <join-column name="product_variant_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+        </many-to-one>
+        <field name="width" column="width" type="float" nullable="false" />
+        <field name="height" column="height" type="float" nullable="false" />
+        <field name="depth" column="depth" type="float" nullable="false" />
+        <field name="weight" column="weight" type="float" nullable="false" />
+    </mapped-superclass>
+</doctrine-mapping>

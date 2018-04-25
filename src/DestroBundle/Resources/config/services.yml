@@ -1,0 +1,10 @@
+# DestroBundle/Resources/config/services.yml
+services:
+    app.listener.admin.product_variant.form.menu_builder:
+        class: DestroBundle\Menu\AdminProductVariantFormMenuListener
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.product_variant.form, method: addItems }
+    app.form.extension.type.product_variant:
+        class: DestroBundle\Form\Extension\ProductVariantTypeExtraDimensionExtension
+        tags:
+            - { name: form.type_extension, extended_type: Sylius\Bundle\ProductBundle\Form\Type\ProductVariantType, priority: -5 }
