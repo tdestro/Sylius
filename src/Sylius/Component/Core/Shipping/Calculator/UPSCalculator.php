@@ -148,60 +148,66 @@ final class UPSCalculator implements CalculatorInterface
         foreach ($items as $item){
             $itemUnits = $item->getUnits();
             foreach ($itemUnits as $itemUnit) {
-                $depth = $itemUnit->getShippable()->getShippingDepth();
-                $height = $itemUnit->getShippable()->getShippingHeight();
-                $width = $itemUnit->getShippable()->getShippingWidth();
-                $weight = $itemUnit->getShippable()->getShippingWeight();
+                $extradims = $itemUnit->getShippable()->getProductVariantExtraDimensions();
 
-                $itemUnitTotalAsFloat = floatval($itemUnit->getTotal());
-                $itemUnitTotalAsInt = intval($itemUnitTotalAsFloat / 100.00);
+                foreach ($extradims as $extradim){
+                    $depth = $extradim->getDepth();
+                    $height = $extradim->getHeight();
+                    $width = $extradim->getWidth();
+                    $weight = $extradim->getWeight();
 
-                $package = new \Ups\Entity\Package();
+                    $itemUnitTotalAsFloat = floatval( $extradim->getInsured());
+                    $itemUnitTotalAsInt = intval($itemUnitTotalAsFloat / 100.00);
 
-                $packageServiceOptions = new \Ups\Entity\PackageServiceOptions();
-                $insuredValue = new \Ups\Entity\InsuredValue();
-                $insuredValue->setCurrencyCode($subject->getOrder()->getCurrencyCode());
-                $insuredValue->setMonetaryValue($itemUnitTotalAsInt);
-                $packageServiceOptions->setInsuredValue($insuredValue);
+                    $package = new \Ups\Entity\Package();
 
-                // This is for domestic shipments only and will probably blow up on international.
-                if ($countryCode == 'US') {
-                    $deliveryConfirmation = new \Ups\Entity\DeliveryConfirmation();
-                    $deliveryConfirmation->setDcisType(\Ups\Entity\DeliveryConfirmation::DELIVERY_CONFIRMATION_SIGNATURE_REQUIRED);
-                    $packageServiceOptions->setDeliveryConfirmation($deliveryConfirmation);
+                    $packageServiceOptions = new \Ups\Entity\PackageServiceOptions();
+                    $insuredValue = new \Ups\Entity\InsuredValue();
+                    $insuredValue->setCurrencyCode("USD");
+                    $insuredValue->setMonetaryValue($itemUnitTotalAsInt);
+                    $packageServiceOptions->setInsuredValue($insuredValue);
+
+                    // This is for domestic shipments only and will probably blow up on international.
+                    if ($countryCode == 'US') {
+                        $deliveryConfirmation = new \Ups\Entity\DeliveryConfirmation();
+                        $deliveryConfirmation->setDcisType(\Ups\Entity\DeliveryConfirmation::DELIVERY_CONFIRMATION_SIGNATURE_REQUIRED);
+                        $packageServiceOptions->setDeliveryConfirmation($deliveryConfirmation);
+                    }
+                    $package->setPackageServiceOptions($packageServiceOptions);
+
+                    /*
+            packagingtype Valid values:
+            00 = UNKNOWN
+            01 = UPS Letter
+            02 = Package
+            03 = Tube
+            04 = Pak
+            21 = Express Box
+            24 = 25KG Box
+            25 = 10KG Box
+            30 = Pallet
+            2a = Small Express Box
+            2b = Medium Express Box
+            2c = Large Express Box
+            */
+                    $packagingType = new \Ups\Entity\PackagingType();
+                    $packagingType->setCode('02');
+                    $package->setPackagingType($packagingType);
+                    $package->getPackageWeight()->setWeight($weight);
+                    $weightUnit = new \Ups\Entity\UnitOfMeasurement;
+                    $weightUnit->setCode(\Ups\Entity\UnitOfMeasurement::UOM_LBS);
+                    $package->getPackageWeight()->setUnitOfMeasurement($weightUnit);
+
+                    $dimensions = new \Ups\Entity\Dimensions();
+                    $dimensions->setHeight($height);
+                    $dimensions->setWidth($width);
+                    $dimensions->setLength($depth);
+                    $unitOfMeasurement = new \Ups\Entity\UnitOfMeasurement;
+                    $unitOfMeasurement->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
+                    $dimensions->setUnitOfMeasurement($unitOfMeasurement);
+                    $package->setDimensions($dimensions);
+                    $shipment->addPackage($package);
                 }
-                $package->setPackageServiceOptions($packageServiceOptions);
-
-                /*
-        packagingtype Valid values:
-        00 = UNKNOWN
-        01 = UPS Letter
-        02 = Package
-        03 = Tube
-        04 = Pak
-        21 = Express Box
-        24 = 25KG Box
-        25 = 10KG Box
-        30 = Pallet
-        2a = Small Express Box
-        2b = Medium Express Box
-        2c = Large Express Box
-        */
-                $packagingType = new \Ups\Entity\PackagingType();
-                $packagingType->setCode('02');
-                $package->setPackagingType($packagingType);
-                $package->getPackageWeight()->setWeight($weight);
-
-                $dimensions = new \Ups\Entity\Dimensions();
-                $dimensions->setHeight($height);
-                $dimensions->setWidth($width);
-                $dimensions->setLength($depth);
-                $unitOfMeasurement = new \Ups\Entity\UnitOfMeasurement;
-                $unitOfMeasurement->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
-                $dimensions->setUnitOfMeasurement($unitOfMeasurement);
-                $package->setDimensions($dimensions);
-                $shipment->addPackage($package);
-
             }
         }
 

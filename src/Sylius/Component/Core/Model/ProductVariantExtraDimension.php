@@ -41,6 +41,11 @@ class ProductVariantExtraDimension implements ProductVariantExtraDimensionInterf
     protected $depth;
 
     /**
+     * @var int
+     */
+    protected $insured;
+
+    /**
      * @var ProductVariantInterface
      */
     protected $productVariant;
@@ -133,4 +138,20 @@ class ProductVariantExtraDimension implements ProductVariantExtraDimensionInterf
     {
         $this->depth = $depth;
     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getInsured(): ?int
+    {
+        return $this->insured;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setInsured(?int $insured): void
+    {
+        $this->insured = $insured;
+    }
+
 }

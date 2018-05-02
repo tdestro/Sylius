@@ -66,4 +66,14 @@ interface ProductVariantExtraDimensionInterface extends ResourceInterface
      * @param float|null $depth
      */
     public function setDepth(?float $depth): void;
+
+    /**
+     * @return int|null
+     */
+    public function getInsured(): ?int;
+
+    /**
+     * @param int|null $insured
+     */
+    public function setInsured(?int $insured): void;
 }

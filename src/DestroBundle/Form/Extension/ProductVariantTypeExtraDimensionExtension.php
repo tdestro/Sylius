@@ -15,7 +15,6 @@ use DestroBundle\Form\Type\ProductVariantExtraDimensionType;
 
 final class ProductVariantTypeExtraDimensionExtension extends AbstractTypeExtension
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -25,7 +24,7 @@ final class ProductVariantTypeExtraDimensionExtension extends AbstractTypeExtens
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
-                    'label' => 'Extra Dimensions'
+                    'label' => 'Extra Dimensions',
                 ]);
             });
     }

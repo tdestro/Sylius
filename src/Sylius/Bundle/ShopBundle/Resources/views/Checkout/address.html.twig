@@ -14,7 +14,7 @@
 
                 {{ form_start(form, {'action': path('sylius_shop_checkout_address'), 'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
                     {{ form_errors(form) }}
-                    // files cannot be uploaded by put.
+                    {# files cannot be uploaded by put. #}
 
                     {% include '@SyliusShop/Checkout/Address/_form.html.twig' %}
                     <div class="ui hidden divider"></div>
