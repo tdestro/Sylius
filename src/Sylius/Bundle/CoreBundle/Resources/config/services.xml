@@ -15,6 +15,7 @@
     <imports>
         <import resource="services/checkers.xml" />
         <import resource="services/checkout.xml" />
+        <import resource="services/commands.xml" />
         <import resource="services/context.xml" />
         <import resource="services/dashboard.xml" />
         <import resource="services/fixtures.xml" />
@@ -34,6 +35,8 @@
     </imports>
 
     <services>
+        <defaults public="true" />
+
         <service id="sylius.provider.channel_based_default_zone_provider" class="Sylius\Bundle\CoreBundle\Provider\ChannelBasedDefaultTaxZoneProvider" />
         <service id="sylius.integer_distributor" class="Sylius\Component\Core\Distributor\IntegerDistributor" />
         <service id="sylius.proportional_integer_distributor" class="Sylius\Component\Core\Distributor\ProportionalIntegerDistributor" />
