@@ -44,3 +44,4 @@ DestroMachinesStore*
 /phpunit.xml
 /phpspec.yml
 /.web-server-pid
+/public
