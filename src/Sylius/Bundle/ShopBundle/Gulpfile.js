@@ -1,6 +1,7 @@
 var concat = require('gulp-concat');
 var env = process.env.GULP_ENV;
 var gulp = require('gulp');
+var less = require('gulp-less');
 var gulpif = require('gulp-if');
 var livereload = require('gulp-livereload');
 var merge = require('merge-stream');
@@ -22,17 +23,40 @@ var paths = {
     shop: {
         js: [
             nodeModulesPath + 'jquery/dist/jquery.min.js',
-            nodeModulesPath + 'semantic-ui-css/semantic.min.js',
+            '../../../semantic/semantic.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/globals/site.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/behaviors/api.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/behaviors/colorize.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/behaviors/form.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/behaviors/state.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/behaviors/visibility.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/behaviors/visit.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/accordion.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/checkbox.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/dimmer.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/dropdown.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/embed.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/modal.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/nag.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/popup.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/progress.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/rating.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/search.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/shape.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/sidebar.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/sticky.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/tab.js',
+            nodeModulesPath + 'semantic-ui-less/definitions/modules/transition.js',
             nodeModulesPath + 'lightbox2/dist/js/lightbox.js',
             vendorUiPath + 'Resources/private/js/**',
             vendorShopPath + 'Resources/private/js/**'
         ],
+        less: ['../../../semantic/semantic.less'],
         sass: [
             vendorUiPath + 'Resources/private/sass/**',
             vendorShopPath + 'Resources/private/sass/**'
         ],
         css: [
-            nodeModulesPath + 'semantic-ui-css/semantic.min.css',
             nodeModulesPath + 'lightbox2/dist/css/lightbox.css',
             vendorUiPath + 'Resources/private/css/**',
             vendorShopPath + 'Resources/private/css/**',
@@ -66,8 +90,13 @@ gulp.task('shop-css', function() {
             .pipe(concat('sass-files.scss'))
         ;
 
-    return merge(cssStream, sassStream)
-        .pipe(order(['css-files.css', 'sass-files.scss']))
+    var lessStream = gulp.src(paths.shop.less)
+        .pipe(less())
+        .pipe(concat('less-files.less'))
+    ;
+
+    return merge(cssStream, sassStream, lessStream)
+        .pipe(order(['css-files.css', 'sass-files.scss', 'less-files.less']))
         .pipe(concat('style.css'))
         .pipe(gulpif(env === 'prod', uglifycss()))
         .pipe(sourcemaps.write('./'))

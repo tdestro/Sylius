@@ -65,3 +65,17 @@ fos_rest:
         rules:
             - { path: '^/api/.*', priorities: ['json', 'xml'], fallback_format: json, prefer_extension: true }
             - { path: '^/', stop: true }
+liip_imagine:
+    filter_sets:
+        hero_image:
+            filters:
+                # use and setup the "crop" filter
+                crop:
+
+                    # set the size of the cropping area w / h
+                    size: [3000, 600]
+
+                    # set the starting coordinates of the crop
+                    start: [1, 740]
+            post_processors:
+                    jpegoptim: { strip_all: true, max: 70, progressive: true }

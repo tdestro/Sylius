@@ -22,6 +22,9 @@ gulp.task('admin-watch', function () {
 });
 
 gulp.task('shop', function() {
+
+    gulp.src(['customassets/images/**/*']).pipe(gulp.dest('web/media/image'));
+    gulp.src(['customassets/fonts/**/*']).pipe(gulp.dest('web/assets/shop/css/themes/default/assets/fonts'));
     gulp.src('src/Sylius/Bundle/ShopBundle/Gulpfile.js', { read: false })
         .pipe(chug({ args: config }))
     ;

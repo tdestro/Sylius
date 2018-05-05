@@ -51,6 +51,11 @@
                 {{ render(url('sylius_shop_partial_taxon_index_by_code', {'code': 'category', 'template': '@SyliusShop/Taxon/_horizontalMenu.html.twig'})) }}
             </header>
         {% endblock %}
+    </div>
+    {% block hero %}
+
+    {% endblock %}
+    <div class="ui container">
 
         {% include '@SyliusShop/_flashes.html.twig' %}
 

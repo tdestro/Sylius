@@ -25,7 +25,7 @@ RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'postfix postfix/main_mailer
 RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'postfix postfix/mailname string destromachines.com'"]
 RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'postfix postfix/relayhost string [smtp.mailgun.org]:2525'"]
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install nano postfix rsyslog libsasl2-modules cron; mkfifo /var/spool/postfix/public/pickup
+RUN DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install nano postfix rsyslog libsasl2-modules cron jpegoptim; mkfifo /var/spool/postfix/public/pickup
 COPY crond.conf /etc/supervisor/conf.d/crond.conf
 RUN crontab -l | { cat; echo "0 */12 * * * root /usr/bin/certbot renew --renew-hook \"/usr/bin/supervisorctl restart nginx\""; } | crontab -
 
