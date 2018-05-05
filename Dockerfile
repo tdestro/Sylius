@@ -47,6 +47,9 @@ echo 'smtp_sasl_security_options = noanonymous' >> /etc/postfix/main.cf; \
 echo 'smtp_sasl_tls_security_options = noanonymous' >> /etc/postfix/main.cf; \
 echo 'smtp_sasl_mechanism_filter = AUTH LOGIN' >> /etc/postfix/main.cf
 
+RUN sed -i 's/disable_functions = exec, passthru, proc_open, proc_close, shell_exec, show_source, symlink, system/disable_functions = exec, passthru, shell_exec, show_source, symlink, system/g' /opt/php72/lib/php.ini
+
+
 COPY postfix.conf /etc/supervisor/conf.d/postfix.conf
 # Workaround for AUFS-related permission issue:
 # See https://github.com/docker/docker/issues/783#issuecomment-56013588

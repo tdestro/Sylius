@@ -67,6 +67,20 @@ fos_rest:
             - { path: '^/', stop: true }
 liip_imagine:
     filter_sets:
+        tagline_image:
+            filters:
+                # use and setup the "crop" filter
+                crop:
+
+                    # set the size of the cropping area w / h
+                    size: [1631, 120]
+
+                    # set the starting coordinates of the crop 450 570
+                    start: [1, 450]
+                # use and setup the "scale" filter
+                scale:
+                    # given 1920x1600px -> output 960x800px (relative down-scale)
+                    to: 0.50
         hero_image:
             filters:
                 # use and setup the "crop" filter

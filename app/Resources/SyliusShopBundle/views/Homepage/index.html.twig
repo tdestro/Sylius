@@ -1,14 +1,16 @@
 {% extends '@SyliusShop/layout.html.twig' %}
 
 {% block hero %}
-<img class="ui fluid image" src="{{ asset('DestroMachinesBrandImage-5.jpg') | imagine_filter("hero_image")}}">
-    </br>
+<div class="ui fluid image">
+    <img src="{{ asset('DestroMachinesBrandImage-5.jpg') | imagine_filter("hero_image")}}">
+    <div style="position: absolute; bottom: 4rem; left: 4rem; width: 100%; height: auto;"></div>
+</div>
 {% endblock %}
 
 {% block content %}
 
-<h2 class="ui horizontal section divider header">
-    {{ 'sylius.ui.latest_products'|trans }}
+<h2 class="ui horizontal section divider header" style="margin-top: 2rem;">
+{{ 'sylius.ui.latest_products'|trans }}
 </h2>
 {{ render(url('sylius_shop_partial_product_index_latest', {'count': 4, 'template': '@SyliusShop/Product/_horizontalList.html.twig'})) }}
 {% endblock %}
