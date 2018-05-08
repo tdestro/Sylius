@@ -1,7 +1,7 @@
 # Dockerfile extending the generic PHP image with application files for a
 # single application.
 # FROM gcr.io/google-appengine/php:2018-01-18-17-04
-FROM gcr.io/google-appengine/php:2018-03-27-16-05
+FROM gcr.io/google-appengine/php:2018-05-01-12-13
 
 ## run it again as it does not get it all.
 RUN php -d "disable_functions=" /usr/local/bin/composer install

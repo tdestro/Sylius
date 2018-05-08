@@ -3,7 +3,7 @@
 <html lang="{{ app.request.locale|slice(0, 2) }}">
 <head>
     {% include '@DestroBundle/Resources/views/_gtmhead.html.twig' %}
-    {% include '@DestroBundle/Resources/views/_favicons.html.twig' %}
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -21,6 +21,7 @@
     {% endblock %}
 
     {{ sonata_block_render_event('sylius.shop.layout.head') }}
+    {% include '@DestroBundle/Resources/views/_favicons.html.twig' %}
 </head>
 
 <body class="pushable">
