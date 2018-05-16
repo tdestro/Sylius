@@ -49,11 +49,12 @@ echo 'smtp_sasl_mechanism_filter = AUTH LOGIN' >> /etc/postfix/main.cf
 
 RUN sed -i 's/disable_functions = exec, passthru, proc_open, proc_close, shell_exec, show_source, symlink, system/disable_functions = exec, passthru, shell_exec, show_source, symlink, system/g' /opt/php72/lib/php.ini
 
-
 COPY postfix.conf /etc/supervisor/conf.d/postfix.conf
 # Workaround for AUFS-related permission issue:
 # See https://github.com/docker/docker/issues/783#issuecomment-56013588
 
-RUN cp -R /app /app-copy; rm -r /app; mv /app-copy /app; chmod -R 750 /app; chown -R www-data:www-data /app
-
+RUN sed -i 's/memory_limit = .*/memory_limit = -1/' /opt/php72/lib/php.ini; rm -Rf /app/var/cache/*; chown -R www-data:www-data /app/var;
+#cache dirs cannnot be owned by root but by www-data. clearing the cache should be done by rm -Rf /app/var/cache/*; otherwise it explodes
+#RUN sed -i -r -e 's/display_errors = Off/display_errors = On/g' /opt/php72/lib/php.ini
+#
 EXPOSE 8080 80 443

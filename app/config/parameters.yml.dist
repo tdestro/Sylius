@@ -15,6 +15,8 @@ parameters:
     mailer_password: "%env(SYLIUS_MAILER_PASSWORD)%"
     mailer_port: '%env(SYLIUS_MAILER_PORT)%'
     secret: "%env(SYLIUS_SECRET)"
+    google_api.credentials_json: '%kernel.root_dir%/../DestroMachinesStore-965e04f545e7.json'
+    google_api.bucket: destromachinesstore_images
 
     # Fallback values (used if environmental variables are not set)
     env(SYLIUS_DATABASE_DRIVER): pdo_mysql

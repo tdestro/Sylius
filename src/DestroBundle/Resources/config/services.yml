@@ -1,4 +1,5 @@
 # DestroBundle/Resources/config/services.yml
+
 services:
     app.listener.admin.product_variant.form.menu_builder:
         class: DestroBundle\Menu\AdminProductVariantFormMenuListener
@@ -8,3 +9,16 @@ services:
         class: DestroBundle\Form\Extension\ProductVariantTypeExtraDimensionExtension
         tags:
             - { name: form.type_extension, extended_type: Sylius\Bundle\ProductBundle\Form\Type\ProductVariantType, priority: -5 }
+    app.google_cloud_storage_service_factory:
+        class: DestroBundle\Factory\FileSystem\GoogleCloudStorageServiceFactory
+    app.google_cloud_storage_service:
+        class: \Google_Service_Storage
+        factory: 'app.google_cloud_storage_service_factory:createService'
+        arguments: ["%google_api.credentials_json%"]
+    app.resolver.product_photos:
+        class: DestroBundle\Factory\Resolver\GoogleStorageResolver
+        arguments:
+            - "@app.google_cloud_storage_service"
+            - { Bucket : '%google_api.bucket%' , Directory : "sylius_image", Acl : "public" }
+        tags:
+            - { name: 'liip_imagine.cache.resolver', resolver: 'storage_cache_sylius_images' }

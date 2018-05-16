@@ -73,7 +73,8 @@
         "zendframework/zend-hydrator": "^2.2",
         "zendframework/zend-stdlib": "^3.1",
         "gabrielbull/ups-api": "^0.8.0",
-        "google/cloud": "^0.58.1"
+        "google/cloud": "^0.58.1",
+        "google/apiclient": "^2.0"
     },
     "require-dev": {
         "akeneo/phpspec-skip-example-extension": "^3.0",

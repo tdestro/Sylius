@@ -1,12 +1,12 @@
 {% extends '@SyliusShop/layout.html.twig' %}
 
     {% block metatags %}
-        <meta name="Description" CONTENT="Destro Machines offers affordable swimming towers and resistance swimming products. Get a tower today and become the machine.">
-        <meta name="keywords" content="Swimming Tower, Power Tower, Swimming Resistance Training" >
+        <meta name="Description" CONTENT="Destro Machines offers affordable swimming power towers and resistance swimming products. Get a swimming tower today and become the machine.">
+        <meta name="keywords" content="Power Tower, Swimming Tower, Swimming Resistance Training" >
         <meta name="og:title" content="Destro Machines" >
         <meta name="og:type" content="company" >
         <meta name="og:url" content="https://www.destromachines.com" >
-        <meta name="og:description" content="Destro Machines offers affordable swimming towers and resistance swimming products. Get a tower today and become the machine." >
+        <meta name="og:description" content="Destro Machines offers affordable swimming power towers and resistance swimming products. Get a tower today and become the machine." >
         <meta name="og:image" content="" >
         <meta name="og:image:type" content="image/png" >
         <meta name="og:site_name" content="Destro Machines" >
@@ -17,13 +17,13 @@
         <meta name="twitter:card" content="summary_large_image" >
         <meta name="twitter:site" content="@DestroMachines" >
         <meta name="twitter:title" content="Destro Machines" >
-        <meta name="twitter:description" content="Destro Machines offers affordable swimming towers and resistance swimming products. Get a tower today and become the machine." >
+        <meta name="twitter:description" content="Destro Machines offers affordable swimming power towers and resistance swimming products. Get a tower today and become the machine." >
         <meta name="twitter:image" content="" >
         <meta name="twitter:image:src" content="" >
     {% endblock %}
 {% block hero %}
 <div class="ui fluid image">
-    <img src="{{ asset('DestroMachinesBrandImage-5.jpg') | imagine_filter("hero_image")}}">
+    <img src="{{ asset('DestroMachinesBrandImage-5.jpg') | imagine_filter("hero_image")}}" alt="Power Towers">
     <div style="position: absolute; bottom: 4rem; left: 4rem; width: 100%; height: auto;"></div>
 </div>
 {% endblock %}
@@ -33,5 +33,6 @@
 <h2 class="ui horizontal section divider header" style="margin-top: 2rem;">
 {{ 'sylius.ui.latest_products'|trans }}
 </h2>
+
 {{ render(url('sylius_shop_partial_product_index_latest', {'count': 4, 'template': '@SyliusShop/Product/_horizontalList.html.twig'})) }}
 {% endblock %}
