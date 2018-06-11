@@ -53,3 +53,12 @@ sylius_shop_account_change_password:
         _sylius:
             template: "@SyliusShop/Account/changePassword.html.twig"
             redirect: sylius_shop_account_dashboard
+sylius_shop_account_payment_sources:
+    path: /payment-sources
+    methods: [GET, PUT]
+    defaults:
+        _controller: app.controller.stripe_ach_form:paymentMethodsAction
+        template: "@DestroBundle/Resources/views/_payment_methods.html.twig"
+        confirm_template: "@DestroBundle/Resources/views/_confirm_template.html.twig"
+        micro_deposits_template: "@DestroBundle/Resources/views/_micro_deposits_template.html.twig"
+

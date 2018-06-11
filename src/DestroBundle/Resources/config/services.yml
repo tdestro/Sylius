@@ -22,3 +22,29 @@ services:
             - { Bucket : '%google_api.bucket%' , Directory : "sylius_image", Acl : "public" }
         tags:
             - { name: 'liip_imagine.cache.resolver', resolver: 'storage_cache_sylius_images' }
+    app.email_sender.adapter.swiftmailer:
+        class: DestroBundle\Sender\Adapter\SwiftMailerDelayedAdapter
+        parent: sylius.email_sender.adapter.abstract
+        arguments: ['@mailer']
+    app.delayed_email_sender:
+        class: Sylius\Component\Mailer\Sender\Sender
+        arguments: ['@sylius.email_renderer.adapter', '@app.email_sender.adapter.swiftmailer', '@sylius.email_provider', '@sylius.mailer.default_settings_provider']
+    app.controller.stripe_ach_form:
+        class: DestroBundle\Controller\StripeACH
+        arguments: ['@sylius.repository.payment_method', '@app.delayed_email_sender', '@templating']
+    app.listener.shop.menu_builder:
+        class: DestroBundle\Menu\AccountMenuListener
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addAccountMenuItems }
+    app.microdeposits.form.type:
+        class: DestroBundle\Form\Type\MicroDepositsType
+        tags:
+            - { name: form.type }
+    app.ach.form.type:
+        class: DestroBundle\Form\Type\StripeACHType
+        tags:
+            - { name: form.type }
+    sylius.payum_action.stripe_js.status:
+        class: DestroBundle\Action\Stripe\StatusAction
+        tags:
+            - { name: payum.action, factory: stripe_js, alias: sylius.stripe_js.status }

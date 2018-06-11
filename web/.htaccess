@@ -1,6 +1,6 @@
 # IS FOR AUTO DIRECTING TO APP_DEV.PHP INSTEAD OF PROD.
 #DirectoryIndex app_dev.php
-DirectoryIndex app.php
+DirectoryIndex app_dev.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -16,13 +16,11 @@ DirectoryIndex app.php
 
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule .? - [L]
-    #  RewriteRule .? %{ENV:BASE}/app_dev.php [L]
-    RewriteRule .? %{ENV:BASE}/app.php [L]
+    RewriteRule .? %{ENV:BASE}/app_dev.php [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
     <IfModule mod_alias.c>
-    # RedirectMatch 302 ^/$ /app_dev.php/
-        RedirectMatch 302 ^/$ /app.php/
+     RedirectMatch 302 ^/$ /app_dev.php/
     </IfModule>
 </IfModule>

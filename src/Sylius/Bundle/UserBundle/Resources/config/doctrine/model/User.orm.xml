@@ -35,6 +35,7 @@
         <field name="roles" column="roles" type="array" nullable="false" />
         <field name="email" column="email" type="string" nullable="true" />
         <field name="emailCanonical" column="email_canonical" type="string" nullable="true" />
+        <field name="stripeCustomer" column="stripe_customer" type="string" nullable="true" />
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create"/>
         </field>

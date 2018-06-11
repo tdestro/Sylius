@@ -1,9 +1,10 @@
 <div class="item">
     <div class="field">
-        <div class="ui radio checkbox">
+        <div class="ui radio checkbox" data-content="{{ form.vars.value }}_content">
             {{ form_widget(form) }}
         </div>
     </div>
+
     <div class="content">
         <a class="header">{{ form_label(form) }}</a>
         {% if method.description is not null %}
@@ -11,12 +12,25 @@
                 <p>{{ method.description }}</p>
             </div>
         {% endif %}
-            <div class="form-row">
-                <div id="card-element">
-                    <!-- A Stripe Element will be inserted here. -->
+
+            {% if form.vars.value == "stripe_js_code" %}
+        <div class="content {{ form.vars.value }}_content">
+                <div class="form-row">
+                    <div id="card-element">
+                        <!-- A Stripe Element will be inserted here. -->
+                    </div>
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" role="alert"></div>
                 </div>
-                <!-- Used to display form errors. -->
-                <div id="card-errors" role="alert"></div>
-            </div>
+        </div>
+            {% endif %}
+            {% if form.vars.value == "stripe_ach" %}
+        <div class="content {{ form.vars.value }}_content">
+            {{ render(controller('app.controller.stripe_ach_form:displayAction')) }}
+        </div>
+            {% endif %}
+
     </div>
+
+
 </div>

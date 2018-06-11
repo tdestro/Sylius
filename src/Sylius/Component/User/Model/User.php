@@ -126,6 +126,12 @@ class User implements UserInterface
      */
     protected $emailCanonical;
 
+    /**
+     * @var string|null
+     */
+    protected $stripeCustomer;
+
+
     public function __construct()
     {
         $this->salt = base_convert(bin2hex(random_bytes(20)), 16, 36);
@@ -556,4 +562,20 @@ class User implements UserInterface
     {
         return null !== $date && new \DateTime() >= $date;
     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getStripeCustomer(): ?string
+    {
+        return $this->stripeCustomer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStripeCustomer(?string $stripeCustomer): void
+    {
+        $this->stripeCustomer = $stripeCustomer;
+    }
+
 }

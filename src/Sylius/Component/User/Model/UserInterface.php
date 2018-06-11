@@ -195,4 +195,14 @@ interface UserInterface extends
      * @param UserOAuthInterface $oauth
      */
     public function addOAuthAccount(UserOAuthInterface $oauth): void;
+
+    /**
+     * @return string|null
+     */
+    public function getStripeCustomer(): ?string;
+
+    /**
+     * @param string|null $stripeCustomer
+     */
+    public function setStripeCustomer(?string $stripeCustomer): void;
 }

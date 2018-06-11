@@ -59,7 +59,18 @@ destro_returns_policy:
   methods: [GET]
   defaults: { _controller: DestroBundle:Page:returns}
 
-
+destro_ach_shop_login:
+    path: /achverify
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.security:loginAction
+        _sylius:
+            template: "@SyliusShop/login.html.twig"
+            logged_in_route: sylius_shop_account_payment_sources
+            redirect:
+                route: sylius_shop_account_payment_sources
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"
+
+

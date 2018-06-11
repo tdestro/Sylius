@@ -59,7 +59,8 @@
         </service>
         <service id="sylius.form.type.checkout_payment" class="Sylius\Bundle\CoreBundle\Form\Type\Checkout\PaymentType">
             <argument>%sylius.model.payment.class%</argument>
-            <argument>%sylius.form.type.checkout_payment.validation_groups%</argument>
+            <argument type="service" id="security.token_storage"/>
+            <argument type="service" id="security.authorization_checker"/>
             <tag name="form.type" />
         </service>
         <service id="sylius.form.type.checkout_complete" class="Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType">

@@ -20,6 +20,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class PaymentType extends AbstractType
 {
@@ -29,11 +31,25 @@ final class PaymentType extends AbstractType
     private $dataClass;
 
     /**
-     * @param string $dataClass
+     * @var TokenStorageInterface
      */
-    public function __construct(string $dataClass)
+    private $tokenStorage;
+
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
+     * @param string $dataClass
+     * @param TokenStorageInterface $tokenStorage
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
+    public function __construct(string $dataClass, TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->dataClass = $dataClass;
+        $this->tokenStorage = $tokenStorage;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -58,16 +74,40 @@ final class PaymentType extends AbstractType
             $form = $event->getForm();
             $payment = $event->getData();
 
-            if (!isset($payment['stripeToken'])) return;
-            if (!isset($payment['details'])) $payment['details'] = array();
+            if($payment['method'] ==  'stripe_ach'){
 
-            $payment['details']['setcard'] = $payment['stripeToken'];
+                if (!$this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                    throw new AccessDeniedException('You have to be registered user to access this section.');
+                }
 
-            $form->add('details', HiddenType::class,[
-                'mapped' => true,
-            ]);
+                $user = $this->tokenStorage->getToken()->getUser();
+                $stripeCustomerID = $user->getStripeCustomer();
 
-            $event->setData($payment);
+                if (empty($stripeCustomerID)) {
+                    throw new AccessDeniedException('No customer id on the user .');
+                } else {
+                    if (!isset($payment['details'])) $payment['details'] = array();
+                    $payment['details']['setcustomer'] = $stripeCustomerID;
+
+                    $form->add('details', HiddenType::class,[
+                        'mapped' => true,
+                    ]);
+
+                    $event->setData($payment);
+                }
+
+            } else if ($payment['method'] == 'stripe_js_code'){
+                if (!isset($payment['stripeToken'])) return;
+                if (!isset($payment['details'])) $payment['details'] = array();
+
+                $payment['details']['setcard'] = $payment['stripeToken'];
+
+                $form->add('details', HiddenType::class,[
+                    'mapped' => true,
+                ]);
+
+                $event->setData($payment);
+            }
         });
     }
 

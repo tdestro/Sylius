@@ -1,0 +1,23 @@
+
+<div id="ach_status" data-content="{{ ach_status }}"></div>
+{% if ach_status == 'unauthorized' %}
+    <a href="{{ path('destro_ach_shop_login') }}" class="section">Login or create an account to pay with your bank
+        account.</a>
+{% elseif ach_status == 'noStripeCustomerID' %}
+    <a href="{{ path('destro_ach_shop_login') }}" class="section">Add a bank account to your Destro Machines
+        account.</a>
+{% elseif ach_status == 'errorOnRetrieve' %}
+    <a href="{{ path('destro_ach_shop_login') }}" class="section">Add a bank account to your Destro Machines
+        account.</a>
+{% elseif ach_status == 'notVerified' %}
+    <a href="{{ path('destro_ach_shop_login') }}" class="section">Verify your bank account to pay with it.</a>
+{% elseif ach_status == 'verified' %}
+    Using {{ bank_name }} account ending in {{ last4 }}
+{% elseif ach_status == 'noSourceInCustomer' %}
+    <a href="{{ path('destro_ach_shop_login') }}" class="section">Add a bank account to your Destro Machines
+        account.</a>
+{% endif %}
+<div class="ui mini message">
+    <i class="info icon"></i>
+    ACH payments take up to five days to receive acknowledgement their success or failure.
+</div>

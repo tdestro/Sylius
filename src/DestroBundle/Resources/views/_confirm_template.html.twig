@@ -1,0 +1,38 @@
+{% extends '@SyliusShop/Account/layout.html.twig' %}
+
+{% block breadcrumb %}
+    <div class="ui breadcrumb">
+        <a href="{{ path('sylius_shop_homepage') }}" class="section">{{ 'sylius.ui.home'|trans }}</a>
+        <div class="divider"> /</div>
+        <a href="{{ path('sylius_shop_account_dashboard') }}" class="section">{{ 'sylius.ui.my_account'|trans }}</a>
+        <div class="divider"> /</div>
+        <div class="active section">{{ 'destro.payment_sources'|trans }}</div>
+    </div>
+{% endblock %}
+
+{% block subcontent %}
+    <div class="ui segment">
+        <h1 class="ui dividing header">
+            Payment Sources
+            <div class="sub header">Connect a bank account to your Destro Machines account</div>
+        </h1>
+
+        <div class="ui icon message">
+            <i class="bullhorn icon"></i>
+            <div class="content">
+                <div class="header">
+                    Your bank account has been added.
+                </div>
+                <p>In order to verify account ownership, two small transations are deposited into your account. These
+                    transactions
+                    will appear within 2 business days, at which point we will send an email to the account owner
+                    requesting the
+                    values of these transactions. </p>
+                <p>
+                    You will need to return to the payment sources section of this dashboard and input the values when they appear
+                    on your online bank statement.</p>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

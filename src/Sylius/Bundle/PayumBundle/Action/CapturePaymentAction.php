@@ -76,6 +76,9 @@ final class CapturePaymentAction extends GatewayAwareAction
                 if (isset($details['setcard'])) {
                     $details['card'] = $details['setcard'];
                     unset($details['setcard']);
+                } else if (isset($details['setcustomer'])) {
+                    $details['customer'] = $details['setcustomer'];
+                    unset($details['setcustomer']);
                 }
 
                 $payumPayment->setDetails($details);

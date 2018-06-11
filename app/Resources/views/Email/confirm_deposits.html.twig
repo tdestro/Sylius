@@ -1,0 +1,12 @@
+{# app/Resources/views/Email/confirm_deposits.html.twig #}
+{% block subject %}
+    Please confirm the bank account you added to your Destro Machines account.
+{% endblock %}
+
+{% block body %}
+    {% autoescape %}
+        <p>
+            You added a bank account to your Destro Machines account a few days ago. Our payment processor automatically sent two small deposits into the bank account. These deposits should appear on your online statement. You can also obtain these amounts by calling your bank. The statement description for these deposits will be AMNTS: and then the values of the two micro-deposits that were sent. Once you have located the values of the two micro-deposits please <a href="http://www.destromachines.com/achverify">click here</a> to verify the micro-deposit amounts, you can then purchase merchandise on our store using the account.
+        </p>
+    {% endautoescape %}
+{% endblock %}
