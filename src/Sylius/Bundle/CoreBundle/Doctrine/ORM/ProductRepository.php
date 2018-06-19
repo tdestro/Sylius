@@ -78,23 +78,34 @@ class ProductRepository extends BaseProductRepository implements ProductReposito
             ->andWhere('productTaxon.taxon = :taxon')
             ->andWhere(':channel MEMBER OF o.channels')
             ->andWhere('o.enabled = true')
-            ->addGroupBy('o.id')
             ->setParameter('locale', $locale)
             ->setParameter('taxon', $taxon)
             ->setParameter('channel', $channel)
         ;
-
         // Grid hack, we do not need to join these if we don't sort by price
         if (isset($sorting['price'])) {
+            // Another hack, the subquery to get the first position variant
+            $subQuery = $this->createQueryBuilder('m')
+                ->select('min(v.position)')
+                ->innerJoin('m.variants', 'v')
+                ->andWhere('m.id = :product_id')
+            ;
+
             $queryBuilder
                 ->innerJoin('o.variants', 'variant')
                 ->innerJoin('variant.channelPricings', 'channelPricing')
                 ->andWhere('channelPricing.channelCode = :channelCode')
+                ->andwhere(
+                    $queryBuilder->expr()->in(
+                        'variant.position',
+                        str_replace(':product_id', 'o.id', $subQuery->getDQL())
+                    )
+                )
                 ->setParameter('channelCode', $channel->getCode())
             ;
         }
-
         return $queryBuilder;
+
     }
 
     /**

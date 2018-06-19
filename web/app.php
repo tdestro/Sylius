@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$kernel = new AppKernel('prod', false);
+$kernel = new AppKernel('prod', true);
 
 $request = Request::createFromGlobals();
 

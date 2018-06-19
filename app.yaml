@@ -8,14 +8,14 @@ runtime_config:
 env_variables:
   ## Set these environment variables according to your CloudSQL configuration.
   DB_DATABASE: DestroMachinesStore_dev
-  DB_USERNAME: root
-  DB_PASSWORD: JJCJ1wxz4L6n2ltf
-  DB_SOCKET: /cloudsql/destromachinesstore:us-central1:destro-machines-store-db
+  DB_USERNAME: proxyuser
+  DB_PASSWORD: 075B5VMz^G4c
+  DB_SOCKET: /cloudsql/destromachinesstore:us-central1:destromachines-db
 
 beta_settings:
   # for Cloud SQL, set this value to the Cloud SQL connection name,
   # e.g. "project:region:cloudsql-instance"
-  cloud_sql_instances: destromachinesstore:us-central1:destro-machines-store-db
+  cloud_sql_instances: destromachinesstore:us-central1:destromachines-db
 
 # This sample incurs costs to run on the App Engine flexible environment.
 # The settings below are to reduce costs during testing and are not appropriate

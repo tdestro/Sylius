@@ -19,10 +19,10 @@ parameters:
     google_api.bucket: destromachinesstore_images
 
     # Fallback values (used if environmental variables are not set)
-    env(SYLIUS_DATABASE_DRIVER): pdo_mysql
+    env(SYLIUS_DATABASE_DRIVER): pdo_pgsql
     env(SYLIUS_DATABASE_HOST): null
     env(SYLIUS_DATABASE_PORT): null
-    env(SYLIUS_DATABASE_SOCKET): "/cloudsql/destromachinesstore:us-central1:destro-machines-store-db"
+    env(SYLIUS_DATABASE_SOCKET): '/cloudsql/destromachinesstore:us-central1:destromachines-db'
     env(SYLIUS_DATABASE_NAME): DestroMachinesStore
     env(SYLIUS_DATABASE_USER): proxyuser
     env(SYLIUS_DATABASE_PASSWORD): 075B5VMz^G4c

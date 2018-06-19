@@ -74,7 +74,7 @@ class StatusAction implements ActionInterface
             return;
         }
         if ('pending' == $model['status'] && $model['captured'] && false == $model['paid']) {
-            $request->markPending();
+            $request->markCaptured();
             return;
         }
 

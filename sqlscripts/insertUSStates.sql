@@ -1,4 +1,4 @@
-INSERT into DestroMachinesStore_dev.sylius_province (country_id, code, name, abbreviation)values 
+INSERT into DestroMachinesStore_dev.sylius_province (country_id, code, name, abbreviation)values
 (1, 'US-AL', 'Alabama', 'AL'),
 (1, 'US-AK', 'Alaska', 'AK'),
 (1, 'US-AZ', 'Arizona', 'AZ'),

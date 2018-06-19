@@ -30,14 +30,14 @@ framework:
 doctrine:
     dbal:
         driver: "%database_driver%"
-        host: "%database_host%"
         port: "%database_port%"
         dbname: "%database_name%"
         user: "%database_user%"
         password: "%database_password%"
-        server_version: "5.5"
+        server_version: "9.6"
         charset: UTF8
-        unix_socket: "%database_socket%"
+        host: "%database_socket%"
+        application_name: Sylius
 doctrine_migrations:
     dir_name: "%kernel.project_dir%/app/migrations"
     namespace: Sylius\Migrations
