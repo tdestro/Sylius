@@ -21,6 +21,11 @@ class ProductVariantExtraDimension implements ProductVariantExtraDimensionInterf
     protected $id;
 
     /**
+     * @var string
+     */
+    protected $upsEntity;
+
+    /**
      * @var float
      */
     protected $weight;
@@ -152,6 +157,22 @@ class ProductVariantExtraDimension implements ProductVariantExtraDimensionInterf
     public function setInsured(?int $insured): void
     {
         $this->insured = $insured;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUpsEntity(): ?string
+    {
+        return $this->upsEntity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUpsEntity(?string $upsEntity): void
+    {
+        $this->upsEntity = $upsEntity;
     }
 
 }

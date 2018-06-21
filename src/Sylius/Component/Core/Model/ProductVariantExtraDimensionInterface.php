@@ -76,4 +76,14 @@ interface ProductVariantExtraDimensionInterface extends ResourceInterface
      * @param int|null $insured
      */
     public function setInsured(?int $insured): void;
+
+    /**
+     * @return string|null
+     */
+    public function getUpsEntity(): ?string;
+
+    /**
+     * @param string|null $upsEntity
+     */
+    public function setUpsEntity(?string $upsEntity): void;
 }

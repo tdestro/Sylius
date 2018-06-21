@@ -1,0 +1,6 @@
+# DestroBundle/Resources/config/services/mailer.yml
+services:
+    app.email_sender.adapter.swiftmailer:
+        class: DestroBundle\Sender\Adapter\SwiftMailerDelayedAdapter
+        parent: sylius.email_sender.adapter.abstract
+        arguments: ['@mailer']

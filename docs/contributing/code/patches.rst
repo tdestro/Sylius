@@ -146,6 +146,9 @@ in mind the following:
 * Never fix coding standards in some existing code as it makes the code review
   more difficult (submit CS fixes as a separate patch);
 
+* In addition to this "code" pull request, you must also update the documentation when appropriate.
+  See more in :doc:`contributing documentation </contributing/documentation/overview>` section.
+
 * Write good commit messages (see the tip below).
 
 .. tip::
@@ -309,9 +312,6 @@ your pull request is about adding a new feature or modifying an existing one,
 explain the rationale for the changes. The pull request description helps the
 code review.
 
-In addition to this "code" pull request, you must also send a pull request to
-the `documentation repository`_ to update the documentation when appropriate.
-
 Rework your Patch
 ~~~~~~~~~~~~~~~~~
 
@@ -332,7 +332,7 @@ or
 
 .. note::
 
-    When doing a ``push --force-wth-lease``, always specify the branch name explicitly
+    When doing a ``push --force-with-lease``, always specify the branch name explicitly
     to avoid messing other branches in the repo (``--force-with-lease`` tells Git that
     you really want to mess with things so do it carefully).
 

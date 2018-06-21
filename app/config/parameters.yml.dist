@@ -31,6 +31,6 @@ parameters:
     env(SYLIUS_MAILER_HOST): localhost
     env(SYLIUS_MAILER_USER): null
     env(SYLIUS_MAILER_PASSWORD): null
-    env(SYLIUS_MAILER_PORT): 25
+    env(SYLIUS_MAILER_PORT): '25'
     env(SYLIUS_MAILER_SENDER): support@destromachines.com
     env(SYLIUS_SECRET): EDITME

@@ -19,10 +19,12 @@
         <many-to-one field="productVariant" target-entity="Sylius\Component\Product\Model\ProductVariantInterface" inversed-by="productVariantExtraDimensions">
             <join-column name="product_variant_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
         </many-to-one>
+        <field name="upsEntity" column="upsEntity" type="string" nullable="false" />
         <field name="width" column="width" type="float" nullable="false" />
         <field name="height" column="height" type="float" nullable="false" />
         <field name="depth" column="depth" type="float" nullable="false" />
         <field name="weight" column="weight" type="float" nullable="false" />
         <field name="insured" column="insured" type="integer" nullable="false" />
+
     </mapped-superclass>
 </doctrine-mapping>

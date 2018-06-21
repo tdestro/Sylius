@@ -61,7 +61,7 @@
         "symfony/polyfill-intl-icu": "^1.3",
         "symfony/polyfill-mbstring": "^1.3",
         "symfony/swiftmailer-bundle": "^3.0",
-        "symfony/symfony": "^3.4",
+        "symfony/symfony": "^3.4|^4.1",
         "symfony/thanks": "^1.0",
         "twig/extensions": "^1.4",
         "twig/twig": "^2.0",
@@ -86,10 +86,10 @@
         "friends-of-behat/context-service-extension": "^1.2",
         "friends-of-behat/cross-container-extension": "^1.1",
         "friends-of-behat/service-container-extension": "^1.0",
-        "friends-of-behat/symfony-extension": "^1.1",
+        "friends-of-behat/symfony-extension": "^1.2.1",
         "friends-of-behat/variadic-extension": "^1.1",
         "hwi/oauth-bundle": "^0.6",
-        "lakion/api-test-case": "^3.0",
+        "lakion/api-test-case": "^3.1.0",
         "lakion/mink-debug-extension": "^1.2.3",
         "matthiasnoback/symfony-config-test": "^3.0",
         "matthiasnoback/symfony-dependency-injection-test": "^2.0",
@@ -99,7 +99,7 @@
         "phpstan/phpstan-shim": "^0.9",
         "phpunit/phpunit": "^6.5",
         "stripe/stripe-php": "^4.1",
-        "sylius-labs/coding-standard": "^1.0.1"
+        "sylius-labs/coding-standard": "^2.0"
     },
     "replace": {
         "sylius/addressing": "self.version",
@@ -211,7 +211,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "1.2-dev"
+            "dev-master": "1.3-dev"
         }
     }
 }

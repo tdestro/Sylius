@@ -107,9 +107,9 @@ This is how this file should look like for Sylius (tuned version of the default 
             php bin/console --env=prod --no-debug --ansi cache:warmup
             php bin/console --env=prod --no-debug --ansi assets:install
             # Next command is only needed if you are using themes
-            php bin/console --env=prod --no-debug --ansi theme:assets:install
+            php bin/console --env=prod --no-debug --ansi sylius:theme:assets:install  
             yarn install
-            GULP_ENV=prod yarn run gulp
+            GULP_ENV=prod yarn build
         deploy: |
             rm -rf var/cache/*
             php bin/console --env=prod doctrine:migrations:migrate --no-interaction

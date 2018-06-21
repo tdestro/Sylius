@@ -151,6 +151,7 @@ final class UPSCalculator implements CalculatorInterface
                 $extradims = $itemUnit->getShippable()->getProductVariantExtraDimensions();
 
                 foreach ($extradims as $extradim){
+                    $shippingBoxType = $extradim->getUpsEntity();
                     $depth = $extradim->getDepth();
                     $height = $extradim->getHeight();
                     $width = $extradim->getWidth();
@@ -191,21 +192,23 @@ final class UPSCalculator implements CalculatorInterface
             2c = Large Express Box
             */
                     $packagingType = new \Ups\Entity\PackagingType();
-                    $packagingType->setCode('02');
+                    $packagingType->setCode($shippingBoxType);
                     $package->setPackagingType($packagingType);
                     $package->getPackageWeight()->setWeight($weight);
                     $weightUnit = new \Ups\Entity\UnitOfMeasurement;
                     $weightUnit->setCode(\Ups\Entity\UnitOfMeasurement::UOM_LBS);
                     $package->getPackageWeight()->setUnitOfMeasurement($weightUnit);
 
-                    $dimensions = new \Ups\Entity\Dimensions();
-                    $dimensions->setHeight($height);
-                    $dimensions->setWidth($width);
-                    $dimensions->setLength($depth);
-                    $unitOfMeasurement = new \Ups\Entity\UnitOfMeasurement;
-                    $unitOfMeasurement->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
-                    $dimensions->setUnitOfMeasurement($unitOfMeasurement);
-                    $package->setDimensions($dimensions);
+                    if ($shippingBoxType == '02') {
+                        $dimensions = new \Ups\Entity\Dimensions();
+                        $dimensions->setHeight($height);
+                        $dimensions->setWidth($width);
+                        $dimensions->setLength($depth);
+                        $unitOfMeasurement = new \Ups\Entity\UnitOfMeasurement;
+                        $unitOfMeasurement->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
+                        $dimensions->setUnitOfMeasurement($unitOfMeasurement);
+                        $package->setDimensions($dimensions);
+                    }
                     $shipment->addPackage($package);
                 }
             }

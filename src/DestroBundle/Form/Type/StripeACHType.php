@@ -23,7 +23,7 @@ final class StripeACHType extends AbstractType
                 'choices' => array(
                 'Individual' => 'individual',
                 'Company' => 'company'),
-                'choices_as_values' => true, 'multiple' => false, 'expanded' => false,))
+                'multiple' => false, 'expanded' => false,))
             ->add('routing_number', null, array(
                 'required' => false,
             ))->add('account_number', null, array(

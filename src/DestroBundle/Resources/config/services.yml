@@ -1,6 +1,10 @@
 # DestroBundle/Resources/config/services.yml
+imports:
+    - { resource: services/mailer.yml }
 
 services:
+    _defaults: { public: true }
+
     app.listener.admin.product_variant.form.menu_builder:
         class: DestroBundle\Menu\AdminProductVariantFormMenuListener
         tags:
@@ -22,10 +26,6 @@ services:
             - { Bucket : '%google_api.bucket%' , Directory : "sylius_image", Acl : "public" }
         tags:
             - { name: 'liip_imagine.cache.resolver', resolver: 'storage_cache_sylius_images' }
-    app.email_sender.adapter.swiftmailer:
-        class: DestroBundle\Sender\Adapter\SwiftMailerDelayedAdapter
-        parent: sylius.email_sender.adapter.abstract
-        arguments: ['@mailer']
     app.delayed_email_sender:
         class: Sylius\Component\Mailer\Sender\Sender
         arguments: ['@sylius.email_renderer.adapter', '@app.email_sender.adapter.swiftmailer', '@sylius.email_provider', '@sylius.mailer.default_settings_provider']
