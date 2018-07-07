@@ -1,5 +1,6 @@
 {
     "name": "sylius/sylius",
+    "version": "1.3.0",
     "type": "project",
     "description": "E-Commerce platform for PHP, based on Symfony framework.",
     "license": "MIT",
@@ -19,12 +20,13 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "ext-intl": "*",
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-gd": "*",
         "ext-protobuf": "*",
+        "ext-zip": "*",
         "opis/closure": "^3.0",
         "phpseclib/phpseclib": "^2.0",
 
@@ -74,7 +76,10 @@
         "zendframework/zend-stdlib": "^3.1",
         "gabrielbull/ups-api": "^0.8.0",
         "google/cloud": "^0.58.1",
-        "google/apiclient": "^2.0"
+        "google/apiclient": "^2.0",
+        "stripe/stripe-php": "^4.1",
+        "bitbag/cms-plugin": "^1.3",
+        "friendsofsymfony/ckeditor-bundle": "^1.1"
     },
     "require-dev": {
         "akeneo/phpspec-skip-example-extension": "^3.0",
@@ -189,7 +194,8 @@
         },
         "exclude-from-classmap": [
             "src/Sylius/*/*/Tests/"
-        ]
+        ],
+        "classmap": ["app/AppKernel.php"]
     },
     "autoload-dev": {
         "psr-4": {

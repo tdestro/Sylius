@@ -27,7 +27,7 @@ const config = [
 
 export const buildAdmin = function buildAdmin() {
   return gulp.src('src/Sylius/Bundle/AdminBundle/gulpfile.babel.js', { read: false })
-    .pipe(chug({ args: config }));
+    .pipe(chug({ args: config, tasks: 'build' }));
 };
 buildAdmin.description = 'Build admin assets.';
 
@@ -42,8 +42,8 @@ export const buildShop = function buildShop() {
     gulp.src(['customassets/fonts/**/*']).pipe(gulp.dest('web/assets/shop/css/themes/default/assets/fonts'));
     gulp.src(['node_modules/semantic-ui-less/themes/default/assets/fonts/**/*']).pipe(gulp.dest('web/assets/shop/css/themes/default/assets/fonts'));
 
-    return gulp.src('src/Sylius/Bundle/ShopBundle/gulpfile.babel.js', { read: false })
-    .pipe(chug({ args: config }));
+  return gulp.src('src/Sylius/Bundle/ShopBundle/gulpfile.babel.js', { read: false })
+    .pipe(chug({ args: config, tasks: 'build' }));
 };
 buildShop.description = 'Build shop assets.';
 

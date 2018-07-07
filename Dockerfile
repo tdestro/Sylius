@@ -1,10 +1,9 @@
 # Dockerfile extending the generic PHP image with application files for a
 # single application.
-FROM gcr.io/google-appengine/php
+FROM gcr.io/google-appengine/php:2018-05-30-14-38
 #:2018-05-01-12-13
 
-## run it again as it does not get it all.
-RUN php -d "disable_functions=" /usr/local/bin/composer install
+#RUN php -d "disable_functions=" /usr/local/bin/composer install
 
 ENV DOCUMENT_ROOT=/app/web
 
@@ -16,10 +15,6 @@ RUN cp app/config/parameters.yml.dist app/config/parameters.yml
 
 RUN apt-get update; apt-get --assume-yes install software-properties-common; add-apt-repository ppa:certbot/certbot; apt-get update;
 RUN apt-get --assume-yes install python-certbot-nginx
-#RUN echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
-#RUN apt-get update -o Dir::Etc::sourcelist="sources.list.d/backports.list" \
-#-o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-#RUN apt-get --assume-yes -t jessie-backports install certbot
 RUN mkdir /var/www/letsencrypt
 RUN cp -r letsencrypt/* /etc/letsencrypt/ && rm -rf letsencrypt
 
@@ -54,8 +49,24 @@ COPY postfix.conf /etc/supervisor/conf.d/postfix.conf
 # Workaround for AUFS-related permission issue:
 # See https://github.com/docker/docker/issues/783#issuecomment-56013588
 
+# Performance related changes.
+RUN sed -i 's/;opcache.memory_consumption.*/opcache.memory_consumption=256/' /opt/php72/lib/php.ini; sed -i 's/;opcache.max_accelerated_files.*/opcache.max_accelerated_files=20000/' /opt/php72/lib/php.ini; sed -i 's/;opcache.validate_timestamps.*/opcache.validate_timestamps=0/' /opt/php72/lib/php.ini; sed -i 's/;realpath_cache_size.*/realpath_cache_size=4096K/' /opt/php72/lib/php.ini;
 RUN sed -i 's/post_max_size = .*/post_max_size = 5M/' /opt/php72/lib/php.ini; sed -i 's/upload_max_filesize = .*/upload_max_filesize = 5M/' /opt/php72/lib/php.ini; sed -i 's/memory_limit = .*/memory_limit = -1/' /opt/php72/lib/php.ini; rm -Rf /app/var/cache/*; chown -R www-data:www-data /app/var;
 #cache dirs cannnot be owned by root but by www-data. clearing the cache should be done by rm -Rf /app/var/cache/*; otherwise it explodes
-#RUN sed -i -r -e 's/display_errors = Off/display_errors = On/g' /opt/php72/lib/php.ini
+RUN sed -i -r -e 's/display_errors = Off/display_errors = On/g' /opt/php72/lib/php.ini
+#RUN sed -i 's/;opcache.error_log.*/opcache.error_log=\/app\/opcache.log/' /opt/php72/lib/php.ini;
+#RUN sed -i 's/;opcache.log_verbosity_level.*/opcache.log_verbosity_level=4/' /opt/php72/lib/php.ini;
+#RUN sed -i 's/;log_level = notice/log_level = debug/' /opt/php/etc/php-fpm.conf;
+#RUN sed -i 's/error_log.*/error_log = \/app\/php-fpm.log/' /opt/php/etc/php-fpm.conf;
 #
+#RUN /app/bin/console --env=prod --no-debug cache:warmup
+#curl -Is fastcgi://127.0.0.1:9000/en_US/taxons/category/gear | head -n 1
+#2018/06/29 01:33:05 [error] 38#38: *7 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 74.111.126.192, server: www.destromachines.com, request: "GET /en_US/taxons/category/gear HTTP/1.1", upstream: "http://127.0.0.1:8080/en_US/taxons/category/gear", host: "35.193.153.87", referrer: "https://35.193.153.87/en_US/pages/blog"
+ #2018/06/29 01:33:05 [info] 38#38: *114 epoll_wait() reported that client prematurely closed connection, so upstream connection is closed too while sending request to upstream, client: 127.0.0.1, server: , request: "GET /en_US/taxons/category/gear HTTP/1.0", upstream: "fastcgi://127.0.0.1:9000", host: "35.193.153.87", referrer: "https://35.193.153.87/en_US/pages/blog"
+RUN bin/console ckeditor:install --env=prod
+RUN chown -R www-data:www-data /app/var
+
+# dynamic php fpm takes too many resources for our tiny box.
+RUN sed -i 's/pm = dynamic/pm = ondemand/' /opt/php/etc/php-fpm.conf;
+
 EXPOSE 8080 80 443

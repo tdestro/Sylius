@@ -30,6 +30,8 @@ class AppKernel extends Kernel
             new \FOS\OAuthServerBundle\FOSOAuthServerBundle(), // Required by SyliusAdminApiBundle.
             new \Sylius\Bundle\AdminApiBundle\SyliusAdminApiBundle(),
             new \DestroBundle\DestroBundle(),
+            new \BitBag\SyliusCmsPlugin\BitBagSyliusCmsPlugin(),
+            new \FOS\CKEditorBundle\FOSCKEditorBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test', 'test_cached'], true)) {

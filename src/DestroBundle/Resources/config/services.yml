@@ -13,6 +13,18 @@ services:
         class: DestroBundle\Form\Extension\ProductVariantTypeExtraDimensionExtension
         tags:
             - { name: form.type_extension, extended_type: Sylius\Bundle\ProductBundle\Form\Type\ProductVariantType, priority: -5 }
+    app.form.extension.product_translation:
+        class: DestroBundle\Form\Extension\ProductTranslationTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Sylius\Bundle\ProductBundle\Form\Type\ProductTranslationType, priority: -5 }
+    app.form.extension.page_translation:
+        class: DestroBundle\Form\Extension\PageTranslationTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: BitBag\SyliusCmsPlugin\Form\Type\Translation\PageTranslationType, priority: -5 }
+    app.form.extension.faq_translation:
+        class: DestroBundle\Form\Extension\FrequentlyAskedQuestionTranslationTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: BitBag\SyliusCmsPlugin\Form\Type\Translation\FrequentlyAskedQuestionTranslationType, priority: -5 }
     app.google_cloud_storage_service_factory:
         class: DestroBundle\Factory\FileSystem\GoogleCloudStorageServiceFactory
     app.google_cloud_storage_service:

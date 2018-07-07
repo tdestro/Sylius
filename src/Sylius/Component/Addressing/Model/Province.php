@@ -41,7 +41,7 @@ class Province implements ProvinceInterface
     protected $country;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $taxexemptionupload;
 
@@ -134,7 +134,7 @@ class Province implements ProvinceInterface
     /**
      * {@inheritdoc}
      */
-    public function getTaxexemptionupload(): bool
+    public function getTaxexemptionupload(): ?bool
     {
         return $this->taxexemptionupload;
     }

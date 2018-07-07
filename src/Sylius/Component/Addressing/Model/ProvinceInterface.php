@@ -51,7 +51,7 @@ interface ProvinceInterface extends ResourceInterface, CodeAwareInterface
     /**
      * @return bool
      */
-    public function getTaxexemptionupload(): bool;
+    public function getTaxexemptionupload(): ?bool;
 
     /**
      * @param bool $taxexemptionupload

@@ -12,3 +12,9 @@ destro:
   returnpolicy: Return Policy
   shippingpolicy: Shipping Policy
   termsandconditions: Terms and Conditions
+
+app:
+  ui:
+    faqs: FAQ
+    custom: Custom Solutions
+    training: Training

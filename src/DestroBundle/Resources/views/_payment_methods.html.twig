@@ -69,6 +69,7 @@
 
                     var errorElement = document.getElementById('stripe_ach-errors');
                     errorElement.textContent = "Account holder type is not selected.";
+                    $(event.target).removeClass('loading');
                     return;
                 }
 
@@ -83,6 +84,7 @@
                     if (result.error) {
                         var errorElement = document.getElementById('stripe_ach-errors');
                         errorElement.textContent = result.error.message;
+                        $(event.target).removeClass('loading');
                     } else {
                         document.getElementById("sylius_stripe_ach_account_number").name = "";
                         $('input[name="sylius_stripe_ach[stripe_result]"]').val(encodeURIComponent(JSON.stringify(result)));

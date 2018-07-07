@@ -9,7 +9,7 @@ imports:
 
     - { resource: "parameters.yml" }
     - { resource: "security.yml" }
-
+    - { resource: "@BitBagSyliusCmsPlugin/Resources/config/config.yml" }
 parameters:
     locale: en_US
 
@@ -102,3 +102,6 @@ liip_imagine:
                     start: [1, 740]
             post_processors:
                     jpegoptim: { strip_all: true, max: 70, progressive: true }
+fos_ck_editor:
+    configs:
+        my_config:

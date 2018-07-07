@@ -25,6 +25,12 @@
     {% for taxon in taxons %}
         {{ macros.item(taxon) }}
     {% endfor %}
+   <!-- <a href="{{ path('bitbag_sylius_cms_plugin_shop_page_show', {'slug' : 'custom'}) }}" class="item">
+        {{ 'app.ui.custom'|trans }}
+    </a> -->
+    <a href="{{ path('bitbag_sylius_cms_plugin_shop_page_index_by_section_code', {'sectionCode' : 'training'}) }}" class="item">
+        {{ 'app.ui.training'|trans }}
+    </a>
     <a href="{{ path('destro_about') }}" class="item">{{ 'sylius.ui.about'|trans }}</a>
     <a href="{{ path('sylius_shop_contact_request') }}" class="item">{{ 'sylius.ui.contact_us'|trans }}</a>
 </div>
