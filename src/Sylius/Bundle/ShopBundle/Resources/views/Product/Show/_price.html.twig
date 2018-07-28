@@ -3,3 +3,10 @@
 <span class="ui huge header" id="product-price">
     {{ money.calculatePrice(product|sylius_resolve_variant) }}
 </span>
+<span>
+
+    {% set prices = product.variants|first.channelPricings|first %}
+    {% if prices.originalPrice is defined and prices.originalPrice is not null %}
+        Original Price: {{ money.format(prices.originalPrice, 'USD') }}
+    {% endif %}
+     </span>

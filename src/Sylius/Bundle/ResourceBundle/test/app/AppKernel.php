@@ -21,11 +21,9 @@ declare(strict_types=1);
 
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 
-class AppKernel extends Kernel implements CompilerPassInterface
+class AppKernel extends Kernel
 {
     /**
      * {@inheritdoc}
@@ -36,10 +34,10 @@ class AppKernel extends Kernel implements CompilerPassInterface
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new \winzou\Bundle\StateMachineBundle\winzouStateMachineBundle(),
             new Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle(),
@@ -54,24 +52,6 @@ class AppKernel extends Kernel implements CompilerPassInterface
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config/config.yml');
-    }
-
-    /**
-     * Hotfix for https://github.com/symfony/symfony/issues/27494
-     *
-     * @internal
-     */
-    public function process(ContainerBuilder $container): void
-    {
-        if ($this->environment !== 'test') {
-            return;
-        }
-
-        $clientDefinition = $container->findDefinition('test.client');
-
-        if (count($clientDefinition->getArguments()) >= 5) {
-            $clientDefinition->replaceArgument(4, null);
-        }
     }
 
     /**

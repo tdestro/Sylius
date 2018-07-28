@@ -35,7 +35,7 @@
         {{ sonata_block_render_event('sylius.shop.product.show.after_price', {'product': product}) }}
 
         <div class="ui basic segment">
-            <p>{{ product.shortDescription }}</p>
+            <p>{{ product.shortDescription |raw }}</p>
         </div>
 
         {{ sonata_block_render_event('sylius.shop.product.show.after_description', {'product': product}) }}

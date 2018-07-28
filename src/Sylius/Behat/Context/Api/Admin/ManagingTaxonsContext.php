@@ -15,9 +15,9 @@ namespace Sylius\Behat\Context\Api\Admin;
 
 use Behat\Behat\Context\Context;
 use Sylius\Component\Core\Model\TaxonInterface;
-use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Client;
 use Webmozart\Assert\Assert;
 
 final class ManagingTaxonsContext implements Context
@@ -97,9 +97,7 @@ final class ManagingTaxonsContext implements Context
     public function iShouldSeeTheTaxonNamedAnd(...$expectedTaxonNames)
     {
         $response = json_decode($this->client->getResponse()->getContent(), true);
-        $taxonNames = array_map(function ($item) {
-            return $item['name'];
-        }, $response);
+        $taxonNames = array_column($response, 'name');
 
         Assert::allOneOf($taxonNames, $expectedTaxonNames);
     }

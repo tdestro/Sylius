@@ -96,12 +96,13 @@ liip_imagine:
                 crop:
 
                     # set the size of the cropping area w / h
-                    size: [3000, 600]
+                    size: [4240, 1854]
 
                     # set the starting coordinates of the crop
-                    start: [1, 740]
+                    start: [1, 484]
             post_processors:
                     jpegoptim: { strip_all: true, max: 70, progressive: true }
+
 fos_ck_editor:
     configs:
         my_config:

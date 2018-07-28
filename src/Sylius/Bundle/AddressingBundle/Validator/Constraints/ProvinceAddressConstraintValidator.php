@@ -14,9 +14,12 @@ declare(strict_types=1);
 namespace Sylius\Bundle\AddressingBundle\Validator\Constraints;
 
 use Sylius\Component\Addressing\Model\AddressInterface;
+use Sylius\Component\Addressing\Model\CountryInterface;
+use Sylius\Component\Addressing\Model\ProvinceInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Webmozart\Assert\Assert;
 
 class ProvinceAddressConstraintValidator extends ConstraintValidator
 {
@@ -51,6 +54,9 @@ class ProvinceAddressConstraintValidator extends ConstraintValidator
             );
         }
 
+        /** @var ProvinceAddressConstraint $constraint */
+        Assert::isInstanceOf($constraint, ProvinceAddressConstraint::class);
+
         $propertyPath = $this->context->getPropertyPath();
 
         foreach (iterator_to_array($this->context->getViolations()) as $violation) {
@@ -72,7 +78,11 @@ class ProvinceAddressConstraintValidator extends ConstraintValidator
     protected function isProvinceValid(AddressInterface $address): bool
     {
         $countryCode = $address->getCountryCode();
-        if (null === $country = $this->countryRepository->findOneBy(['code' => $countryCode])) {
+
+        /** @var CountryInterface|null $country */
+        $country = $this->countryRepository->findOneBy(['code' => $countryCode]);
+
+        if (null === $country) {
             return true;
         }
 
@@ -84,7 +94,10 @@ class ProvinceAddressConstraintValidator extends ConstraintValidator
             return false;
         }
 
-        if (null === $province = $this->provinceRepository->findOneBy(['code' => $address->getProvinceCode()])) {
+        /** @var ProvinceInterface|null $province */
+        $province = $this->provinceRepository->findOneBy(['code' => $address->getProvinceCode()]);
+
+        if (null === $province) {
             return false;
         }
 

@@ -25,8 +25,9 @@ final class ThemeConfiguration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
-        $rootNodeDefinition = $treeBuilder->root('sylius_theme');
 
+        /** @var ArrayNodeDefinition $rootNodeDefinition */
+        $rootNodeDefinition = $treeBuilder->root('sylius_theme');
         $rootNodeDefinition->ignoreExtraKeys();
 
         $this->addRequiredNameField($rootNodeDefinition);
@@ -81,7 +82,7 @@ final class ThemeConfiguration implements ConfigurationInterface
         $parentsNodeDefinition
             ->requiresAtLeastOneElement()
             ->performNoDeepMerging()
-                ->prototype('scalar')
+                ->scalarPrototype()
                 ->cannotBeEmpty()
         ;
     }
@@ -98,7 +99,7 @@ final class ThemeConfiguration implements ConfigurationInterface
         ;
 
         /** @var ArrayNodeDefinition $screenshotNodeDefinition */
-        $screenshotNodeDefinition = $screenshotsNodeDefinition->prototype('array');
+        $screenshotNodeDefinition = $screenshotsNodeDefinition->arrayPrototype();
 
         $screenshotNodeDefinition
             ->validate()
@@ -133,7 +134,7 @@ final class ThemeConfiguration implements ConfigurationInterface
         ;
 
         /** @var ArrayNodeDefinition $authorNodeDefinition */
-        $authorNodeDefinition = $authorsNodeDefinition->prototype('array');
+        $authorNodeDefinition = $authorsNodeDefinition->arrayPrototype();
         $authorNodeDefinition
             ->validate()
                 ->ifTrue(function ($author) {

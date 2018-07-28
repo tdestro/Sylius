@@ -63,7 +63,7 @@
         "symfony/polyfill-intl-icu": "^1.3",
         "symfony/polyfill-mbstring": "^1.3",
         "symfony/swiftmailer-bundle": "^3.0",
-        "symfony/symfony": "^3.4|^4.1",
+        "symfony/symfony": "^3.4|^4.1.1",
         "symfony/thanks": "^1.0",
         "twig/extensions": "^1.4",
         "twig/twig": "^2.0",
@@ -101,9 +101,11 @@
         "mikey179/vfsStream": "^1.6",
         "pamil/prophecy-common": "^0.1",
         "phpspec/phpspec": "^4.0",
-        "phpstan/phpstan-shim": "^0.9",
+        "phpstan/phpstan-doctrine": "^0.10",
+        "phpstan/phpstan-shim": "^0.10",
+        "phpstan/phpstan-symfony": "^0.10",
+        "phpstan/phpstan-webmozart-assert": "^0.10",
         "phpunit/phpunit": "^6.5",
-        "stripe/stripe-php": "^4.1",
         "sylius-labs/coding-standard": "^2.0"
     },
     "replace": {

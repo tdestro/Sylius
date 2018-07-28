@@ -38,16 +38,16 @@ liip_imagine:
         sylius_shop_product_original: ~
         sylius_shop_product_tiny_thumbnail:
             filters:
-                thumbnail: { size: [64, 64], mode: outbound }
+                thumbnail: { size: [64, 85], mode: outbound }
         sylius_shop_product_small_thumbnail:
             filters:
-                thumbnail: { size: [150, 112], mode: outbound }
+                thumbnail: { size: [112, 150], mode: outbound }
         sylius_shop_product_thumbnail:
             filters:
-                thumbnail: { size: [260, 260], mode: outbound }
+                thumbnail: { size: [195, 260], mode: outbound }
         sylius_shop_product_large_thumbnail:
             filters:
-                thumbnail: { size: [550, 412], mode: outbound }
+                thumbnail: { size: [412, 550], mode: outbound }
 
 sonata_block:
     default_contexts: ~
