@@ -48,6 +48,8 @@ liip_imagine:
         sylius_shop_product_large_thumbnail:
             filters:
                 thumbnail: { size: [412, 550], mode: outbound }
-
+        sylius_shop_product_extra_large_thumbnail:
+            filters:
+                thumbnail: { size: [550, 734], mode: outbound }
 sonata_block:
     default_contexts: ~
