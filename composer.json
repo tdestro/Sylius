@@ -205,9 +205,6 @@
         },
         "classmap": ["app/AppKernel.php", "app/AppCache.php", "app/TestAppKernel.php"]
     },
-    "config": {
-        "bin-dir": "bin"
-    },
     "extra": {
         "symfony-app-dir": "app",
         "symfony-bin-dir": "bin",

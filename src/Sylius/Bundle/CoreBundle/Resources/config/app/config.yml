@@ -34,24 +34,22 @@ doctrine_cache:
     providers:
         sylius_rbac: "%sylius.cache%"
 
+
 knp_gaufrette:
-    stream_wrapper: ~
     adapters:
         sylius_image:
-            google_cloud_storage:
-                service_id: 'app.google_cloud_storage_service'
-                bucket_name: '%google_api.bucket%'
-                options:
-                  directory: 'sylius_image'
+            local:
+                directory: "%kernel.project_dir%/web/media/image"
+                create: true
     filesystems:
         sylius_image:
             adapter: "%sylius.uploader.filesystem%"
+
 liip_imagine:
-    cache: 'storage_cache_sylius_images'
     loaders:
         default:
-            stream:
-                wrapper: gaufrette://sylius_image/
+            filesystem:
+                data_root: "%kernel.project_dir%/web/media/image"
     filter_sets:
         sylius_small:
             filters:

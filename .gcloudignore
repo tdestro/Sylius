@@ -2,7 +2,7 @@
 .DS_Store
 /.php_cs.cache
 
-/app/config/parameters.yml
+#/app/config/parameters.yml
 /app/config/*.local.yml
 /var/*
 !/var/.gitkeep

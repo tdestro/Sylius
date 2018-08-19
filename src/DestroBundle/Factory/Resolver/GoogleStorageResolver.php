@@ -27,7 +27,7 @@ class GoogleStorageResolver implements ResolverInterface
 
         if(!array_key_exists("Bucket", $settings) || !array_key_exists("Directory", $settings))
         {
-            throw new UndefinedOptionsException(sprintf("The %s must be configurated", $missingKey));
+            throw new UndefinedOptionsException(sprintf("The %s must be configured", $missingKey));
         }
 
         if(array_key_exists("Acl", $settings))

@@ -1,5 +1,19 @@
-    <img class="ui centered large image" style="margin-top: 4em;" src="{{ asset('DestroMachinesTagline.png') | imagine_filter("tagline_image")}}" alt="Machines are what we build.">
-
+<img class="ui centered large image" style="margin-top: 4em;"
+     src="{{ asset('DestroMachinesTagline.png') | imagine_filter("tagline_image") }}" alt="Machines are what we build.">
+<div class="ui center aligned grid" style="margin-top: 4rem;">
+    <a href="https://www.facebook.com/DestroMachines" class="ui circular facebook icon button">
+        <i class="facebook icon"></i>
+    </a>
+    <a href="https://twitter.com/destromachines" class="ui circular twitter icon button">
+        <i class="twitter icon"></i>
+    </a>
+    <button class="ui circular instagram icon button">
+        <i class="instagram icon"></i>
+    </button>
+    <a href="https://www.youtube.com/channel/UCBF2PcWQsZaJ26MLU0PMbZg" class="ui circular youtube icon button">
+        <i class="youtube icon"></i>
+    </a>
+</div>
 <footer id="footer" class="ui inverted vertical footer segment">
     <div class="ui container">
         <div class="ui inverted divided equal height stackable grid">
@@ -11,24 +25,30 @@
                     <a href="{{ path('destro_about') }}" class="item">{{ 'sylius.ui.about'|trans }}</a>
                     <a href="{{ path('destro_terms') }}" class="item">{{ 'sylius.ui.terms_and_conditions'|trans }}</a>
                     <a href="{{ path('destro_privacy') }}" class="item">{{ 'sylius.ui.privacy_policy'|trans }}</a>
-                    <a href="{{ path('sylius_shop_contact_request') }}" class="item">{{ 'sylius.ui.contact_us'|trans }}</a>
+                    <a href="{{ path('sylius_shop_contact_request') }}"
+                       class="item">{{ 'sylius.ui.contact_us'|trans }}</a>
                 </div>
             </div>
             <div class="three wide column">
-                <h4 class="ui inverted header">{{ 'sylius.ui.customer_care'|trans  }}</h4>
+                <h4 class="ui inverted header">{{ 'sylius.ui.customer_care'|trans }}</h4>
                 <div class="ui inverted link list">
-                    <a href="{{ path('sylius_shop_contact_request') }}" class="item">{{ 'sylius.ui.contact_us'|trans  }}</a>
-                    <a href="{{ path('bitbag_sylius_cms_plugin_shop_frequently_asked_question_index') }}" class="item">{{ 'app.ui.faqs'|trans }}</a>
-                    <a href="{{ path('bitbag_sylius_cms_plugin_shop_page_index_by_section_code', {'sectionCode' : 'shipping'}) }}" class="item">
+                    <a href="{{ path('sylius_shop_contact_request') }}"
+                       class="item">{{ 'sylius.ui.contact_us'|trans }}</a>
+                    <a href="{{ path('bitbag_sylius_cms_plugin_shop_frequently_asked_question_index') }}"
+                       class="item">{{ 'app.ui.faqs'|trans }}</a>
+                    <a href="{{ path('bitbag_sylius_cms_plugin_shop_page_index_by_section_code', {'sectionCode' : 'shipping'}) }}"
+                       class="item">
                         {{ 'sylius.ui.delivery_and_shipping'|trans }}
                     </a>
-                    <a href="{{ path('bitbag_sylius_cms_plugin_shop_page_index_by_section_code', {'sectionCode' : 'returns'}) }}" class="item">
+                    <a href="{{ path('bitbag_sylius_cms_plugin_shop_page_index_by_section_code', {'sectionCode' : 'returns'}) }}"
+                       class="item">
                         {{ 'sylius.ui.returns_policy'|trans }}
                     </a>
                 </div>
             </div>
             <div class="eight wide column">
                 <h4 class="ui inverted header">&copy; {{ 'sylius.ui.your_store'|trans }}</h4>
+
             </div>
 
             {{ sonata_block_render_event('sylius.shop.layout.after_footer') }}
