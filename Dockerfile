@@ -40,13 +40,21 @@ pecl install protobuf && \
 echo "extension=protobuf.so" >> /etc/php/7.2/fpm/php.ini && \
 echo "extension=protobuf.so" >> /etc/php/7.2/cli/php.ini
 
-RUN phpdismod xdebug
-
-
+# RUN phpdismod xdebug
+# Activate xdebug while on gce.
+RUN echo "[Xdebug]" >> /etc/php/7.2/fpm/php.ini && \
+echo "xdebug.remote_host = 74.111.126.192" >> /etc/php/7.2/fpm/php.ini && \
+echo "xdebug.remote_autostart = 0" >> /etc/php/7.2/fpm/php.ini && \
+echo "xdebug.remote_enable = 1" >> /etc/php/7.2/fpm/php.ini && \
+echo "xdebug.remote_port = 9005" >> /etc/php/7.2/fpm/php.ini && \
+echo "xdebug.default_enable = 1" >> /etc/php/7.2/fpm/php.ini && \
+echo "xdebug.remote_connect_back = 0" >> /etc/php/7.2/fpm/php.ini && \
+echo "xdebug.profiler_enable=0" >> /etc/php/7.2/fpm/php.ini && \
+echo "xdebug.max_nesting_level=10000" >> /etc/php/7.2/fpm/php.ini
 
 # Configure PHP FPM
 RUN sed -i "s/user = www-data/user = docker/" /etc/php/7.2/fpm/pool.d/www.conf && \
-    sed -i "s/group = www-data/group = docker/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = docker/" /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN mkdir -p /run/php && sed -i "s/listen = .*/listen = 9001/" /etc/php/7.2/fpm/pool.d/www.conf
 
@@ -91,9 +99,10 @@ RUN useradd docker --shell /bin/bash --create-home \
   && echo 'docker:secret' | chpasswd
 
 # Install composer
-RUN curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN chmod +x /usr/local/bin/composer
-RUN mkdir -p $COMPOSER_HOME && \
+RUN php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));" && \
+mv ./composer.phar /usr/local/bin/composer && \
+chmod +x /usr/local/bin/composer && \
+mkdir -p $COMPOSER_HOME && \
 chown -R www-data.www-data $COMPOSER_HOME
 
 # Copy all app files
