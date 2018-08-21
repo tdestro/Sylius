@@ -86,16 +86,16 @@ class ProductRepository extends BaseProductRepository implements ProductReposito
         if (isset($sorting['price'])) {
             // Another hack, the subquery to get the first position variant
             $subQuery = $this->createQueryBuilder('m')
-                ->select('min(v.position)')
-                ->innerJoin('m.variants', 'v')
-                ->andWhere('m.id = :product_id')
-            ;
+                 ->select('min(v.position)')
+                 ->innerJoin('m.variants', 'v')
+                 ->andWhere('m.id = :product_id')
+             ;
 
             $queryBuilder
                 ->innerJoin('o.variants', 'variant')
                 ->innerJoin('variant.channelPricings', 'channelPricing')
                 ->andWhere('channelPricing.channelCode = :channelCode')
-                ->andwhere(
+                ->andWhere(
                     $queryBuilder->expr()->in(
                         'variant.position',
                         str_replace(':product_id', 'o.id', $subQuery->getDQL())
