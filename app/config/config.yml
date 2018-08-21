@@ -102,7 +102,10 @@ liip_imagine:
                     start: [1, 484]
             post_processors:
                     jpegoptim: { strip_all: true, max: 70, progressive: true }
-
+sylius_shop:
+    product_grid:
+        include_all_descendants: true
 fos_ck_editor:
     configs:
         my_config:
+
