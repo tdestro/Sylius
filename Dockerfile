@@ -118,15 +118,20 @@ install \
 --no-interaction \
 --no-ansi \
 --no-progress \
---no-scripts --no-dev --prefer-dist" && \
+--no-scripts --prefer-dist" && \
 su -m www-data -c "bin/console --env=prod --no-debug cache:clear" && \
+bin/console ckeditor:install --env=prod --no-interaction --no-ansi && \
+bin/console assets:install web --env=prod --no-interaction --no-ansi && \
 chsh -s /usr/sbin/nologin www-data
+
+COPY ./dockerincludes/config.js /app/web/bundles/fosckeditor/config.js
 
 # Performance related changes.
 RUN sed -i 's/;opcache.memory_consumption.*/opcache.memory_consumption=256/' /etc/php/7.2/fpm/php.ini; sed -i 's/;opcache.max_accelerated_files.*/opcache.max_accelerated_files=20000/' /etc/php/7.2/fpm/php.ini; sed -i 's/;opcache.validate_timestamps.*/opcache.validate_timestamps=0/' /etc/php/7.2/fpm/php.ini; sed -i 's/;realpath_cache_size.*/realpath_cache_size=4096K/' /etc/php/7.2/fpm/php.ini;
 RUN sed -i 's/post_max_size = .*/post_max_size = 10M/' /etc/php/7.2/fpm/php.ini; sed -i 's/upload_max_filesize = .*/upload_max_filesize = 10M/' /etc/php/7.2/fpm/php.ini; sed -i 's/memory_limit = .*/memory_limit = -1/' /etc/php/7.2/fpm/php.ini;
 RUN sed -i -r -e 's/display_errors = Off/display_errors = On/g' /etc/php/7.2/fpm/php.ini
 
+# Disable ckeditor from stripping markup.
 WORKDIR /home/docker/
 
 ENV PATH=bin:vendor/bin:$PATH

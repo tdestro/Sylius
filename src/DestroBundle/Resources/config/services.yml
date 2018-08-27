@@ -3,8 +3,11 @@ imports:
     - { resource: services/mailer.yml }
 
 services:
+    sylius.controller.shop.contact: ~
+    sylius.controller.shop.contact:
+        class: DestroBundle\Controller\ContactController
+        arguments: ['@router', '@form.factory', '@templating','@sylius.context.channel','@sylius.context.customer','@sylius.email_manager.contact']
     _defaults: { public: true }
-
     app.listener.admin.product_variant.form.menu_builder:
         class: DestroBundle\Menu\AdminProductVariantFormMenuListener
         tags:

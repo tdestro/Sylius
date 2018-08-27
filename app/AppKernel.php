@@ -26,12 +26,11 @@ class AppKernel extends Kernel
         $bundles = [
             new \Sylius\Bundle\AdminBundle\SyliusAdminBundle(),
             new \Sylius\Bundle\ShopBundle\SyliusShopBundle(),
-
             new \FOS\OAuthServerBundle\FOSOAuthServerBundle(), // Required by SyliusAdminApiBundle.
             new \Sylius\Bundle\AdminApiBundle\SyliusAdminApiBundle(),
-            new \DestroBundle\DestroBundle(),
             new \BitBag\SyliusCmsPlugin\BitBagSyliusCmsPlugin(),
             new \FOS\CKEditorBundle\FOSCKEditorBundle(),
+            new \DestroBundle\DestroBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test', 'test_cached'], true)) {
