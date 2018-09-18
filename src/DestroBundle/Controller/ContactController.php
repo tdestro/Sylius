@@ -118,13 +118,14 @@ final class ContactController extends Controller
                 return new RedirectResponse($request->headers->get('referer'));
             }
 
+            /*
             $contact = new Contact();
             $contact->setEmail($data['email']);
             $contact->setBody($data['message']);
             $em = $this->getDoctrine()->getManager();
             $em->persist($contact);
             $em->flush();
-
+*/
             $this->contactEmailManager->sendContactRequest($data, [$contactEmail]);
 
             $successMessage = $this->getSyliusAttribute(

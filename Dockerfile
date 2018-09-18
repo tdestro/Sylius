@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get --no-install-recommends --no-install-suggests --yes --quiet install \
         apt-transport-https bash-completion ca-certificates curl gnupg imagemagick \
         less make perceptualdiff procps ssh-client sudo vim wget nginx openssl \
-        supervisor python-certbot-nginx nano postfix libsasl2-modules cron jpegoptim unzip && \
+        supervisor  nano postfix libsasl2-modules cron jpegoptim unzip expect && \
     apt-get clean && apt-get --yes --quiet autoremove --purge && \
     rm -rf  /var/lib/apt/lists/* /tmp/* /var/tmp/* \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
@@ -19,23 +19,28 @@ RUN apt-get update && \
 
 # Add Sury PHP repository
 RUN wget -O sury.gpg https://packages.sury.org/php/apt.gpg && apt-key add sury.gpg && rm sury.gpg
-COPY dockerincludes/sury.list /etc/apt/sources.list.d/sury.list
-COPY dockerincludes/stretch-backports.list /etc/apt/sources.list.d/stretch-backports.list
+ADD dockerincludes/sury.list /etc/apt/sources.list.d/sury.list
+COPY ./dockerincludes/stretch-backports.list /etc/apt/sources.list.d/stretch-backports.list
 
 # Install PHP with some extensions
 RUN apt-get update && \
-    apt-get --no-install-recommends --no-install-suggests --yes --quiet install \
+    apt-get --no-install-recommends --no-install-suggests --yes --quiet -t stretch-backports install \
         php7.2-cli php7.2-apcu php7.2-mbstring php7.2-curl php7.2-gd php7.2-imagick php7.2-intl php7.2-bcmath \
         php7.2-pgsql php7.2-soap php7.2-xdebug php7.2-xml php7.2-zip php7.2-ldap \
-        php7.2-fpm php7.2-dev php-pear && \
+        php7.2-fpm php7.2-dev python-certbot-nginx php-pear && \
     apt-get clean && apt-get --yes --quiet autoremove --purge && \
     rm -rf  /var/lib/apt/lists/* /tmp/* /var/tmp/* \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
             /usr/share/lintian/* /usr/share/locale/* /usr/share/man/*
 
-
 # Setup PHP protobuf extension.
+#RUN /install-pear.sh && \
+
+# god damn piece of shit php-pear breaks with this fucking ampersand here.
+# hack until upstream pulls their heads out of their fucking ass.
+RUN sed -i 's/\$v_att_list = & func_get_args();/\$v_att_list = func_get_args();/' /usr/share/php/Archive/Tar.php
 RUN pecl channel-update pecl.php.net && \
+pear channel-update pear.php.net && \
 pecl install protobuf && \
 echo "extension=protobuf.so" >> /etc/php/7.2/fpm/php.ini && \
 echo "extension=protobuf.so" >> /etc/php/7.2/cli/php.ini
@@ -91,6 +96,11 @@ COPY ./dockerincludes/nginx.conf ./dockerincludes/fastcgi_params ./dockerinclude
 RUN mkdir /var/www/letsencrypt
 COPY ./letsencrypt /etc/letsencrypt
 RUN rm -rf letsencrypt
+
+RUN ["/bin/bash", "-c", "ln -s `ls -rt /etc/letsencrypt/archive/destromachines.com/cert* | tail -n1` /etc/letsencrypt/live/destromachines.com/cert.pem"]
+RUN ["/bin/bash", "-c", "ln -s `ls -rt /etc/letsencrypt/archive/destromachines.com/chain* | tail -n1` /etc/letsencrypt/live/destromachines.com/chain.pem"]
+RUN ["/bin/bash", "-c", "ln -s `ls -rt /etc/letsencrypt/archive/destromachines.com/fullchain* | tail -n1` /etc/letsencrypt/live/destromachines.com/fullchain.pem"]
+RUN ["/bin/bash", "-c", "ln -s `ls -rt /etc/letsencrypt/archive/destromachines.com/privkey* | tail -n1` /etc/letsencrypt/live/destromachines.com/privkey.pem"]
 
 # Add a "docker" user
 RUN useradd docker --shell /bin/bash --create-home \
