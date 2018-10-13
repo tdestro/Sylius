@@ -52,6 +52,18 @@ final class ProductVariantExtraDimensionType extends AbstractType
                 ),
                 'label' => 'UPS Package type',
                 'multiple' => false, 'expanded' => false,))
+            ->add('applyToQuantity', NumberType::class, [
+                'required' => true,
+                'label' => 'Quantity amount to apply this dimension to',
+                'invalid_message' => 'Invalid quantity',
+                'constraints' => [
+                    new NotBlank(['groups' => ['sylius']]),
+                    new GreaterThan([
+                        'value' => 0,
+                        'groups' => ['sylius']
+                    ]),
+                ],
+            ])
             ->add('width', NumberType::class, [
                 'required' => false,
                 'label' => 'Width (Only used with Customer Supplied Packaging)',

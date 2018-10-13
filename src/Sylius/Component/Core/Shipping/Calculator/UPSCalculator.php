@@ -13,15 +13,31 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Core\Shipping\Calculator;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Core\Exception\MissingChannelConfigurationException;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Shipping\Calculator\CalculatorInterface;
 use Sylius\Component\Shipping\Model\ShipmentInterface as BaseShipmentInterface;
 use Webmozart\Assert\Assert;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\VarDumper\VarDumper;
 
 final class UPSCalculator implements CalculatorInterface
 {
+    /**
+     * @var RepositoryInterface
+     */
+    private $provinceRepository;
+
+    /**
+     * @param RepositoryInterface $provinceRepository
+     */
+    public function __construct(RepositoryInterface $provinceRepository)
+    {
+        $this->provinceRepository = $provinceRepository;
+    }
+
+
     /**
      * {@inheritdoc}
      *
@@ -41,11 +57,35 @@ final class UPSCalculator implements CalculatorInterface
             ));
         }
 
+        $UPSAccountNumber = $_ENV['UPSAccountNumber'];
+        $shipperTaxIdentificationNumber = $_ENV['shipperTaxIdentificationNumber'];
+        $shipperCompanyName = $_ENV['shipperCompanyName'];
+        $shipperEmailAddress = $_ENV['shipperEmailAddress'];
+        $shipperName = $_ENV['shipperName'];
+        $shipperPhoneNumber = $_ENV['shipperPhoneNumber'];
+        $shipperCity = $_ENV['shipperCity'];
+        $shipperAddressLine1 = $_ENV['shipperAddressLine1'];
+        $shipperAddressLine2 = $_ENV['shipperAddressLine2'];
+        $shipperProvinceCode = $_ENV['shipperProvinceCode'];
+        $shipperPostalCode = $_ENV['shipperPostalCode'];
+        $shipperCountryCode= $_ENV['shipperCountryCode'];
+
+
+
+        // Create logger
+        $log = new \Monolog\Logger('ups');
+        $log->pushHandler(new \Monolog\Handler\StreamHandler('/app/ups.log', \Monolog\Logger::DEBUG));
+
+        // Create Rate object + insert logger
         $rate = new \Ups\Rate(
             $_ENV['UPSAccessLicenseNumber'],
             $_ENV['UPSUserId'],
-            $_ENV['UPSPassword']
+            $_ENV['UPSPassword'],
+            false,
+            $log
         );
+
+
 
 
         /*Valid domestic values:
@@ -89,14 +129,24 @@ final class UPSCalculator implements CalculatorInterface
         //$phoneNumber = $shippingAddress->getPhoneNumber();
         //$company = $shippingAddress->getCompany();
         $countryCode = $shippingAddress->getCountryCode();
-        //$provinceCode = $shippingAddress->getProvinceCode();
+        $provinceCode = $shippingAddress->getProvinceCode();
         //$provinceName = $shippingAddress->getProvinceName();
         $street = $shippingAddress->getStreet();
-        //$city = $shippingAddress->getCity();
+        $city = $shippingAddress->getCity();
         $postcode = $shippingAddress->getPostcode();
+
+        // Convert province code attached to the order to a proper UPS Abbreviation which is editable in the admin interface.
+        $province = $this->provinceRepository->findOneBy(['code' => $provinceCode]);
+        Assert::notNull(
+            $province,
+            sprintf('Province with code "%s" does not exist', $provinceCode)
+        );
+
+        $provinceAbbreviation = $province->getAbbreviation();
 
         $shipment = new \Ups\Entity\Shipment();
         $shipment->getService()->setCode($service);
+        $shipment->showNegotiatedRates();
 
 
 
@@ -126,38 +176,73 @@ final class UPSCalculator implements CalculatorInterface
             $shipment->setShipmentServiceOptions($shipmentServiceOptions);
         }
 
-        $shipperAddress = $shipment->getShipper()->getAddress();
-        $shipperAddress->setPostalCode('47909');
+        $shipperAddress = new \Ups\Entity\Address();
+        $shipperAddress->setAddressLine1($shipperAddressLine1);
+        $shipperAddress->setAddressLine2($shipperAddressLine2);
+        $shipperAddress->setCity($shipperCity);
+        $shipperAddress->setStateProvinceCode($shipperProvinceCode);
+        $shipperAddress->setPostalCode($shipperPostalCode);
+        $shipperAddress->setCountryCode($shipperCountryCode);
+        $shipperAddress->setResidentialAddressIndicator("true");
 
-        $address = new \Ups\Entity\Address();
-        $address->setPostalCode('47909');
-        $address->setAddressLine1('1905 Mulligan Way Apt D');
+        $shipper = $shipment->getShipper();
+        $shipper->setEmailAddress($shipperEmailAddress);
+        $shipper->setCompanyName($shipperCompanyName);
+        $shipper->setTaxIdentificationNumber($shipperTaxIdentificationNumber);
+        $shipper->setName($shipperName);
+        $shipper->setPhoneNumber($shipperPhoneNumber);
+        $shipper->setShipperNumber($UPSAccountNumber);
+        $shipper->setAddress($shipperAddress);
+        $shipment->setShipper($shipper);
 
         $shipFrom = new \Ups\Entity\ShipFrom();
-        $shipFrom->setAddress($address);
+        $shipFrom->setAddress($shipperAddress);
         $shipment->setShipFrom($shipFrom);
 
         $shipTo = $shipment->getShipTo();
         $shipToAddress = $shipTo->getAddress();
-        $shipToAddress->setPostalCode($postcode);
+
         $shipToAddress->setAddressLine1($street);
+        $shipToAddress->setCity($city);
+        $shipToAddress->setStateProvinceCode($provinceAbbreviation);
+        $shipToAddress->setPostalCode($postcode);
         $shipToAddress->setCountryCode($countryCode);
 
         $items = $subject->getOrder()->getItems();
 
-        foreach ($items as $item){
+        foreach ($items as $item) {
+            $quantity = $item->getQuantity();
             $itemUnits = $item->getUnits();
-            foreach ($itemUnits as $itemUnit) {
-                $extradims = $itemUnit->getShippable()->getProductVariantExtraDimensions();
 
-                foreach ($extradims as $extradim){
-                    $shippingBoxType = $extradim->getUpsEntity();
-                    $depth = $extradim->getDepth();
-                    $height = $extradim->getHeight();
-                    $width = $extradim->getWidth();
-                    $weight = $extradim->getWeight();
+            //
+            // Don't care about getting the dimensions from each item, they're all the same item.
+            //
+            /* @var $extraDims ArrayCollection */
+            $extraDims = $itemUnits->first()->getShippable()->getProductVariantExtraDimensionsByUnitCount($quantity);
 
-                    $itemUnitTotalAsFloat = floatval( $extradim->getInsured());
+            //
+            // If extraDims is count zero, that means that there are no dimensions marked for this quantity of items in
+            // the cart, so we just use the dimensions for one item x the quantity instead of panicing and blowing up.
+            // It is not feasible to have calculated all possibilities, the problem is np-complete.
+            //
+            $loopEnd = 1;
+            if($extraDims->count() == 0) {
+                $loopEnd = $quantity;
+                $extraDims = $itemUnits->first()->getShippable()->getProductVariantExtraDimensionsByUnitCount(1);
+            }
+
+            //
+            // This loop is only looped if loopEnd actually > 1 by the if statement above.
+            //
+            for ($itemUnitsCount = 0; $itemUnitsCount < $loopEnd; $itemUnitsCount++) {
+                foreach ($extraDims as $extraDim){
+                    $shippingBoxType = $extraDim->getUpsEntity();
+                    $depth = $extraDim->getDepth();
+                    $height = $extraDim->getHeight();
+                    $width = $extraDim->getWidth();
+                    $weight = $extraDim->getWeight();
+
+                    $itemUnitTotalAsFloat = floatval( $extraDim->getInsured());
                     $itemUnitTotalAsInt = intval($itemUnitTotalAsFloat / 100.00);
 
                     $package = new \Ups\Entity\Package();
@@ -176,24 +261,23 @@ final class UPSCalculator implements CalculatorInterface
                     }
                     $package->setPackageServiceOptions($packageServiceOptions);
 
-                    /*
-            packagingtype Valid values:
-            00 = UNKNOWN
-            01 = UPS Letter
-            02 = Package
-            03 = Tube
-            04 = Pak
-            21 = Express Box
-            24 = 25KG Box
-            25 = 10KG Box
-            30 = Pallet
-            2a = Small Express Box
-            2b = Medium Express Box
-            2c = Large Express Box
-            */
-                    $packagingType = new \Ups\Entity\PackagingType();
-                    $packagingType->setCode($shippingBoxType);
-                    $package->setPackagingType($packagingType);
+                    // packagingtype Valid values:
+                    // 00 = UNKNOWN
+                    // 01 = UPS Letter
+                    // 02 = Package
+                    // 03 = Tube
+                    // 04 = Pak
+                    // 21 = Express Box
+                    // 24 = 25KG Box
+                    // 25 = 10KG Box
+                    // 30 = Pallet
+                    // 2a = Small Express Box
+                    // 2b = Medium Express Box
+                    // 2c = Large Express Box
+
+                    $pickupType = new \Ups\Entity\PackagingType();
+                    $pickupType->setCode($shippingBoxType);
+                    $package->setPackagingType($pickupType);
                     $package->getPackageWeight()->setWeight($weight);
                     $weightUnit = new \Ups\Entity\UnitOfMeasurement;
                     $weightUnit->setCode(\Ups\Entity\UnitOfMeasurement::UOM_LBS);
@@ -212,6 +296,7 @@ final class UPSCalculator implements CalculatorInterface
                     $shipment->addPackage($package);
                 }
             }
+
         }
 
         /*
@@ -224,11 +309,11 @@ Valid values:
 • 19 - Letter Center
 • 20 - Air Service Center
 */
-        $packagingType = new \Ups\Entity\PickupType();
-        $packagingType->setCode($configuration[$channelCode]['ratetype']);
+        $pickupType = new \Ups\Entity\PickupType();
+        $pickupType->setCode($configuration[$channelCode]['ratetype']);
 
         $rateRequest = new \Ups\Entity\RateRequest();
-        $rateRequest->setPickupType($packagingType);
+        $rateRequest->setPickupType($pickupType);
         $rateRequest->setShipment($shipment);
         $ratedShipment = $rate->getRate($rateRequest)->RatedShipment;
         $firstRatedShipment = reset($ratedShipment);

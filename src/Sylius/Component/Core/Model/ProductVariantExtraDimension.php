@@ -21,6 +21,11 @@ class ProductVariantExtraDimension implements ProductVariantExtraDimensionInterf
     protected $id;
 
     /**
+     * @var int
+     */
+    protected $applyToQuantity;
+
+    /**
      * @var string
      */
     protected $upsEntity;
@@ -63,6 +68,21 @@ class ProductVariantExtraDimension implements ProductVariantExtraDimensionInterf
         return $this->id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getApplyToQuantity(): ?int
+    {
+        return $this->applyToQuantity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setApplyToQuantity(?int $applyToQuantity): void
+    {
+        $this->applyToQuantity = $applyToQuantity;
+    }
 
     /**
      * {@inheritdoc}

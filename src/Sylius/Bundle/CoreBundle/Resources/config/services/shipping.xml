@@ -18,6 +18,7 @@
           <tag name="sylius.shipping_calculator" calculator="ups"
                form-type="Sylius\Bundle\CoreBundle\Form\Type\Shipping\Calculator\ChannelBasedUPSConfigurationType"
                label="sylius.form.shipping_calculator.ups_configuration.label" />
+          <argument type="service" id="sylius.repository.province" />
       </service>
         <service id="sylius.shipping_calculator.flat_rate" class="Sylius\Component\Core\Shipping\Calculator\FlatRateCalculator">
             <tag name="sylius.shipping_calculator" calculator="flat_rate"

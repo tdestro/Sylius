@@ -132,6 +132,12 @@ interface ProductVariantInterface extends
     public function getProductVariantExtraDimensions() : Collection;
 
     /**
+     * @param int|null $itemUnitCount
+     * @return Collection|ProductVariantExtraDimensionInterface[]
+     */
+    public function getProductVariantExtraDimensionsByUnitCount(?int $itemUnitCount): Collection;
+
+    /**
      * @param ProductVariantExtraDimensionInterface $extraDimension
      */
     public function addProductVariantExtraDimension(ProductVariantExtraDimensionInterface $extraDimension): void;

@@ -5,10 +5,14 @@
 {% block body %}
     {% set url = order.channel.hostname is not null ? 'http://' ~ order.channel.hostname ~ path('sylius_shop_order_show', {'tokenValue': order.tokenValue, '_locale': order.localeCode}) : url('sylius_shop_order_show', {'tokenValue': order.tokenValue, '_locale': order.localeCode}) %}
     {% autoescape %}
-        Your order no. {{ order.number }} has been successfully placed.
-        <br/>
+        Thank you for your order! We will send an email with your tracking number once it's on its way to you.
+        <br/><br/>
+        Your order number: {{ order.number }}<br/>
         To view order or change payment method - please visit <a href="{{ url|raw }}">{{ url|raw }}</a>
         <br/><br/>
-        Thank you for shopping at our store!
+        Thanks again for your support.
+        <br/>
+        Destro Machines
+        <br/><br/>
     {% endautoescape %}
 {% endblock %}

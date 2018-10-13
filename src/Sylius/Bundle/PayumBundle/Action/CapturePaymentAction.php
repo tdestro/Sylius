@@ -69,6 +69,7 @@ final class CapturePaymentAction extends GatewayAwareAction
                 $payumPayment->setClientId($order->getCustomer()->getId());
                 $payumPayment->setDescription($this->paymentDescriptionProvider->getPaymentDescription($payment));
 
+
                 // This allows for us to put the stripe elements form in basically anywhere we want and
                 // bypass the ugly form in the payum integration.
                 $details = $payment->getDetails();
@@ -80,6 +81,22 @@ final class CapturePaymentAction extends GatewayAwareAction
                     $details['customer'] = $details['setcustomer'];
                     unset($details['setcustomer']);
                 }
+                $details['receipt_email'] = $order->getCustomer()->getEmail();
+
+                $shippingAddress = $order->getShippingAddress();
+                $details['shipping'] = array(
+                    "address" => array(
+                        "line1" => $shippingAddress->getStreet(),
+                        "city" => $shippingAddress->getCity(),
+                        "country" => $shippingAddress->getCountryCode(),
+                        "line2" => "",
+                        "postal_code" => $shippingAddress->getPostcode(),
+                        "state" => $shippingAddress->getProvinceName()
+                    ),
+                    "name" => $shippingAddress->getFullName(),
+                    "phone" => $shippingAddress->getPhoneNumber()
+                );
+
 
                 $payumPayment->setDetails($details);
 
@@ -94,7 +111,7 @@ final class CapturePaymentAction extends GatewayAwareAction
             $request->setModel($details);
             $this->gateway->execute($request);
         } finally {
-            $payment->setDetails((array) $details);
+            $payment->setDetails((array)$details);
         }
     }
 
@@ -105,7 +122,6 @@ final class CapturePaymentAction extends GatewayAwareAction
     {
         return
             $request instanceof Capture &&
-            $request->getModel() instanceof SyliusPaymentInterface
-        ;
+            $request->getModel() instanceof SyliusPaymentInterface;
     }
 }

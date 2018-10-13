@@ -475,6 +475,15 @@ class ProductVariant extends BaseVariant implements ProductVariantInterface
         return $this->productVariantExtraDimensions;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getProductVariantExtraDimensionsByUnitCount(?int $itemUnitCount): Collection
+    {
+        return $this->productVariantExtraDimensions->filter(function ($dim) use ($itemUnitCount) {
+            return $itemUnitCount == $dim->getApplyToQuantity();
+        });
+    }
 
     /**
      * {@inheritdoc}

@@ -86,4 +86,14 @@ interface ProductVariantExtraDimensionInterface extends ResourceInterface
      * @param string|null $upsEntity
      */
     public function setUpsEntity(?string $upsEntity): void;
+
+    /**
+     * @return int|null
+     */
+    public function getApplyToQuantity(): ?int;
+
+    /**
+     * @param int|null $applyToQuantity
+     */
+    public function setApplyToQuantity(?int $applyToQuantity): void;
 }
