@@ -9,5 +9,5 @@ doctrine:
     dbal:
         driver: 'pdo_pgsql'
         charset: UTF8
-
+        server_version: 9.6
         url: '%env(resolve:DATABASE_URL)%'

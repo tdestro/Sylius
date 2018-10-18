@@ -54,8 +54,8 @@ destro_ach_shop_login:
             redirect:
                 route: sylius_shop_account_payment_sources
 
-#bitbag_sylius_cms_plugin:
-#    resource: "@BitBagSyliusCmsPlugin/Resources/config/routing.yml"
+bitbag_sylius_cms_plugin:
+    resource: "@BitBagSyliusCmsPlugin/Resources/config/routing.yml"
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"

@@ -54,12 +54,24 @@ final class ProductVariantExtraDimensionType extends AbstractType
                 'multiple' => false, 'expanded' => false,))
             ->add('applyToQuantity', NumberType::class, [
                 'required' => true,
-                'label' => 'Quantity amount to apply this dimension to',
+                'label' => 'This dimension is applied to product quantity',
                 'invalid_message' => 'Invalid quantity',
                 'constraints' => [
                     new NotBlank(['groups' => ['sylius']]),
                     new GreaterThan([
                         'value' => 0,
+                        'groups' => ['sylius']
+                    ]),
+                ],
+            ])
+            ->add('quantity', NumberType::class, [
+                'required' => true,
+                'label' => 'Quantity of this dimension',
+                'invalid_message' => 'Invalid quantity',
+                'constraints' => [
+                    new NotBlank(['groups' => ['sylius']]),
+                    new GreaterThan([
+                        'value' => -1,
                         'groups' => ['sylius']
                     ]),
                 ],

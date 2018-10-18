@@ -21,11 +21,11 @@
         </many-to-one>
         <field name="upsEntity" column="upsEntity" type="string" nullable="false" />
         <field name="applyToQuantity" column="applytoquantity" type="integer" nullable="true" />
+        <field name="quantity" column="quantity" type="integer" nullable="true" />
         <field name="width" column="width" type="float" nullable="false" />
         <field name="height" column="height" type="float" nullable="false" />
         <field name="depth" column="depth" type="float" nullable="false" />
         <field name="weight" column="weight" type="float" nullable="false" />
         <field name="insured" column="insured" type="integer" nullable="false" />
-
     </mapped-superclass>
 </doctrine-mapping>

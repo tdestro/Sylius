@@ -33,12 +33,6 @@ RUN apt-get update && \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
             /usr/share/lintian/* /usr/share/locale/* /usr/share/man/*
 
-# Setup PHP protobuf extension.
-#RUN /install-pear.sh && \
-
-# god damn piece of shit php-pear breaks with this fucking ampersand here.
-# hack until upstream pulls their heads out of their fucking ass.
-RUN sed -i 's/\$v_att_list = & func_get_args();/\$v_att_list = func_get_args();/' /usr/share/php/Archive/Tar.php
 RUN pecl channel-update pecl.php.net && \
 pear channel-update pear.php.net && \
 pecl install protobuf && \
@@ -109,9 +103,8 @@ RUN useradd docker --shell /bin/bash --create-home \
   && echo 'docker:secret' | chpasswd
 
 # Install composer
-RUN php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));" && \
-mv ./composer.phar /usr/local/bin/composer && \
-chmod +x /usr/local/bin/composer && \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+# Composer needs a writable cache directory.
 mkdir -p $COMPOSER_HOME && \
 chown -R www-data.www-data $COMPOSER_HOME
 
@@ -128,11 +121,11 @@ install \
 --no-interaction \
 --no-ansi \
 --no-progress \
---no-scripts --prefer-dist" && \
-su -m www-data -c "bin/console --env=prod --no-debug cache:clear" && \
-bin/console ckeditor:install --env=prod --no-interaction --no-ansi && \
-bin/console assets:install web --env=prod --no-interaction --no-ansi && \
-chsh -s /usr/sbin/nologin www-data
+--no-scripts --prefer-dist"
+RUN su -m www-data -c "/app/bin/console cache:clear -vvv --env=prod --no-debug" && \
+/app/bin/console ckeditor:install --env=prod --no-interaction --no-ansi && \
+/app/bin/console assets:install public --env=prod --no-interaction --no-ansi
+RUN chsh -s /usr/sbin/nologin www-data
 
 COPY ./dockerincludes/config.js /app/web/bundles/fosckeditor/config.js
 
