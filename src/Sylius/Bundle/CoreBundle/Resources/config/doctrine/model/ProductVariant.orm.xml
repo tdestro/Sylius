@@ -53,6 +53,10 @@
             <cascade>
                 <cascade-all/>
             </cascade>
+            <order-by>
+                <order-by-field name="applyToQuantity" direction="ASC"/>
+                <order-by-field name="width" direction="DESC"/>
+            </order-by>
         </one-to-many>
 
         <many-to-many
