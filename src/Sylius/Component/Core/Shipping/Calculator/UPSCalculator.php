@@ -68,13 +68,11 @@ final class UPSCalculator implements CalculatorInterface
         $shipperAddressLine2 = $_ENV['shipperAddressLine2'];
         $shipperProvinceCode = $_ENV['shipperProvinceCode'];
         $shipperPostalCode = $_ENV['shipperPostalCode'];
-        $shipperCountryCode= $_ENV['shipperCountryCode'];
-
-
+        $shipperCountryCode = $_ENV['shipperCountryCode'];
 
         // Create logger
         $log = new \Monolog\Logger('ups');
-        $log->pushHandler(new \Monolog\Handler\StreamHandler('/app/ups.log', \Monolog\Logger::DEBUG));
+        $log->pushHandler(new \Monolog\Handler\StreamHandler('/app/ups.log', \Monolog\Logger::ERROR));
 
         // Create Rate object + insert logger
         $rate = new \Ups\Rate(
@@ -84,9 +82,6 @@ final class UPSCalculator implements CalculatorInterface
             false,
             $log
         );
-
-
-
 
         /*Valid domestic values:
 	• 14 = UPS Next Day Air Early
@@ -118,7 +113,7 @@ final class UPSCalculator implements CalculatorInterface
 
         $shippingAddress = $subject->getOrder()->getShippingAddress();
 
-        if($shippingAddress == Null) {
+        if ($shippingAddress == Null) {
             return 0;
         }
 
@@ -149,7 +144,6 @@ final class UPSCalculator implements CalculatorInterface
         $shipment->showNegotiatedRates();
 
 
-
         // ItemsTotal is stored as an Int.
         // InvoiceLines, this is for customs international bullshit.
         /*
@@ -168,7 +162,7 @@ final class UPSCalculator implements CalculatorInterface
 
         // we are told this is for international shipping.
         // This may have a bug in that some territories may be considered domestic?
-        if ($countryCode != 'US'){
+        if ($countryCode != 'US') {
             $shipmentServiceOptions = new \Ups\Entity\ShipmentServiceOptions();
             $deliveryConfirmation = new \Ups\Entity\DeliveryConfirmation();
             $deliveryConfirmation->setDcisType(\Ups\Entity\DeliveryConfirmation::DELIVERY_CONFIRMATION_SIGNATURE_REQUIRED);
@@ -226,7 +220,7 @@ final class UPSCalculator implements CalculatorInterface
             // It is not feasible to have calculated all possibilities, the problem is np-complete.
             //
             $loopEnd = 1;
-            if($extraDims->count() == 0) {
+            if ($extraDims->count() == 0) {
                 $loopEnd = $quantity;
                 $extraDims = $itemUnits->first()->getShippable()->getProductVariantExtraDimensionsByUnitCount(1);
             }
@@ -235,65 +229,68 @@ final class UPSCalculator implements CalculatorInterface
             // This loop is only looped if loopEnd actually > 1 by the if statement above.
             //
             for ($itemUnitsCount = 0; $itemUnitsCount < $loopEnd; $itemUnitsCount++) {
-                foreach ($extraDims as $extraDim){
-                    $shippingBoxType = $extraDim->getUpsEntity();
-                    $depth = $extraDim->getDepth();
-                    $height = $extraDim->getHeight();
-                    $width = $extraDim->getWidth();
-                    $weight = $extraDim->getWeight();
+                foreach ($extraDims as $extraDim) {
 
-                    $itemUnitTotalAsFloat = floatval( $extraDim->getInsured());
-                    $itemUnitTotalAsInt = intval($itemUnitTotalAsFloat / 100.00);
+                    for ($dimDupeCount = 0; $dimDupeCount < $extraDim->getQuantity(); $dimDupeCount++) {
+                        $shippingBoxType = $extraDim->getUpsEntity();
+                        $depth = $extraDim->getDepth();
+                        $height = $extraDim->getHeight();
+                        $width = $extraDim->getWidth();
+                        $weight = $extraDim->getWeight();
 
-                    $package = new \Ups\Entity\Package();
+                        $itemUnitTotalAsFloat = floatval($extraDim->getInsured());
+                        $itemUnitTotalAsInt = intval($itemUnitTotalAsFloat / 100.00);
 
-                    $packageServiceOptions = new \Ups\Entity\PackageServiceOptions();
-                    $insuredValue = new \Ups\Entity\InsuredValue();
-                    $insuredValue->setCurrencyCode("USD");
-                    $insuredValue->setMonetaryValue($itemUnitTotalAsInt);
-                    $packageServiceOptions->setInsuredValue($insuredValue);
+                        $package = new \Ups\Entity\Package();
 
-                    // This is for domestic shipments only and will probably blow up on international.
-                    if ($countryCode == 'US') {
-                        $deliveryConfirmation = new \Ups\Entity\DeliveryConfirmation();
-                        $deliveryConfirmation->setDcisType(\Ups\Entity\DeliveryConfirmation::DELIVERY_CONFIRMATION_SIGNATURE_REQUIRED);
-                        $packageServiceOptions->setDeliveryConfirmation($deliveryConfirmation);
+                        $packageServiceOptions = new \Ups\Entity\PackageServiceOptions();
+                        $insuredValue = new \Ups\Entity\InsuredValue();
+                        $insuredValue->setCurrencyCode("USD");
+                        $insuredValue->setMonetaryValue($itemUnitTotalAsInt);
+                        $packageServiceOptions->setInsuredValue($insuredValue);
+
+                        // This is for domestic shipments only and will probably blow up on international.
+                        if ($countryCode == 'US') {
+                            $deliveryConfirmation = new \Ups\Entity\DeliveryConfirmation();
+                            $deliveryConfirmation->setDcisType(\Ups\Entity\DeliveryConfirmation::DELIVERY_CONFIRMATION_SIGNATURE_REQUIRED);
+                            $packageServiceOptions->setDeliveryConfirmation($deliveryConfirmation);
+                        }
+                        $package->setPackageServiceOptions($packageServiceOptions);
+
+                        // packagingtype Valid values:
+                        // 00 = UNKNOWN
+                        // 01 = UPS Letter
+                        // 02 = Package
+                        // 03 = Tube
+                        // 04 = Pak
+                        // 21 = Express Box
+                        // 24 = 25KG Box
+                        // 25 = 10KG Box
+                        // 30 = Pallet
+                        // 2a = Small Express Box
+                        // 2b = Medium Express Box
+                        // 2c = Large Express Box
+
+                        $pickupType = new \Ups\Entity\PackagingType();
+                        $pickupType->setCode($shippingBoxType);
+                        $package->setPackagingType($pickupType);
+                        $package->getPackageWeight()->setWeight($weight);
+                        $weightUnit = new \Ups\Entity\UnitOfMeasurement;
+                        $weightUnit->setCode(\Ups\Entity\UnitOfMeasurement::UOM_LBS);
+                        $package->getPackageWeight()->setUnitOfMeasurement($weightUnit);
+
+                        if ($shippingBoxType == '02') {
+                            $dimensions = new \Ups\Entity\Dimensions();
+                            $dimensions->setHeight($height);
+                            $dimensions->setWidth($width);
+                            $dimensions->setLength($depth);
+                            $unitOfMeasurement = new \Ups\Entity\UnitOfMeasurement;
+                            $unitOfMeasurement->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
+                            $dimensions->setUnitOfMeasurement($unitOfMeasurement);
+                            $package->setDimensions($dimensions);
+                        }
+                        $shipment->addPackage($package);
                     }
-                    $package->setPackageServiceOptions($packageServiceOptions);
-
-                    // packagingtype Valid values:
-                    // 00 = UNKNOWN
-                    // 01 = UPS Letter
-                    // 02 = Package
-                    // 03 = Tube
-                    // 04 = Pak
-                    // 21 = Express Box
-                    // 24 = 25KG Box
-                    // 25 = 10KG Box
-                    // 30 = Pallet
-                    // 2a = Small Express Box
-                    // 2b = Medium Express Box
-                    // 2c = Large Express Box
-
-                    $pickupType = new \Ups\Entity\PackagingType();
-                    $pickupType->setCode($shippingBoxType);
-                    $package->setPackagingType($pickupType);
-                    $package->getPackageWeight()->setWeight($weight);
-                    $weightUnit = new \Ups\Entity\UnitOfMeasurement;
-                    $weightUnit->setCode(\Ups\Entity\UnitOfMeasurement::UOM_LBS);
-                    $package->getPackageWeight()->setUnitOfMeasurement($weightUnit);
-
-                    if ($shippingBoxType == '02') {
-                        $dimensions = new \Ups\Entity\Dimensions();
-                        $dimensions->setHeight($height);
-                        $dimensions->setWidth($width);
-                        $dimensions->setLength($depth);
-                        $unitOfMeasurement = new \Ups\Entity\UnitOfMeasurement;
-                        $unitOfMeasurement->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
-                        $dimensions->setUnitOfMeasurement($unitOfMeasurement);
-                        $package->setDimensions($dimensions);
-                    }
-                    $shipment->addPackage($package);
                 }
             }
 
@@ -336,7 +333,7 @@ Valid values:
         // shipping country and must be converted.
         //
 
-        if ($currencyCode != "USD"){
+        if ($currencyCode != "USD") {
             throw new Exception('Failure (0): UPS Responded with currency that wasn\'t USD.', 0);
         }
         return (int)$monetaryValueAsInt;

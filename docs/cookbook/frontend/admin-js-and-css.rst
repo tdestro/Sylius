@@ -14,7 +14,7 @@ As an example we will use a popup window script, it is easy for manual testing.
 
 .. code-block:: javascript
 
-    // web/assets/admin/js/custom.js
+    // public/assets/admin/js/custom.js
     window.confirm("Your custom JS was loaded correctly!");
 
 **2. Prepare a file with your JS include, you can use the include template from SyliusUiBundle:**
@@ -58,7 +58,7 @@ As an example we will change the sidebar menu background color, what is clearly 
 
 .. code-block:: css
 
-    // web/assets/admin/css/custom.css
+    // public/assets/admin/css/custom.css
     #sidebar {
         background-color: #1abb9c;
     }
@@ -68,7 +68,7 @@ As an example we will change the sidebar menu background color, what is clearly 
 .. code-block:: twig
 
     {# src/AppBundle/Resources/views/Admin/_stylesheets.html.twig #}
-    {% include 'SyliusUiBundle::stylesheets.html.twig' with {'path': 'assets/admin/css/custom.css'} %}
+    {% include 'SyliusUiBundle::_stylesheets.html.twig' with {'path': 'assets/admin/css/custom.css'} %}
 
 **3. Use the Sonata block event to insert your stylesheets:**
 

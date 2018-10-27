@@ -1,0 +1,61 @@
+sylius_shop:
+    resource: "@SyliusShopBundle/Resources/config/routing.yml"
+    prefix: /{_locale}
+    requirements:
+        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
+
+sylius_shop_payum:
+    resource: "@SyliusShopBundle/Resources/config/routing/payum.yml"
+
+sylius_shop_default_locale:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.shop.locale_switch:switchAction
+
+destro_about:
+    path: /{_locale}/about
+    methods: [GET]
+    defaults: { _controller: DestroBundle:Page:about}
+
+destro_contact:
+    path: /{_locale}/contact
+    methods: [GET|POST]
+    defaults: { _controller: DestroBundle:Page:contact}
+
+destro_terms:
+    path: /{_locale}/terms
+    methods: [GET]
+    defaults: { _controller: DestroBundle:Page:terms}
+
+destro_privacy:
+    path: /{_locale}/privacy
+    methods: [GET]
+    defaults: { _controller: DestroBundle:Page:privacy}
+
+destro_delivery_and_shipping:
+  path: /{_locale}/shipping
+  methods: [GET]
+  defaults: { _controller: DestroBundle:Page:shipping}
+
+destro_returns_policy:
+  path: /{_locale}/returns
+  methods: [GET]
+  defaults: { _controller: DestroBundle:Page:returns}
+
+destro_ach_shop_login:
+    path: /achverify
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.security:loginAction
+        _sylius:
+            template: "@SyliusShop/login.html.twig"
+            logged_in_route: sylius_shop_account_payment_sources
+            redirect:
+                route: sylius_shop_account_payment_sources
+
+bitbag_sylius_cms_plugin:
+    resource: "@BitBagSyliusCmsPlugin/Resources/config/routing.yml"
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.yaml"

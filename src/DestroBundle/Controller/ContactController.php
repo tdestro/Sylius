@@ -118,14 +118,6 @@ final class ContactController extends Controller
                 return new RedirectResponse($request->headers->get('referer'));
             }
 
-            /*
-            $contact = new Contact();
-            $contact->setEmail($data['email']);
-            $contact->setBody($data['message']);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($contact);
-            $em->flush();
-*/
             $this->contactEmailManager->sendContactRequest($data, [$contactEmail]);
 
             $successMessage = $this->getSyliusAttribute(
@@ -133,6 +125,13 @@ final class ContactController extends Controller
                 'success_flash',
                 'sylius.contact.request_success'
             );
+
+            $contact = new Contact();
+            $contact->setEmail($data['email']);
+            $contact->setBody($data['message']);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($contact);
+            $em->flush();
 
             /** @var FlashBagInterface $flashBag */
             $flashBag = $request->getSession()->getBag('flashes');

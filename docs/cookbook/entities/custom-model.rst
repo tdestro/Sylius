@@ -15,17 +15,25 @@ A Supplier needs three essential fields: ``name``, ``description`` and ``enabled
 ----------------------
 
 Symfony, the framework Sylius uses, provides the `SensioGeneratorBundle <http://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html>`_,
-that simplifies the process of adding a model.
+that simplifies the process of adding a model, or the `SymfonyMakerBundle <https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html>`_ for Symfony 4.
 
 .. warning::
 
-    Remember to have the ``SensioGeneratorBundle`` imported in the AppKernel, as it is not there by default.
+    Remember to have the ``SensioGeneratorBundle`` (or SymfonyMakerBundle depending on your Symfony version) imported in the AppKernel, as it is not there by default.
 
 You need to use such a command in your project directory.
+
+With the Generator Bundle
 
 .. code-block:: bash
 
     $ php bin/console generate:doctrine:entity
+
+With the Maker Bundle
+
+.. code-block:: bash
+
+    $ php bin/console make:entity
 
 The generator will ask you for the entity name and fields. See how it should look like to match our assumptions.
 
@@ -57,7 +65,7 @@ Go to the generated class file and make it implement the ``ResourceInterface``:
 
     <?php
 
-    namespace AppBundle\Entity;
+    namespace App\Entity;
 
     use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -73,21 +81,21 @@ If you don't have it yet create a file ``app/config/resources.yml``, import it i
 
 .. code-block:: yaml
 
-    # app/config/config.yml
+    # config/services.yaml
     imports:
-        - { resource: "resources.yml" }
+        - { resource: "resources.yaml" }
 
-And add these few lines in the ``resources.yml`` file:
+And add these few lines in the ``resources.yaml`` file:
 
 .. code-block:: yaml
 
-    # app/config/resources.yml
+    # config/resources.yaml
     sylius_resource:
         resources:
             app.supplier:
                 driver: doctrine/orm # You can use also different driver here
                 classes:
-                    model: AppBundle\Entity\Supplier
+                    model: App\Entity\Supplier
 
 To check if the process was run correctly run such a command:
 
@@ -116,14 +124,14 @@ To have templates for your Entity administration out of the box you can use Grid
 
 .. code-block:: yaml
 
-    # app/config/grids/admin/supplier.yml
+    # config/packages/_sylius.yaml
     sylius_grid:
         grids:
             app_admin_supplier:
                 driver:
                     name: doctrine/orm
                     options:
-                        class: AppBundle\Entity\Supplier
+                        class: App\Entity\Supplier
                 fields:
                     name:
                         type: string
@@ -146,27 +154,13 @@ To have templates for your Entity administration out of the box you can use Grid
                         delete:
                             type: delete
 
-Remember to import your grid in the ``app/config/grids/grids.yml`` file which has to be imported in the ``app/config/config.yml``.
-
-.. code-block:: yaml
-
-    # app/config/grids/grids.yml
-    imports:
-        - { resource: 'admin/supplier.yml' }
-
-.. code-block:: yaml
-
-    # app/config/config.yml
-    imports:
-        - { resource: "grids/grids.yml" }
-
 8. Define routing for entity administration
 -------------------------------------------
 
 Having a grid prepared we can configure routing for the entity administration:
 
 Create the ``app/config/routing/admin/supplier.yml`` file. Include it in the ``app/config/routing/admin.yml``, which
-should be also included in the ``app/config/routing.yml``.
+should be also included in the ``config/routes.yaml``.
 
 .. code-block:: yaml
 
@@ -193,7 +187,7 @@ should be also included in the ``app/config/routing.yml``.
 
 .. code-block:: yaml
 
-    # app/config/routing.yml
+    # config/routes.yaml
     app_admin:
         resource: 'routing/admin.yml'
         prefix: /admin

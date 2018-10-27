@@ -1,0 +1,8 @@
+sylius_mailer:
+  sender:
+    name: Destro Machines
+    address: support@destromachines.com
+  emails:
+    confirm_deposits:
+      subject: "Please confirm the bank account you added to your Destro Machines account."
+      template: ":Email:confirm_deposits.html.twig"

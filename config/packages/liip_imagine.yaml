@@ -1,0 +1,33 @@
+liip_imagine:
+    resolvers:
+        default:
+            web_path:
+                web_root: "%kernel.project_dir%/public"
+                cache_prefix: "media/cache"
+    filter_sets:
+        tagline_image:
+            filters:
+                # use and setup the "crop" filter
+                crop:
+
+                    # set the size of the cropping area w / h
+                    size: [1631, 120]
+
+                    # set the starting coordinates of the crop 450 570
+                    start: [1, 450]
+                # use and setup the "scale" filter
+                scale:
+                    # given 1920x1600px -> output 960x800px (relative down-scale)
+                    to: 0.50
+        hero_image:
+            filters:
+                # use and setup the "crop" filter
+                crop:
+
+                    # set the size of the cropping area w / h
+                    size: [4240, 1854]
+
+                    # set the starting coordinates of the crop
+                    start: [1, 484]
+            post_processors:
+                jpegoptim: { strip_all: true, max: 70, progressive: true }

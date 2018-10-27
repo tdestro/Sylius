@@ -23,6 +23,9 @@ imports:
 - { resource: "@SyliusCoreBundle/Resources/config/app/state_machine.yml" }
 - { resource: "@SyliusCoreBundle/Resources/config/app/fixtures.yml" }
 
+parameters:
+    sylius_core.public_dir: "%kernel.project_dir%/web"
+
 doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -45,7 +48,7 @@ knp_gaufrette:
                     acl: 'public'
         sylius_image_local:
             local:
-                directory: '%kernel.root_dir%/../web/images/products'
+                directory: "%sylius_core.public_dir%/media/image"
                 create: true
     filesystems:
         sylius_image:

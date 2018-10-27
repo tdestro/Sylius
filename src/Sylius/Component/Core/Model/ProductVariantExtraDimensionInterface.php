@@ -96,4 +96,15 @@ interface ProductVariantExtraDimensionInterface extends ResourceInterface
      * @param int|null $applyToQuantity
      */
     public function setApplyToQuantity(?int $applyToQuantity): void;
+
+
+    /**
+     * @return int|null
+     */
+    public function getQuantity(): ?int;
+
+    /**
+     * @param int|null $quantity
+     */
+    public function setQuantity(?int $quantity): void;
 }
