@@ -63,3 +63,13 @@ services:
         class: DestroBundle\Action\Stripe\StatusAction
         tags:
             - { name: payum.action, factory: stripe_js, alias: sylius.stripe_js.status }
+    app.form.type.rule.contains_product_quantity_configuration:
+        class: DestroBundle\Form\Type\Rule\ContainsProductQuantityConfigurationType
+        arguments: ["@sylius.repository.product"]
+        tags:
+        - { name: form.type }
+    app.rule_checker.contains_product_quantity:
+        class: DestroBundle\Checker\Rule\ContainsProductQuantityRuleChecker
+        tags:
+        - { name: sylius.promotion_rule_checker, type: contains_product_quantity, form_type: DestroBundle\Form\Type\Rule\ContainsProductQuantityConfigurationType, label: Contains product quanitity }
+

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://www.destromachines.com/en_US/</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/login</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/register</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/power-tower</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/power-cross</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/pages/training</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/about</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/contact/</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/terms</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/privacy</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/faq</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/pages/shipping</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/pages/returns</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/forgotten-password</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/power-tower/reviews/</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/power-tower/reviews/new</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/destro-machines-filling-bucket</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/machines-are-who-we-make-tee</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/power-cross/reviews/</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/power-cross/reviews/new</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=18</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=27</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bname%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bname%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5BcreatedAt%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5BcreatedAt%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bprice%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bprice%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/oxygen-is-overrated-tee</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/page/blog</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.4</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/destro-machines-filling-bucket/reviews/</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/destro-machines-filling-bucket/reviews/new</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/machines-are-who-we-make-tee/reviews/</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/machines-are-who-we-make-tee/reviews/new</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=9</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=18&amp;sorting%5Bname%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=18&amp;sorting%5Bname%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=18&amp;sorting%5BcreatedAt%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=18&amp;sorting%5BcreatedAt%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=18&amp;sorting%5Bprice%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=18&amp;sorting%5Bprice%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=27&amp;sorting%5Bname%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=27&amp;sorting%5Bname%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=27&amp;sorting%5BcreatedAt%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=27&amp;sorting%5BcreatedAt%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=27&amp;sorting%5Bprice%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=27&amp;sorting%5Bprice%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bname%5D=asc&amp;limit=18</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bname%5D=asc&amp;limit=27</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bname%5D=desc&amp;limit=18</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bname%5D=desc&amp;limit=27</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5BcreatedAt%5D=desc&amp;limit=18</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5BcreatedAt%5D=desc&amp;limit=27</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5BcreatedAt%5D=asc&amp;limit=18</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5BcreatedAt%5D=asc&amp;limit=27</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bprice%5D=asc&amp;limit=18</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bprice%5D=asc&amp;limit=27</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bprice%5D=desc&amp;limit=18</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bprice%5D=desc&amp;limit=27</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/oxygen-is-overrated-tee/reviews/</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/products/oxygen-is-overrated-tee/reviews/new</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=9&amp;sorting%5Bname%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=9&amp;sorting%5Bname%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=9&amp;sorting%5BcreatedAt%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=9&amp;sorting%5BcreatedAt%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=9&amp;sorting%5Bprice%5D=asc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?limit=9&amp;sorting%5Bprice%5D=desc</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bname%5D=asc&amp;limit=9</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bname%5D=desc&amp;limit=9</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5BcreatedAt%5D=desc&amp;limit=9</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5BcreatedAt%5D=asc&amp;limit=9</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bprice%5D=asc&amp;limit=9</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+<url>
+  <loc>https://www.destromachines.com/en_US/taxons/category/gear?sorting%5Bprice%5D=desc&amp;limit=9</loc>
+  <lastmod>2018-11-02T21:39:41+00:00</lastmod>
+  <priority>0.3</priority>
+</url>
+</urlset>
