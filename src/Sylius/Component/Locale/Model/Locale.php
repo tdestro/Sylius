@@ -15,6 +15,7 @@ namespace Sylius\Component\Locale\Model;
 
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Symfony\Component\Intl\Intl;
+use Sylius\Component\Channel\Model\ChannelInterface;
 
 class Locale implements LocaleInterface
 {
@@ -29,6 +30,13 @@ class Locale implements LocaleInterface
      * @var string|null
      */
     protected $code;
+
+
+    /**
+     * @var ChannelInterface|null
+     */
+    protected $channel;
+
 
     public function __construct()
     {
@@ -73,5 +81,21 @@ class Locale implements LocaleInterface
     public function getName(?string $locale = null): ?string
     {
         return Intl::getLocaleBundle()->getLocaleName($this->getCode(), $locale);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChannel(): ?ChannelInterface
+    {
+        return $this->channel;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setChannel(?ChannelInterface $channel): void
+    {
+        $this->channel = $channel;
     }
 }

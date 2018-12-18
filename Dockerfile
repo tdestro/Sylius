@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get --no-install-recommends --no-install-suggests --yes --quiet install \
         apt-transport-https bash-completion ca-certificates curl gnupg imagemagick \
         less make perceptualdiff procps ssh-client sudo vim wget nginx openssl \
-        supervisor  nano postfix libsasl2-modules cron jpegoptim unzip expect && \
+        supervisor  nano postfix libsasl2-modules jpegoptim unzip expect && \
     apt-get clean && apt-get --yes --quiet autoremove --purge && \
     rm -rf  /var/lib/apt/lists/* /tmp/* /var/tmp/* \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
@@ -122,9 +122,9 @@ install \
 --no-ansi \
 --no-progress \
 --no-scripts --prefer-dist"
-RUN su -m www-data -c "/app/bin/console cache:clear -vvv --env=prod --no-debug" && \
-/app/bin/console ckeditor:install --env=prod --no-interaction --no-ansi && \
-/app/bin/console assets:install public --env=prod --no-interaction --no-ansi
+RUN su -m www-data -c "/app/bin/console cache:clear -vvv --env=prod --no-debug"
+RUN /app/bin/console ckeditor:install --env=prod --no-interaction --no-ansi
+RUN /app/bin/console assets:install public --env=prod --no-interaction --no-ansi
 RUN chsh -s /usr/sbin/nologin www-data
 
 COPY ./dockerincludes/config.js /app/web/bundles/fosckeditor/config.js

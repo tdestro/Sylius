@@ -72,4 +72,8 @@ services:
         class: DestroBundle\Checker\Rule\ContainsProductQuantityRuleChecker
         tags:
         - { name: sylius.promotion_rule_checker, type: contains_product_quantity, form_type: DestroBundle\Form\Type\Rule\ContainsProductQuantityConfigurationType, label: Contains product quanitity }
-
+    sylius.context.channel.request_based.resolver.hostname_based:
+        class: DestroBundle\Component\Channel\Context\RequestBased\HostnameBasedRequestResolver
+        arguments: ['@sylius.repository.channel', '@sylius.repository.locale']
+        tags:
+        - { name: sylius.context.channel.request_based.resolver }

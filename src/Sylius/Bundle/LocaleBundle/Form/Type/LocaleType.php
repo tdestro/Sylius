@@ -15,6 +15,8 @@ namespace Sylius\Bundle\LocaleBundle\Form\Type;
 
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class LocaleType extends AbstractResourceType
 {
@@ -27,7 +29,11 @@ final class LocaleType extends AbstractResourceType
             ->add('code', \Symfony\Component\Form\Extension\Core\Type\LocaleType::class, [
                 'label' => 'sylius.form.locale.name',
             ])
-        ;
+            ->add('channel', ChannelChoiceType::class, [
+                'constraints' => [
+                    new NotBlank(['groups' => ['sylius']]),
+                ],
+            ]);
     }
 
     /**
