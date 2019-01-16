@@ -37,6 +37,7 @@ final class StripeJSGatewayConfigurationType extends AbstractType
             ])
             ->add('secret_key', TextType::class, [
                 'label' => 'sylius.form.gateway_configuration.stripe.secret_key',
+                'data' => 'XX FIELD FOR REPLACEMENT ONLY XX',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'sylius.gateway_config.stripe.secret_key.not_blank',
